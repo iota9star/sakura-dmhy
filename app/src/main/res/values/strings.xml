@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Sakura</string>
+    <string name="search">搜索</string>
+    <string name="share">分享</string>
+    <string name="copy">複製</string>
+    <string name="open_in_browser">打開</string>
+    <string name="alipay">支付寶捐贈</string>
+    <string name="qqpay">QQ捐赠</string>
+    <string name="wechatpay">微信捐贈</string>
+    <string name="alipay_code">FKX08696X3YPOJFGWKD92E</string>
+    <string name="qq_pay_code">http://r.photo.store.qq.com/psb?/a97e084f-86ae-45db-a2e4-e63a3cb987b3/6wuOxikFvnHSM6rPTGtGM3U5WQBtTwiLW99WmaLsuPQ!/r/dGsBAAAAAAAA</string>
+    <string name="wechat_pay_code">http://r.photo.store.qq.com/psb?/a97e084f-86ae-45db-a2e4-e63a3cb987b3/EWJsk3GK9MggfSSVklZb9mqNNK7oGcFry4EEYuAx.HM!/r/dGkBAAAAAAAA</string>
+    <string name="ganxie">感谢</string>
+    <string name="ganxieneirong">感謝動漫花園以及所有的發佈組，向开源致敬，感谢所有无私的开源贡献者</string>
+    <string name="juedebucuo">觉得还不错</string>
+    <string name="geiwopingfen">给我评分</string>
+    <string name="source">來源</string>
+    <string name="dmhy">動漫花園</string>
+    <string name="info">信息</string>
+    <string name="browser">瀏覽</string>
+    <string name="sub">字幕組</string>
+    <string name="link">鏈接</string>
+    <string name="magnet">磁鏈</string>
+    <string name="banner">http://r.photo.store.qq.com/psb?/a97e084f-86ae-45db-a2e4-e63a3cb987b3/C2BKemHnKqek5Qym0GbtLtUmxMEXjz0FNMH5j3nTgi0!/r/dD8BAAAAAAAA</string>
+    <string name="sakura">http://r.photo.store.qq.com/psb?/a97e084f-86ae-45db-a2e4-e63a3cb987b3/P6Wmqmq3nW1DotpXhuLhwTaThhBM.t44pAPMIv.lTL8!/r/dGkBAAAAAAAA</string>
+</resources>

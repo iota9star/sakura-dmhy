@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:scrollbars="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingEnd="@dimen/v8dp"
+        android:paddingStart="@dimen/v8dp">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/v8dp"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardElevation="0.36dp"
+            app:cardPreventCornerOverlap="false"
+            app:cardUseCompatPadding="true">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/image_view_banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/v256dp"
+                    android:scaleType="centerCrop"
+                    tools:ignore="ContentDescription" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#60a0a0a0" />
+
+                <com.lb.auto_fit_textview.AutoResizeTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="-28dp"
+                    android:gravity="center"
+                    android:paddingEnd="@dimen/v16dp"
+                    android:paddingLeft="@dimen/v16dp"
+                    android:paddingRight="@dimen/v16dp"
+                    android:paddingStart="@dimen/v16dp"
+                    android:text="@string/app_name"
+                    android:textColor="#c4252525"
+                    android:textSize="@dimen/v96sp"
+                    android:textStyle="bold|italic" />
+            </FrameLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/v8dp"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardElevation="0.36dp"
+            app:cardPreventCornerOverlap="false"
+            app:cardUseCompatPadding="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/v8dp"
+                    android:text="@string/source" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/v2dp"
+                    android:layout_gravity="center"
+                    android:background="?@android:attr/colorAccent" />
+
+                <TextView
+                    android:id="@+id/text_view_dmhy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:padding="@dimen/v8dp"
+                    android:text="@string/dmhy"
+                    android:textSize="@dimen/v12sp" />
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/v8dp"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardElevation="0.36dp"
+            app:cardPreventCornerOverlap="false"
+            app:cardUseCompatPadding="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/v8dp"
+                    android:text="@string/ganxie" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/v2dp"
+                    android:layout_gravity="center"
+                    android:background="?@android:attr/colorAccent" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/v8dp"
+                    android:text="@string/ganxieneirong"
+                    android:textSize="@dimen/v12sp" />
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/v96dp"
+            android:layout_marginTop="@dimen/v8dp"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardElevation="0.36dp"
+            app:cardPreventCornerOverlap="false"
+            app:cardUseCompatPadding="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/v8dp"
+                    android:text="@string/juedebucuo" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/v2dp"
+                    android:layout_gravity="center"
+                    android:background="?@android:attr/colorAccent" />
+
+                <LinearLayout
+                    android:id="@+id/linear_layout_grade"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:padding="@dimen/v8dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="@string/geiwopingfen"
+                        android:textSize="@dimen/v12sp" />
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="@dimen/v24dp"
+                        android:layout_height="@dimen/v24dp"
+                        android:layout_gravity="end"
+                        android:src="@drawable/ic_google_paly_store" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_gravity="center"
+                    android:background="?@android:attr/colorAccent" />
+
+                <LinearLayout
+                    android:id="@+id/linear_layout_donation_alipay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:padding="@dimen/v8dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="@string/alipay"
+                        android:textSize="@dimen/v12sp" />
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="@dimen/v24dp"
+                        android:layout_height="@dimen/v24dp"
+                        android:layout_gravity="end"
+                        android:src="@drawable/ic_alipay" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_gravity="center"
+                    android:background="?@android:attr/colorAccent" />
+
+                <LinearLayout
+                    android:id="@+id/linear_layout_donation_qq"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:padding="@dimen/v8dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="@string/qqpay"
+                        android:textSize="@dimen/v12sp" />
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="@dimen/v24dp"
+                        android:layout_height="@dimen/v24dp"
+                        android:layout_gravity="end"
+                        android:src="@drawable/ic_qq" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_gravity="center"
+                    android:background="?@android:attr/colorAccent" />
+
+                <LinearLayout
+                    android:id="@+id/linear_layout_donation_wechat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:padding="@dimen/v8dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="@string/wechatpay"
+                        android:textSize="@dimen/v12sp" />
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="@dimen/v24dp"
+                        android:layout_height="@dimen/v24dp"
+                        android:layout_gravity="end"
+                        android:src="@drawable/ic_wechat" />
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+</ScrollView>

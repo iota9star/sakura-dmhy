@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/v48dp"
+    android:layout_height="@dimen/v48dp"
+    android:layout_margin="@dimen/v4dp"
+    android:background="@drawable/bg_tag"
+    android:clickable="true"
+    android:padding="@dimen/v2dp"
+    android:scaleType="centerInside"
+    tools:ignore="ContentDescription" />
