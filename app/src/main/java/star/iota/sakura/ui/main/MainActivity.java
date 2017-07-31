@@ -2,6 +2,8 @@ package star.iota.sakura.ui.main;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -26,6 +28,7 @@ import star.iota.sakura.R;
 import star.iota.sakura.Url;
 import star.iota.sakura.base.BaseActivity;
 import star.iota.sakura.base.BaseFragment;
+import star.iota.sakura.broadcast.NetStatusBroadcastReceiver;
 import star.iota.sakura.glide.GlideApp;
 import star.iota.sakura.ui.about.AboutFragment;
 import star.iota.sakura.ui.fans.newfans.NewFansFragment;
@@ -38,12 +41,21 @@ public class MainActivity extends BaseActivity {
     Toolbar mToolbar;
     private Drawer drawer;
     private int currentFragmentId;
+    private NetStatusBroadcastReceiver mNetStatusBroadcastReceiver;
+
+    private void initNetBroadcastReceiver() {
+        mNetStatusBroadcastReceiver = new NetStatusBroadcastReceiver();
+        IntentFilter mFilter = new IntentFilter();
+        mFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(mNetStatusBroadcastReceiver, mFilter);
+    }
 
     @Override
     protected void init() {
         setSupportActionBar(mToolbar);
         initDrawer();
         initDrawerEvent();
+        initNetBroadcastReceiver();
     }
 
     @Override
@@ -156,6 +168,14 @@ public class MainActivity extends BaseActivity {
                 return false;
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mNetStatusBroadcastReceiver != null) {
+            unregisterReceiver(mNetStatusBroadcastReceiver);
+        }
     }
 
     @Override

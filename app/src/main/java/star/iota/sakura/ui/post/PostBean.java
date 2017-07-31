@@ -1,7 +1,7 @@
 package star.iota.sakura.ui.post;
 
 
-public class PostBean {
+class PostBean {
     private String date;
     private String category;
     private SubBean sub;

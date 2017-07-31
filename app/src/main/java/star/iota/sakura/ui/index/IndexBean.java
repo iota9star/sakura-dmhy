@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class IndexBean {
+class IndexBean {
     @SerializedName("years")
     private List<YearBean> years;
 

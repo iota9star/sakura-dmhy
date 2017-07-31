@@ -84,7 +84,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/v2dp"
                     android:layout_gravity="center"
-                    android:background="?@android:attr/colorAccent" />
+                    android:background="@color/colorAccent" />
 
                 <TextView
                     android:id="@+id/text_view_dmhy"
@@ -124,9 +124,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/v2dp"
                     android:layout_gravity="center"
-                    android:background="?@android:attr/colorAccent" />
+                    android:background="@color/colorAccent" />
 
                 <TextView
+                    android:id="@+id/text_view_thx"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/v8dp"
@@ -162,7 +163,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/v2dp"
                     android:layout_gravity="center"
-                    android:background="?@android:attr/colorAccent" />
+                    android:background="@color/colorAccent" />
 
                 <LinearLayout
                     android:id="@+id/linear_layout_grade"
@@ -191,7 +192,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:layout_gravity="center"
-                    android:background="?@android:attr/colorAccent" />
+                    android:background="@color/colorAccent" />
 
                 <LinearLayout
                     android:id="@+id/linear_layout_donation_alipay"
@@ -220,7 +221,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:layout_gravity="center"
-                    android:background="?@android:attr/colorAccent" />
+                    android:background="@color/colorAccent" />
 
                 <LinearLayout
                     android:id="@+id/linear_layout_donation_qq"
@@ -249,7 +250,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:layout_gravity="center"
-                    android:background="?@android:attr/colorAccent" />
+                    android:background="@color/colorAccent" />
 
                 <LinearLayout
                     android:id="@+id/linear_layout_donation_wechat"

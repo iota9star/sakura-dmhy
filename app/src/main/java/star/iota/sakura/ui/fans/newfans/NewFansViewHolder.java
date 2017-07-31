@@ -12,7 +12,7 @@ import star.iota.sakura.base.BaseViewHolder;
 import star.iota.sakura.glide.GlideApp;
 
 
-public class NewFansViewHolder extends BaseViewHolder<NewFansBean> {
+class NewFansViewHolder extends BaseViewHolder<NewFansBean> {
 
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;

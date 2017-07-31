@@ -8,7 +8,7 @@ import star.iota.sakura.R;
 import star.iota.sakura.base.BaseAdapter;
 
 
-public class PostAdapter extends BaseAdapter<PostViewHolder, PostBean> {
+class PostAdapter extends BaseAdapter<PostViewHolder, PostBean> {
 
     @Override
     public PostViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

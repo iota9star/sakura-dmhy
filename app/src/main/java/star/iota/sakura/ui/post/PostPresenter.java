@@ -12,7 +12,7 @@ import star.iota.sakura.base.PVContract;
 import star.iota.sakura.base.StringPresenter;
 
 
-public class PostPresenter extends StringPresenter<List<PostBean>> {
+class PostPresenter extends StringPresenter<List<PostBean>> {
 
     PostPresenter(PVContract.View view) {
         super(view);

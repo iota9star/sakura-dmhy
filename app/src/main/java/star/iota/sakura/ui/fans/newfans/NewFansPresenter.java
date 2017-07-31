@@ -17,7 +17,7 @@ import star.iota.sakura.ui.fans.bean.FanBean;
 import star.iota.sakura.ui.fans.bean.SubBean;
 
 
-public class NewFansPresenter extends StringPresenter<List<NewFansBean>> {
+class NewFansPresenter extends StringPresenter<List<NewFansBean>> {
 
     NewFansPresenter(PVContract.View view) {
         super(view);

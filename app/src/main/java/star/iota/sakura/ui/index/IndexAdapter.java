@@ -18,12 +18,12 @@ import star.iota.sakura.base.BaseActivity;
 import star.iota.sakura.ui.fans.oldfans.FansFragment;
 
 
-public class IndexAdapter extends RecyclerView.Adapter<IndexAdapter.IndexViewHolder> {
+class IndexAdapter extends RecyclerView.Adapter<IndexAdapter.IndexViewHolder> {
     private final List<IndexBean.YearBean> mBeans;
     private final LayoutInflater mInflater;
     private final BaseActivity mActivity;
 
-    public IndexAdapter(BaseActivity activity) {
+    IndexAdapter(BaseActivity activity) {
         this.mActivity = activity;
         mInflater = LayoutInflater.from(activity);
         mBeans = new ArrayList<>();

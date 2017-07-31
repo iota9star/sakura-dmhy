@@ -14,7 +14,7 @@ import star.iota.sakura.ui.fans.bean.FanBean;
 import star.iota.sakura.ui.more.MoreActivity;
 
 
-public class FanViewHolder extends BaseViewHolder<FanBean> {
+class FanViewHolder extends BaseViewHolder<FanBean> {
 
     @BindView(R.id.card_view_container)
     CardView mCardViewContainer;

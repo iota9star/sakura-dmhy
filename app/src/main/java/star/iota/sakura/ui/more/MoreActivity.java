@@ -106,7 +106,6 @@ public class MoreActivity extends BaseActivity {
                 String url = sub.getUrl();
                 if (url.contains("http")) {
                     String after = url.substring(url.indexOf("/topics/list") + 12, url.length());
-                    System.out.println(after);
                     fragment = PostFragment.newInstance(Url.SEARCH, after, "");
                 } else {
                     fragment = PostFragment.newInstance(Url.SEARCH, "?keyword=" + bean.getKeyword() + "&team_id=" + url, "");

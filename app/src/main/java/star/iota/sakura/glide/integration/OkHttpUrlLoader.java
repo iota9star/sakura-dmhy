@@ -30,10 +30,10 @@ class OkHttpUrlLoader implements ModelLoader<GlideUrl, InputStream> {
         return new LoadData<>(model, new OkHttpStreamFetcher(client, model));
     }
 
-    public static class Factory implements ModelLoaderFactory<GlideUrl, InputStream> {
+    static class Factory implements ModelLoaderFactory<GlideUrl, InputStream> {
         private final Call.Factory client;
 
-        public Factory(Call.Factory client) {
+        Factory(Call.Factory client) {
             this.client = client;
         }
 

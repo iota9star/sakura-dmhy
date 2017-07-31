@@ -2,8 +2,6 @@ package star.iota.sakura.base;
 
 
 import android.content.Context;
-import android.content.IntentFilter;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
@@ -14,21 +12,13 @@ import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import star.iota.sakura.broadcast.NetStatusBroadcastReceiver;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
 
     protected Context mContext;
     private Unbinder unbinder;
-    private NetStatusBroadcastReceiver mNetStatusBroadcastReceiver;
 
-    private void initNetBroadcastReceiver() {
-        mNetStatusBroadcastReceiver = new NetStatusBroadcastReceiver();
-        IntentFilter mFilter = new IntentFilter();
-        mFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-        registerReceiver(mNetStatusBroadcastReceiver, mFilter);
-    }
 
     protected abstract void init();
 
@@ -38,7 +28,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         setContentView(getContentViewId());
         mContext = this;
         unbinder = ButterKnife.bind(this);
-        initNetBroadcastReceiver();
         init();
         setFirstFragment();
     }
@@ -47,12 +36,14 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        destroyBeforeUnbinder();
         if (unbinder != null) {
             unbinder.unbind();
         }
-        if (mNetStatusBroadcastReceiver != null) {
-            unregisterReceiver(mNetStatusBroadcastReceiver);
-        }
+    }
+
+    protected void destroyBeforeUnbinder() {
+
     }
 
     protected abstract int getContentViewId();

@@ -10,7 +10,7 @@ import star.iota.sakura.base.PVContract;
 import star.iota.sakura.base.StringPresenter;
 
 
-public class FansPresenter extends StringPresenter<List<FansBean>> {
+class FansPresenter extends StringPresenter<List<FansBean>> {
     FansPresenter(PVContract.View view) {
         super(view);
     }

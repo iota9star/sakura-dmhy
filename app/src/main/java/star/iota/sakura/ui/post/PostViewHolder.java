@@ -4,6 +4,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,7 +18,7 @@ import star.iota.sakura.ui.web.WebActivity;
 import star.iota.sakura.utils.SnackbarUtils;
 
 
-public class PostViewHolder extends BaseViewHolder<PostBean> {
+class PostViewHolder extends BaseViewHolder<PostBean> {
     @BindView(R.id.text_view_title)
     TextView mTextViewTitle;
     @BindView(R.id.text_view_category)
@@ -32,6 +33,8 @@ public class PostViewHolder extends BaseViewHolder<PostBean> {
     Button mButtonMagnet;
     @BindView(R.id.button_sub)
     Button mButtonSub;
+    @BindView(R.id.card_view_container)
+    CardView mCardView;
 
     PostViewHolder(View itemView) {
         super(itemView);
@@ -45,6 +48,7 @@ public class PostViewHolder extends BaseViewHolder<PostBean> {
         mTextViewSize.setText(bean.getSize());
         if (mContext instanceof MoreActivity) {
             mButtonSub.setVisibility(View.GONE);
+            mButtonSub.setOnClickListener(null);
         } else {
             mButtonSub.setVisibility(View.VISIBLE);
             if (bean.getSub() != null) {
@@ -65,22 +69,22 @@ public class PostViewHolder extends BaseViewHolder<PostBean> {
                     }
                 });
             }
-            mButtonMagnet.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    copy(bean.getMagnet());
-                    SnackbarUtils.create(mContext, "內容已複製到剪切板");
-                }
-            });
-            mButtonLink.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(mContext, WebActivity.class);
-                    intent.putExtra("url", bean.getUrl());
-                    mContext.startActivity(intent);
-                }
-            });
         }
+        mButtonMagnet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                copy(bean.getMagnet());
+                SnackbarUtils.create(mContext, "內容已複製到剪切板");
+            }
+        });
+        mButtonLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, WebActivity.class);
+                intent.putExtra("url", bean.getUrl());
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     private void copy(String url) {

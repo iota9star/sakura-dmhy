@@ -9,7 +9,7 @@ import star.iota.sakura.base.BaseAdapter;
 import star.iota.sakura.ui.fans.bean.FanBean;
 
 
-public class NewFanAdapter extends BaseAdapter<NewFanViewHolder, FanBean> {
+class NewFanAdapter extends BaseAdapter<NewFanViewHolder, FanBean> {
 
     @Override
     public NewFanViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

@@ -6,7 +6,7 @@ import star.iota.sakura.base.PVContract;
 import star.iota.sakura.base.StringPresenter;
 
 
-public class IndexPresenter extends StringPresenter<IndexBean> {
+class IndexPresenter extends StringPresenter<IndexBean> {
 
     IndexPresenter(PVContract.View view) {
         super(view);

@@ -63,6 +63,7 @@ public class WebActivity extends BaseActivity {
 
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
+                if (mProgressBar == null) return;
                 if (newProgress == 100) {
                     mProgressBar.setVisibility(View.GONE);
                 } else {
@@ -112,6 +113,11 @@ public class WebActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    protected void destroyBeforeUnbinder() {
         if (mWebView != null) {
             mWebView.loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
             mWebView.clearHistory();
@@ -119,7 +125,6 @@ public class WebActivity extends BaseActivity {
             mWebView.destroy();
             mWebView = null;
         }
-        super.onDestroy();
     }
 
     @Override

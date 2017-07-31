@@ -8,7 +8,7 @@ import star.iota.sakura.R;
 import star.iota.sakura.base.BaseAdapter;
 
 
-public class NewFansAdapter extends BaseAdapter<NewFansViewHolder, NewFansBean> {
+class NewFansAdapter extends BaseAdapter<NewFansViewHolder, NewFansBean> {
 
     @Override
     public NewFansViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

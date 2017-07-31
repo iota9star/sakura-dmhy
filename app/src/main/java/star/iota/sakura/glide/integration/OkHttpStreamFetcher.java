@@ -32,7 +32,7 @@ class OkHttpStreamFetcher implements DataFetcher<InputStream> {
     ResponseBody responseBody;
     private volatile Call call;
 
-    public OkHttpStreamFetcher(Call.Factory client, GlideUrl url) {
+    OkHttpStreamFetcher(Call.Factory client, GlideUrl url) {
         this.client = client;
         this.url = url;
     }
