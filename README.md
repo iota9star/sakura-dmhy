@@ -1,3 +1,5 @@
+![](http://r.photo.store.qq.com/psb?/a97e084f-86ae-45db-a2e4-e63a3cb987b3/88Qq8LalxPS57wvG4w*HY2CD46yItoW*CJKbVbW6dLM!/r/dGsBAAAAAAAA)
+
 # Sakura - 『さくら さくら 会いたいよ いやだ，いやだ 君に今すぐ会いたいよ』
 
 ### 感谢
