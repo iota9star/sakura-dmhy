@@ -4,7 +4,7 @@
 
 + [动漫花园](https://share.dmhy.org/)
 + 酷安[@Delsart](http://www.coolapk.com/u/473036) 的樱花素材
-+ 开发中使用的各种库的作者们
++ 开发中使用到的各种库的作者们
 
 ### 版权
 
