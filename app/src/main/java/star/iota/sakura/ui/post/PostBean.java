@@ -1,7 +1,8 @@
 package star.iota.sakura.ui.post;
 
 
-class PostBean {
+public class PostBean {
+    private int id;
     private String date;
     private String category;
     private SubBean sub;
@@ -9,6 +10,14 @@ class PostBean {
     private String magnet;
     private String size;
     private String url;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getDate() {
         return date;
@@ -66,24 +75,4 @@ class PostBean {
         this.url = url;
     }
 
-    public static class SubBean {
-        private String name;
-        private String url;
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getUrl() {
-            return url;
-        }
-
-        public void setUrl(String url) {
-            this.url = url;
-        }
-    }
 }

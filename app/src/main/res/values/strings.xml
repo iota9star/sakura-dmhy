@@ -1,9 +1,6 @@
 <resources>
     <string name="app_name">Sakura</string>
     <string name="search">搜索</string>
-    <string name="share">分享</string>
-    <string name="copy">複製</string>
-    <string name="open_in_browser">打開</string>
     <string name="alipay">支付寶捐贈</string>
     <string name="qqpay">QQ捐赠</string>
     <string name="wechatpay">微信捐贈</string>
@@ -17,10 +14,12 @@
     <string name="source">來源</string>
     <string name="dmhy">動漫花園</string>
     <string name="info">信息</string>
-    <string name="browser">瀏覽</string>
     <string name="sub">字幕組</string>
     <string name="link">鏈接</string>
     <string name="magnet">磁鏈</string>
     <string name="banner">http://r.photo.store.qq.com/psb?/a97e084f-86ae-45db-a2e4-e63a3cb987b3/C2BKemHnKqek5Qym0GbtLtUmxMEXjz0FNMH5j3nTgi0!/r/dD8BAAAAAAAA</string>
     <string name="sakura">http://r.photo.store.qq.com/psb?/a97e084f-86ae-45db-a2e4-e63a3cb987b3/P6Wmqmq3nW1DotpXhuLhwTaThhBM.t44pAPMIv.lTL8!/r/dGkBAAAAAAAA</string>
+    <string name="collection">收藏</string>
+    <string name="delete">刪除</string>
+    <string name="buy_a_coffee">\u3000\u3000嗨，最近还好吗？\n\n\u3000\u3000本应用使用还算开心吗？如果有什么使用上的问题，可以去应用市场给我反馈，这会让应用获得更好的体验\n\n\u3000\u3000本应用花费了作者大量的时间和精力，如果可以的话，在此恳请您给应用一个好评，如果经济宽裕的话，也可以给我捐助，您的每一分捐助都会让作者获得更多的信心去做好这个应用，在此感谢您\n\n\u3000\u3000本应用完全免费，应用中所有资源均来自网络，如有侵权，请联系网站管理员删除</string>
 </resources>

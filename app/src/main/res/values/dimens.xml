@@ -19,4 +19,7 @@
     <dimen name="v92dp">92dp</dimen>
     <dimen name="v96sp">96sp</dimen>
     <dimen name="v56dp">56dp</dimen>
+    <dimen name="v14dp">14dp</dimen>
+    <dimen name="v36sp">36sp</dimen>
+    <dimen name="v72dp">72dp</dimen>
 </resources>

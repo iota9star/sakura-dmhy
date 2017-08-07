@@ -19,6 +19,7 @@ public class FanBean implements Parcelable {
             return new FanBean[size];
         }
     };
+    private int id;
     @SerializedName("img")
     private String cover;
     @SerializedName("name")
@@ -33,7 +34,8 @@ public class FanBean implements Parcelable {
     public FanBean() {
     }
 
-    private FanBean(Parcel in) {
+    protected FanBean(Parcel in) {
+        id = in.readInt();
         cover = in.readString();
         name = in.readString();
         keyword = in.readString();
@@ -43,6 +45,7 @@ public class FanBean implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
         dest.writeString(cover);
         dest.writeString(name);
         dest.writeString(keyword);
@@ -53,6 +56,14 @@ public class FanBean implements Parcelable {
     @Override
     public int describeContents() {
         return 0;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getCover() {

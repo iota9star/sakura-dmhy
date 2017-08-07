@@ -120,12 +120,12 @@
                     android:textSize="@dimen/v10sp" />
 
                 <Button
-                    android:id="@+id/button_collection"
+                    android:id="@+id/button_delete"
                     android:layout_width="@dimen/v36dp"
                     android:layout_height="@dimen/v20dp"
                     android:layout_margin="@dimen/v4dp"
                     android:background="@drawable/bg_button"
-                    android:text="@string/collection"
+                    android:text="@string/delete"
                     android:textSize="@dimen/v10sp" />
             </LinearLayout>
         </LinearLayout>

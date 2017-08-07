@@ -1,20 +1,24 @@
 package star.iota.sakura.ui.post;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
-import android.content.Intent;
-import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import butterknife.BindView;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
+import io.reactivex.schedulers.Schedulers;
 import star.iota.sakura.R;
 import star.iota.sakura.base.BaseActivity;
 import star.iota.sakura.base.BaseViewHolder;
+import star.iota.sakura.database.SubsDAO;
+import star.iota.sakura.database.SubsDAOImpl;
 import star.iota.sakura.ui.more.MoreActivity;
-import star.iota.sakura.ui.web.WebActivity;
+import star.iota.sakura.utils.SimpleUtils;
 import star.iota.sakura.utils.SnackbarUtils;
 
 
@@ -33,8 +37,8 @@ class PostViewHolder extends BaseViewHolder<PostBean> {
     Button mButtonMagnet;
     @BindView(R.id.button_sub)
     Button mButtonSub;
-    @BindView(R.id.card_view_container)
-    CardView mCardView;
+    @BindView(R.id.button_collection)
+    Button mButtonCollection;
 
     PostViewHolder(View itemView) {
         super(itemView);
@@ -73,22 +77,54 @@ class PostViewHolder extends BaseViewHolder<PostBean> {
         mButtonMagnet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                copy(bean.getMagnet());
-                SnackbarUtils.create(mContext, "內容已複製到剪切板");
+                SimpleUtils.copy(mContext, bean.getMagnet());
             }
         });
         mButtonLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, WebActivity.class);
-                intent.putExtra("url", bean.getUrl());
-                mContext.startActivity(intent);
+                SimpleUtils.openUrl(mContext, bean.getUrl());
             }
         });
-    }
-
-    private void copy(String url) {
-        ClipboardManager cm = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
-        cm.setPrimaryClip(ClipData.newPlainText("image_url", url));
+        mButtonCollection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Observable.just(new SubsDAOImpl(mContext))
+                        .filter(new Predicate<SubsDAO>() {
+                            @Override
+                            public boolean test(@NonNull SubsDAO subsDAO) throws Exception {
+                                boolean exist = subsDAO.exist(bean.getUrl());
+                                if (exist) {
+                                    SnackbarUtils.create(mContext, "已存在：" + bean.getTitle());
+                                }
+                                return !exist;
+                            }
+                        })
+                        .subscribeOn(AndroidSchedulers.mainThread())
+                        .observeOn(Schedulers.io())
+                        .map(new Function<SubsDAO, Boolean>() {
+                            @Override
+                            public Boolean apply(@NonNull SubsDAO subsDAO) throws Exception {
+                                return subsDAO.save(bean);
+                            }
+                        })
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Consumer<Boolean>() {
+                            @Override
+                            public void accept(Boolean aBoolean) throws Exception {
+                                if (aBoolean) {
+                                    SnackbarUtils.create(mContext, "收藏成功：" + bean.getTitle());
+                                } else {
+                                    SnackbarUtils.create(mContext, "收藏過程中可能出現錯誤");
+                                }
+                            }
+                        }, new Consumer<Throwable>() {
+                            @Override
+                            public void accept(Throwable throwable) throws Exception {
+                                SnackbarUtils.create(mContext, "收藏過程中可能出現錯誤：" + throwable.getMessage());
+                            }
+                        });
+            }
+        });
     }
 }

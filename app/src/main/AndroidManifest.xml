@@ -28,10 +28,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="star.iota.sakura.ui.web.WebActivity"
-            android:label="@string/browser"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name="star.iota.sakura.ui.more.MoreActivity"
             android:label="@string/info"
             android:theme="@style/AppTheme.NoActionBar" />

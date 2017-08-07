@@ -9,6 +9,7 @@
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.design.widget.CollapsingToolbarLayout
@@ -94,6 +95,10 @@
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/v36dp"
+            android:paddingEnd="0dp"
+            android:paddingLeft="@dimen/v96dp"
+            android:paddingRight="0dp"
+            android:paddingStart="@dimen/v96dp"
             app:tabIndicatorColor="@color/md_white_1000"
             app:tabIndicatorHeight="@dimen/v2dp"
             app:tabMode="scrollable"
@@ -105,4 +110,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/v16dp"
+        android:src="@drawable/ic_favorite_border_white_24dp"
+        app:layout_anchor="@id/app_bar_layout"
+        app:layout_anchorGravity="start|bottom" />
 </android.support.design.widget.CoordinatorLayout>

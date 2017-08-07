@@ -14,9 +14,6 @@ public interface Menus {
     int ABOUT_ID = 3;
     int ABOUT_ICON = R.drawable.ic_about_black_24dp;
 
-    String CATEGORY = "分類列表";
-    int CATEGORY_ID = 999;
-    int CATEGORY_ICON = R.drawable.ic_category_black_24dp;
 
     String NEWS = "最新張貼";
     int NEWS_ID = 4;
@@ -53,4 +50,20 @@ public interface Menus {
     String OTHER = "其他";
     int OTHER_ID = 12;
     int OTHER_ICON = R.drawable.ic_other_black_24dp;
+
+    String COLLECTION_SUBS = "單項";
+    int COLLECTION_SUBS_ID = 13;
+    int COLLECTION_SUBS_ICON = R.drawable.ic_subs_black_24dp;
+
+    String COLLECTION_FAN = "番組";
+    int COLLECTION_FAN_ID = 14;
+    int COLLECTION_FAN_ICON = R.drawable.ic_fan_black_24dp;
+
+    String COLLECTION = "收藏列表";
+    int COLLECTION_ID = 998;
+    int COLLECTION_ICON = R.drawable.ic_collections_black_24dp;
+
+    String CATEGORY = "分類列表";
+    int CATEGORY_ID = 999;
+    int CATEGORY_ICON = R.drawable.ic_category_black_24dp;
 }

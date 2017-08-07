@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -21,11 +22,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 import jp.wasabeef.blurry.Blurry;
 import star.iota.sakura.R;
 import star.iota.sakura.Url;
 import star.iota.sakura.base.BaseActivity;
 import star.iota.sakura.base.PagerAdapter;
+import star.iota.sakura.database.FanDAO;
+import star.iota.sakura.database.FanDAOImpl;
 import star.iota.sakura.glide.GlideApp;
 import star.iota.sakura.ui.fans.bean.FanBean;
 import star.iota.sakura.ui.fans.bean.SubBean;
@@ -52,6 +61,8 @@ public class MoreActivity extends BaseActivity {
     TextView mTextViewOfficial;
     @BindView(R.id.collapsing_toolbar_layout)
     CollapsingToolbarLayout mCollapsingToolbarLayout;
+    @BindView(R.id.fab)
+    FloatingActionButton mFab;
 
     @Override
     protected void init() {
@@ -73,6 +84,113 @@ public class MoreActivity extends BaseActivity {
             }, 3000);
             return;
         }
+        initHeader(bean);
+        initViewPager(bean);
+        initEvent(bean);
+    }
+
+    private void initEvent(final FanBean bean) {
+        final FanDAOImpl fanDAO = new FanDAOImpl(mContext);
+        Observable.just(fanDAO)
+                .map(new Function<FanDAO, Boolean>() {
+                    @Override
+                    public Boolean apply(@NonNull FanDAO fanDAO) throws Exception {
+                        return fanDAO.exist(bean);
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean aBoolean) throws Exception {
+                        if (aBoolean) {
+                            mFab.setImageResource(R.drawable.ic_favorite_white_24dp);
+                        } else {
+                            mFab.setImageResource(R.drawable.ic_favorite_border_white_24dp);
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+
+                    }
+                });
+        mFab.setOnClickListener(new View.OnClickListener() {
+
+            private boolean success = false;
+
+            @Override
+            public void onClick(View view) {
+                Observable.just(bean)
+                        .map(new Function<FanBean, Boolean>() {
+                            @Override
+                            public Boolean apply(@NonNull FanBean bean) throws Exception {
+                                return fanDAO.exist(bean);
+                            }
+                        })
+                        .map(new Function<Boolean, Boolean>() {
+                            @Override
+                            public Boolean apply(@NonNull Boolean aBoolean) throws Exception {
+                                if (aBoolean) {
+                                    success = fanDAO.delete(bean);
+                                } else {
+                                    success = fanDAO.save(bean);
+                                }
+                                return aBoolean;
+                            }
+                        })
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Consumer<Boolean>() {
+                            @Override
+                            public void accept(Boolean aBoolean) throws Exception {
+                                if (!success) {
+                                    SnackbarUtils.create(mContext, "操作失敗，請重試");
+                                    return;
+                                }
+                                if (!aBoolean) {
+                                    SnackbarUtils.create(mContext, "收藏成功：" + bean.getName());
+                                    mFab.setImageResource(R.drawable.ic_favorite_white_24dp);
+                                } else {
+                                    SnackbarUtils.create(mContext, "取消收藏成功：" + bean.getName());
+                                    mFab.setImageResource(R.drawable.ic_favorite_border_white_24dp);
+                                }
+                            }
+                        }, new Consumer<Throwable>() {
+                            @Override
+                            public void accept(Throwable throwable) throws Exception {
+                                SnackbarUtils.create(mContext, "操作失敗，請重試：" + throwable.getMessage());
+                            }
+                        });
+            }
+        });
+        mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            private boolean isHide = true;
+
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                int offset = appBarLayout.getTotalScrollRange() + verticalOffset;
+                if (offset < getResources().getDimensionPixelOffset(R.dimen.v14dp)) {
+                    mTabLayout.setPadding(0, 0, 0, 0);
+                } else {
+                    mTabLayout.setPadding(getResources().getDimensionPixelOffset(R.dimen.v96dp), 0, 0, 0);
+                }
+                if (offset <= getResources().getDimensionPixelOffset(R.dimen.v56dp)) {
+                    if (isHide) {
+                        mCollapsingToolbarLayout.setTitle(bean.getName());
+                        isHide = false;
+                    }
+                } else {
+                    if (!isHide) {
+                        mCollapsingToolbarLayout.setTitle("");
+                        isHide = true;
+                    }
+                }
+            }
+        });
+    }
+
+    private void initHeader(FanBean bean) {
         GlideApp.with(mContext)
                 .asBitmap()
                 .load(bean.getCover().replace("http://", "https://"))
@@ -94,6 +212,9 @@ public class MoreActivity extends BaseActivity {
                 .into(mImageViewCover);
         mTextViewName.setText(bean.getName());
         mTextViewOfficial.setText(String.format("官網：%s", bean.getOfficial()));
+    }
+
+    private void initViewPager(FanBean bean) {
         List<String> titles = new ArrayList<>();
         List<Fragment> fragments = new ArrayList<>();
         titles.add("全部");
@@ -116,24 +237,6 @@ public class MoreActivity extends BaseActivity {
         mViewPager.setOffscreenPageLimit(fragments.size());
         mViewPager.setAdapter(new PagerAdapter(getSupportFragmentManager(), fragments, titles));
         mTabLayout.setupWithViewPager(mViewPager);
-        mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            private boolean isHide = true;
-
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (appBarLayout.getTotalScrollRange() + verticalOffset <= 108) {
-                    if (isHide) {
-                        mCollapsingToolbarLayout.setTitle(bean.getName());
-                        isHide = false;
-                    }
-                } else {
-                    if (!isHide) {
-                        mCollapsingToolbarLayout.setTitle("");
-                        isHide = true;
-                    }
-                }
-            }
-        });
     }
 
     @Override

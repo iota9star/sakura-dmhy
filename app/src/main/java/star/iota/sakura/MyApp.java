@@ -11,7 +11,6 @@ import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.cookie.CookieJarImpl;
 import com.lzy.okgo.cookie.store.SPCookieStore;
 import com.lzy.okgo.https.HttpsUtils;
-import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 import com.lzy.okgo.model.HttpHeaders;
 import com.scwang.smartrefresh.header.DeliveryHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -23,12 +22,12 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
 
 import okhttp3.OkHttpClient;
+import star.iota.sakura.utils.ConfigUtils;
 
 
 public class MyApp extends Application {
@@ -36,17 +35,30 @@ public class MyApp extends Application {
     @SuppressLint("StaticFieldLeak")
     private static Context mContext;
 
+    static {
+        SmartRefreshLayout.setDefaultRefreshHeaderCreater(new DefaultRefreshHeaderCreater() {
+            @NonNull
+            @Override
+            public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
+                return new DeliveryHeader(context);
+            }
+        });
+        SmartRefreshLayout.setDefaultRefreshFooterCreater(new DefaultRefreshFooterCreater() {
+            @NonNull
+            @Override
+            public RefreshFooter createRefreshFooter(Context context, RefreshLayout layout) {
+                return new ClassicsFooter(context);
+            }
+        });
+    }
+
     public static OkHttpClient makeOkHttpClient() {
         HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory();
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor("OkGo");
-        interceptor.setPrintLevel(HttpLoggingInterceptor.Level.BODY);
-        interceptor.setColorLevel(Level.INFO);
         return new OkHttpClient.Builder()
                 .readTimeout(OkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS)
                 .writeTimeout(OkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS)
                 .connectTimeout(OkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS)
                 .cookieJar(new CookieJarImpl(new SPCookieStore(mContext)))
-                .addInterceptor(interceptor)
                 .hostnameVerifier(new HostnameVerifier() {
                     @Override
                     public boolean verify(String s, SSLSession sslSession) {
@@ -62,24 +74,13 @@ public class MyApp extends Application {
         super.onCreate();
         mContext = getApplicationContext();
         initOkGo();
-        initRefreshLayout();
+        addCount();
     }
 
-    private void initRefreshLayout() {
-        SmartRefreshLayout.setDefaultRefreshHeaderCreater(new DefaultRefreshHeaderCreater() {
-            @NonNull
-            @Override
-            public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
-                return new DeliveryHeader(context);
-            }
-        });
-        SmartRefreshLayout.setDefaultRefreshFooterCreater(new DefaultRefreshFooterCreater() {
-            @NonNull
-            @Override
-            public RefreshFooter createRefreshFooter(Context context, RefreshLayout layout) {
-                return new ClassicsFooter(context);
-            }
-        });
+    private void addCount() {
+        long openCount = ConfigUtils.getOpenCount(this);
+        openCount++;
+        ConfigUtils.saveOpenCount(this, openCount);
     }
 
     private void initOkGo() {

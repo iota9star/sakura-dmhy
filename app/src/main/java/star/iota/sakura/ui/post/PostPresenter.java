@@ -33,7 +33,7 @@ class PostPresenter extends StringPresenter<List<PostBean>> {
             if (tag != null) {
                 String url = Url.BASE + tag.attr("href");
                 String text = tag.text();
-                PostBean.SubBean subBean = new PostBean.SubBean();
+                SubBean subBean = new SubBean();
                 subBean.setUrl(url);
                 subBean.setName(text);
                 bean.setSub(subBean);
