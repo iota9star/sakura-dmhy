@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_layout"
@@ -117,5 +118,16 @@
         android:layout_margin="@dimen/v16dp"
         android:src="@drawable/ic_favorite_border_white_24dp"
         app:layout_anchor="@id/app_bar_layout"
-        app:layout_anchorGravity="start|bottom" />
+        app:layout_anchorGravity="start|bottom"
+        app:layout_behavior="star.iota.sakura.base.ScrollAwareFABBehavior" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floating_action_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/v16dp"
+        android:src="@drawable/ic_clear_all_white_24dp"
+        android:visibility="gone"
+        app:layout_behavior="star.iota.sakura.base.ScrollAwareFABBehavior" />
 </android.support.design.widget.CoordinatorLayout>

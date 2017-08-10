@@ -1,5 +1,6 @@
 package star.iota.sakura.ui.main;
 
+import android.annotation.SuppressLint;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -69,7 +70,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void donation() {
-        View view = getLayoutInflater().inflate(R.layout.dialog_donation, null);
+        @SuppressLint("InflateParams") View view = getLayoutInflater().inflate(R.layout.dialog_donation, null);
         AlertDialog dialog = new AlertDialog.Builder(mContext)
                 .setView(view)
                 .setNegativeButton("下次吧", new DialogInterface.OnClickListener() {
@@ -126,14 +127,15 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void setFirstFragment() {
-        String keywords = getIntent().getStringExtra(SearchManager.QUERY);
-        if (keywords != null) {
-            mCurrentFragmentId = -1;
-            showFragment(PostFragment.newInstance(Url.SEARCH, "?keyword=" + keywords, "搜索：" + keywords));
-        } else {
-            mCurrentFragmentId = Menus.NEWS_ID;
-            showFragment(PostFragment.newInstance(Url.NEWS, "", Menus.NEWS));
-        }
+        mCurrentFragmentId = Menus.NEWS_ID;
+        showFragment(PostFragment.newInstance(Url.NEWS, "", Menus.NEWS));
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        String keywords = intent.getStringExtra(SearchManager.QUERY);
+        mCurrentFragmentId = -1;
+        showFragment(PostFragment.newInstance(Url.SEARCH, "?keyword=" + keywords, "搜索：" + keywords));
     }
 
     @Override
@@ -158,6 +160,7 @@ public class MainActivity extends BaseActivity {
                         new PrimaryDrawerItem().withName(Menus.NEW_FANS).withIdentifier(Menus.NEW_FANS_ID).withIcon(Menus.NEW_FANS_ICON).withIconTintingEnabled(true),
                         new PrimaryDrawerItem().withName(Menus.INDEX).withIdentifier(Menus.INDEX_ID).withIcon(Menus.INDEX_ICON).withIconTintingEnabled(true),
                         new ExpandableDrawerItem().withIcon(Menus.CATEGORY_ICON).withName(Menus.CATEGORY).withIdentifier(Menus.CATEGORY_ID).withSubItems(getCategory()).withSelectable(false).withIconTintingEnabled(true),
+                        new DividerDrawerItem(),
                         new ExpandableDrawerItem().withIcon(Menus.COLLECTION_ICON).withName(Menus.COLLECTION).withIdentifier(Menus.COLLECTION_ID).withSubItems(getCollection()).withSelectable(false).withIconTintingEnabled(true),
                         new DividerDrawerItem(),
                         new PrimaryDrawerItem().withName(Menus.ABOUT).withIdentifier(Menus.ABOUT_ID).withIcon(Menus.ABOUT_ICON).withIconTintingEnabled(true)
@@ -263,6 +266,7 @@ public class MainActivity extends BaseActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setQueryHint("請輸入關鍵字");
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         return true;
     }

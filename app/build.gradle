@@ -7,8 +7,8 @@ android {
         applicationId "star.iota.sakura"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 5
-        versionName "sakura sakura sakura"
+        versionCode 6
+        versionName "sakura, kiminokotoga daisukidesu"
         resConfigs "zh"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -84,7 +84,6 @@ dependencies {
 
     //okgo
     compile 'com.lzy.net:okgo:latest.release'
-    compile 'com.lzy.net:okserver:latest.release'
     compile 'com.lzy.net:okrx2:latest.release'
 
     //gson

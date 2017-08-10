@@ -3,6 +3,7 @@ package star.iota.sakura.base;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -16,9 +17,9 @@ import butterknife.Unbinder;
 public abstract class BaseActivity extends AppCompatActivity {
 
 
+    private final long[] mHints = new long[2];
     protected Context mContext;
     private Unbinder unbinder;
-
 
     protected abstract void init();
 
@@ -32,18 +33,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         setFirstFragment();
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        destroyBeforeUnbinder();
         if (unbinder != null) {
             unbinder.unbind();
         }
-    }
-
-    protected void destroyBeforeUnbinder() {
-
     }
 
     protected abstract int getContentViewId();
@@ -78,14 +73,17 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
             getSupportFragmentManager().popBackStack();
         } else {
-            Snackbar.make(findViewById(android.R.id.content), "真的要退出了吗", Snackbar.LENGTH_LONG)
-                    .setAction("EXIT", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            System.exit(0);
-                        }
-                    })
-                    .show();
+            System.arraycopy(mHints, 1, mHints, 0, mHints.length - 1);
+            mHints[mHints.length - 1] = SystemClock.uptimeMillis();
+            Snackbar.make(findViewById(android.R.id.content), "真的要退出了吗？\n退出的話，請再按一次", Snackbar.LENGTH_SHORT).setAction("嗯", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    System.exit(0);
+                }
+            }).show();
+            if (SystemClock.uptimeMillis() - mHints[0] <= 1600) {
+                System.exit(0);
+            }
         }
     }
 

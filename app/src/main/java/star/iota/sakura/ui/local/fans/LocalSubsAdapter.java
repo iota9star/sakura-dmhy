@@ -127,6 +127,11 @@ class LocalSubsAdapter extends RecyclerView.Adapter<LocalSubsAdapter.MyViewHolde
         notifyItemRemoved(pos);
     }
 
+    public void clear() {
+        int size = list.size();
+        list.clear();
+        notifyItemRangeRemoved(0, size);
+    }
     class MyViewHolder extends RecyclerView.ViewHolder {
         private final Context context;
         @BindView(R.id.text_view_title)
