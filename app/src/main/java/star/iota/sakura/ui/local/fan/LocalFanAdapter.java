@@ -60,6 +60,7 @@ public class LocalFanAdapter extends RecyclerView.Adapter<LocalFanAdapter.MyView
         final FanBean bean = list.get(pos);
         LayoutInflater inflater = LayoutInflater.from(holder.context);
         holder.mFlowLayout.relayoutToCompress();
+        holder.mFlowLayout.removeAllViews();
         for (final SubBean sub : bean.getSubs()) {
             TextView b = (TextView) inflater.inflate(R.layout.item_sub, holder.mFlowLayout, false);
             b.setText(sub.getName());

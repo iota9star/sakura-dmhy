@@ -1,11 +1,14 @@
 package star.iota.sakura.ui.main;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -13,6 +16,8 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
@@ -20,11 +25,24 @@ import com.mikepenz.materialdrawer.model.ExpandableDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 import jp.wasabeef.recyclerview.animators.LandingAnimator;
 import moe.feng.alipay.zerosdk.AlipayZeroSdk;
 import star.iota.sakura.Menus;
@@ -32,17 +50,25 @@ import star.iota.sakura.R;
 import star.iota.sakura.Url;
 import star.iota.sakura.base.BaseActivity;
 import star.iota.sakura.base.BaseFragment;
+import star.iota.sakura.database.FanDAOImpl;
+import star.iota.sakura.database.SubsDAOImpl;
 import star.iota.sakura.glide.GlideApp;
 import star.iota.sakura.ui.about.AboutFragment;
+import star.iota.sakura.ui.fans.bean.FanBean;
 import star.iota.sakura.ui.fans.newfans.NewFansFragment;
 import star.iota.sakura.ui.index.IndexFragment;
 import star.iota.sakura.ui.local.fan.LocalFanFragment;
 import star.iota.sakura.ui.local.fans.LocalSubsFragment;
+import star.iota.sakura.ui.post.PostBean;
 import star.iota.sakura.ui.post.PostFragment;
 import star.iota.sakura.utils.ConfigUtils;
+import star.iota.sakura.utils.FileUtils;
 import star.iota.sakura.utils.SnackbarUtils;
 
 public class MainActivity extends BaseActivity {
+
+    public static final int FAN_IMPORT_CODE = 1;
+    public static final int SUBS_IMPORT_CODE = 2;
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -55,11 +81,170 @@ public class MainActivity extends BaseActivity {
         initDrawer();
         initDrawerEvent();
         isShowDonationDialog();
+        checkPermission();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            Uri uri = data.getData();
+            String filePath = FileUtils.getUriRawPath(mContext, uri);
+            if (filePath == null) {
+                SnackbarUtils.create(mContext, "獲取備份文件路徑出現未知錯誤");
+                return;
+            }
+            switch (requestCode) {
+                case FAN_IMPORT_CODE:
+                    importFan(filePath);
+                    break;
+                case SUBS_IMPORT_CODE:
+                    importSubs(filePath);
+                    break;
+            }
+        } else {
+            SnackbarUtils.create(mContext, "獲取備份文件錯誤，錯誤碼：" + resultCode);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void importSubs(String filePath) {
+        Observable.just(filePath)
+                .map(new Function<String, String>() {
+                    @Override
+                    public String apply(@NonNull String s) throws Exception {
+                        FileInputStream fis = new FileInputStream(new File(s));
+                        BufferedInputStream bis = new BufferedInputStream(fis);
+                        InputStreamReader isr = new InputStreamReader(bis);
+                        BufferedReader br = new BufferedReader(isr);
+                        StringBuilder sb = new StringBuilder();
+                        String temp;
+                        while ((temp = br.readLine()) != null) {
+                            sb.append(temp);
+                        }
+                        br.close();
+                        isr.close();
+                        bis.close();
+                        fis.close();
+                        return sb.toString();
+                    }
+                })
+                .map(new Function<String, List<PostBean>>() {
+                    @Override
+                    public List<PostBean> apply(@NonNull String s) throws Exception {
+                        return new Gson().fromJson(s, new TypeToken<List<PostBean>>() {
+                        }.getType());
+                    }
+                })
+                .map(new Function<List<PostBean>, Boolean>() {
+                    @Override
+                    public Boolean apply(@NonNull List<PostBean> postBeen) throws Exception {
+                        return new SubsDAOImpl(mContext).save(postBeen);
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean aBoolean) throws Exception {
+                        if (aBoolean) {
+                            SnackbarUtils.create(mContext, "導入成功，請刷新");
+                        } else {
+                            SnackbarUtils.create(mContext, "由於未知原因導入失敗");
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        SnackbarUtils.create(mContext, "導入失敗，請檢查導入的文件是否正確：" + throwable.getMessage());
+                    }
+                });
+    }
+
+    private void importFan(String filePath) {
+        Observable.just(filePath)
+                .map(new Function<String, String>() {
+                    @Override
+                    public String apply(@NonNull String s) throws Exception {
+                        FileInputStream fis = new FileInputStream(new File(s));
+                        BufferedInputStream bis = new BufferedInputStream(fis);
+                        InputStreamReader isr = new InputStreamReader(bis);
+                        BufferedReader br = new BufferedReader(isr);
+                        StringBuilder sb = new StringBuilder();
+                        String temp;
+                        while ((temp = br.readLine()) != null) {
+                            sb.append(temp);
+                        }
+                        br.close();
+                        isr.close();
+                        bis.close();
+                        fis.close();
+                        return sb.toString();
+                    }
+                })
+                .map(new Function<String, List<FanBean>>() {
+                    @Override
+                    public List<FanBean> apply(@NonNull String s) throws Exception {
+                        return new Gson().fromJson(s, new TypeToken<List<FanBean>>() {
+                        }.getType());
+                    }
+                })
+                .map(new Function<List<FanBean>, Boolean>() {
+                    @Override
+                    public Boolean apply(@NonNull List<FanBean> fanBeen) throws Exception {
+                        return new FanDAOImpl(mContext).save(fanBeen);
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean aBoolean) throws Exception {
+                        if (aBoolean) {
+                            SnackbarUtils.create(mContext, "導入成功，請刷新");
+                        } else {
+                            SnackbarUtils.create(mContext, "由於未知原因導入失敗");
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        SnackbarUtils.create(mContext, "導入失敗，請檢查導入的文件是否正確：" + throwable.getMessage());
+                    }
+                });
+    }
+
+    private void checkPermission() {
+        new RxPermissions(this).request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(@NonNull Boolean granted) throws Exception {
+                        if (!granted) {
+                            SnackbarUtils.create(mContext, "您拒絕了文件寫入權限，備份可能會出現錯誤，是否前往開啓", "好的", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                    Uri uri = Uri.fromParts("package", getPackageName(), null);
+                                    intent.setData(uri);
+                                    startActivity(intent);
+                                }
+                            });
+                        }
+                    }
+                });
     }
 
     private void isShowDonationDialog() {
-        if ((ConfigUtils.getOpenCount(mContext) % 10 == 0 || ConfigUtils.getOpenCount(mContext) == 3)
+        long openCount = ConfigUtils.getOpenCount(mContext);
+        if ((openCount % 16 == 0 || openCount == 5)
                 && ConfigUtils.isShowDonation(mContext)) {
+            mToolbar.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    donation();
+                }
+            }, 3600);
+        } else if (openCount % 100 == 0) {
+            SnackbarUtils.create(mContext, "這是您打開的第" + openCount + "次，將冒昧的顯示捐贈頁面");
             mToolbar.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -84,7 +269,7 @@ public class MainActivity extends BaseActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         ConfigUtils.saveDonationStatus(mContext, false);
                         dialogInterface.dismiss();
-                        SnackbarUtils.create(mContext, "如果想要支持我的话，可以在“关于”里面查看");
+                        SnackbarUtils.create(mContext, "如果想要支持我的話，可以在“關於本軟”中查看");
                     }
                 })
                 .create();
@@ -94,7 +279,7 @@ public class MainActivity extends BaseActivity {
                 if (AlipayZeroSdk.hasInstalledAlipayClient(mContext)) {
                     AlipayZeroSdk.startAlipayClient(MainActivity.this, getResources().getString(R.string.alipay_code));
                 } else {
-                    SnackbarUtils.create(mContext, "你可能没有安装支付宝");
+                    SnackbarUtils.create(mContext, "您可能沒有安裝支付寶");
                 }
             }
         });
@@ -133,6 +318,9 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onNewIntent(Intent intent) {
+        if (intent.getAction().equals(Intent.ACTION_SEARCH)) {
+            return;
+        }
         String keywords = intent.getStringExtra(SearchManager.QUERY);
         mCurrentFragmentId = -1;
         showFragment(PostFragment.newInstance(Url.SEARCH, "?keyword=" + keywords, "搜索：" + keywords));

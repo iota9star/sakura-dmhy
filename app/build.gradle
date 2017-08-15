@@ -7,8 +7,8 @@ android {
         applicationId "star.iota.sakura"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 6
-        versionName "sakura, kiminokotoga daisukidesu"
+        versionCode 7
+        versionName "sakura never go away"
         resConfigs "zh"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -63,6 +63,9 @@ dependencies {
     compile("com.mikepenz:materialdrawer:latest.release") {
         transitive = true
     }
+
+    //RxPermission
+    compile 'com.tbruyelle.rxpermissions2:rxpermissions:latest.release'
 
     //item animators
     compile 'jp.wasabeef:recyclerview-animators:latest.release'

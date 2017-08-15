@@ -51,6 +51,19 @@ public class SubsDAOImpl implements SubsDAO {
     }
 
     @Override
+    public boolean save(List<PostBean> beans) {
+        boolean success = true;
+        for (PostBean next : beans) {
+            if (!exist(next.getUrl())) {
+                if (!save(next)) {
+                    success = false;
+                }
+            }
+        }
+        return success;
+    }
+
+    @Override
     public boolean delete(Integer id) {
         boolean success = true;
         try {

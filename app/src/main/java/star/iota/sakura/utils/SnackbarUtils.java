@@ -35,4 +35,9 @@ public class SnackbarUtils {
         snackbar.show();
     }
 
+    public static void create(Context context, String content, String action, View.OnClickListener onClickListener) {
+        final Snackbar snackbar = Snackbar.make(((Activity) context).findViewById(android.R.id.content), content, Snackbar.LENGTH_LONG);
+        snackbar.setAction(action, onClickListener);
+        snackbar.show();
+    }
 }

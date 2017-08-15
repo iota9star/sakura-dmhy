@@ -47,6 +47,19 @@ public class FanDAOImpl implements FanDAO {
     }
 
     @Override
+    public boolean save(List<FanBean> beans) {
+        boolean success = true;
+        for (FanBean next : beans) {
+            if (!exist(next)) {
+                if (!save(next)) {
+                    success = false;
+                }
+            }
+        }
+        return success;
+    }
+
+    @Override
     public boolean delete(FanBean bean) {
         boolean success = true;
         try {

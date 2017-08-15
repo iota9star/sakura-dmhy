@@ -25,12 +25,19 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+    <com.github.rubensousa.floatingtoolbar.FloatingToolbar
+        android:id="@+id/floating_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/v48dp"
+        android:layout_gravity="bottom"
+        app:floatingMenu="@menu/menu_local" />
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floating_action_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/v16dp"
-        android:src="@drawable/ic_clear_all_white_24dp"
+        android:src="@drawable/ic_add_white_24dp"
         app:layout_behavior="star.iota.sakura.base.ScrollAwareFABBehavior" />
 </android.support.design.widget.CoordinatorLayout>

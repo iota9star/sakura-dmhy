@@ -39,7 +39,7 @@ class LocalSubsAdapter extends RecyclerView.Adapter<LocalSubsAdapter.MyViewHolde
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_local_fans, parent, false));
+        return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_local_subs, parent, false));
     }
 
     @Override

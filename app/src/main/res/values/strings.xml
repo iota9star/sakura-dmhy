@@ -22,4 +22,6 @@
     <string name="collection">收藏</string>
     <string name="delete">刪除</string>
     <string name="buy_a_coffee">\u3000\u3000嗨，最近还好吗？\n\n\u3000\u3000本应用使用还算开心吗？如果有什么使用上的问题，可以去应用市场给我反馈，这会让应用获得更好的体验\n\n\u3000\u3000本应用花费了作者大量的时间和精力，如果可以的话，在此恳请您给应用一个好评，如果经济宽裕的话，也可以给我捐助，您的每一分捐助都会让作者获得更多的信心去做好这个应用，在此感谢您\n\n\u3000\u3000本应用完全免费，应用中所有资源均来自网络，如有侵权，请联系网站管理员删除</string>
+    <string name="_import">导入</string>
+    <string name="_export">导出</string>
 </resources>

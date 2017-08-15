@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.rubensousa.floatingtoolbar.FloatingToolbar;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import star.iota.sakura.R;
@@ -42,6 +44,10 @@ public abstract class BaseFragment extends Fragment {
 
     protected FloatingActionButton getFab() {
         return ButterKnife.findById(getActivity(), R.id.floating_action_button);
+    }
+
+    protected FloatingToolbar getFloatingToolbar() {
+        return ButterKnife.findById(getActivity(), R.id.floating_toolbar);
     }
 
     @Override

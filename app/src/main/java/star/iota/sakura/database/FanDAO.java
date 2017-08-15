@@ -8,6 +8,8 @@ import star.iota.sakura.ui.fans.bean.FanBean;
 public interface FanDAO {
     boolean save(FanBean bean);
 
+    boolean save(List<FanBean> beans);
+
     boolean delete(FanBean bean);
 
     boolean deleteAll();

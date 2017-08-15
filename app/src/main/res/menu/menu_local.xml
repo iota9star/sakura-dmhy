@@ -1,0 +1,20 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="star.iota.sakura.ui.main.MainActivity">
+    <item
+        android:id="@+id/action_import"
+        android:icon="@drawable/ic_import_white_24dp"
+        android:title="@string/_import"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_export"
+        android:icon="@drawable/ic_export_white_24dp"
+        android:title="@string/_export"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_clear"
+        android:icon="@drawable/ic_clear_all_white_24dp"
+        android:title="@string/_export"
+        app:showAsAction="ifRoom" />
+</menu>
