@@ -86,7 +86,8 @@ public class MyApp extends Application {
     private void initOkGo() {
         HttpHeaders headers = new HttpHeaders();
         headers.put("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 UBrowser/6.1.2716.5 Safari/537.36");
-        OkGo.getInstance().init(this)
+        OkGo.getInstance()
+                .init(this)
                 .setOkHttpClient(makeOkHttpClient())
                 .setCacheMode(CacheMode.REQUEST_FAILED_READ_CACHE)
                 .setCacheTime(CacheEntity.CACHE_NEVER_EXPIRE)

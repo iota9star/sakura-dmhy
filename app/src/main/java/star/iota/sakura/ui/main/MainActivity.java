@@ -318,7 +318,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onNewIntent(Intent intent) {
-        if (intent.getAction().equals(Intent.ACTION_SEARCH)) {
+        if (!intent.getAction().equals(Intent.ACTION_SEARCH)) {
             return;
         }
         String keywords = intent.getStringExtra(SearchManager.QUERY);
