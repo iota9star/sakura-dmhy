@@ -12,7 +12,8 @@
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/text_view_please"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/v8dp"
             android:text="@string/buy_a_coffee" />

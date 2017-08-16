@@ -52,7 +52,7 @@
                     android:paddingRight="@dimen/v16dp"
                     android:paddingStart="@dimen/v16dp"
                     android:text="@string/app_name"
-                    android:textColor="#c4252525"
+                    android:textColor="#40252525"
                     android:textSize="@dimen/v96sp"
                     android:textStyle="bold|italic" />
             </FrameLayout>
