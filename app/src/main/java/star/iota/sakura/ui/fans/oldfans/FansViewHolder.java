@@ -13,7 +13,7 @@ import jp.wasabeef.recyclerview.animators.LandingAnimator;
 import star.iota.sakura.R;
 import star.iota.sakura.base.BaseViewHolder;
 import star.iota.sakura.glide.GlideApp;
-import star.iota.sakura.ui.fans.bean.FanBean;
+import star.iota.sakura.ui.fans.FanBean;
 
 
 class FansViewHolder extends BaseViewHolder<FansBean> {
@@ -37,6 +37,7 @@ class FansViewHolder extends BaseViewHolder<FansBean> {
                 .into(mImageViewWeek);
         FanAdapter adapter = new FanAdapter();
         mRecyclerView.setItemAnimator(new LandingAnimator());
+        mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
         mRecyclerView.setAdapter(adapter);
         List<FanBean> fans = bean.getFans();

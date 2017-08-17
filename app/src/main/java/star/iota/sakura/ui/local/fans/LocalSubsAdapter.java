@@ -33,7 +33,7 @@ class LocalSubsAdapter extends RecyclerView.Adapter<LocalSubsAdapter.MyViewHolde
 
     private final List<PostBean> list;
 
-    public LocalSubsAdapter() {
+    LocalSubsAdapter() {
         list = new ArrayList<>();
     }
 
@@ -132,6 +132,7 @@ class LocalSubsAdapter extends RecyclerView.Adapter<LocalSubsAdapter.MyViewHolde
         list.clear();
         notifyItemRangeRemoved(0, size);
     }
+
     class MyViewHolder extends RecyclerView.ViewHolder {
         private final Context context;
         @BindView(R.id.text_view_title)
@@ -151,7 +152,7 @@ class LocalSubsAdapter extends RecyclerView.Adapter<LocalSubsAdapter.MyViewHolde
         @BindView(R.id.button_delete)
         Button mButtonDelete;
 
-        public MyViewHolder(View itemView) {
+        MyViewHolder(View itemView) {
             super(itemView);
             context = itemView.getContext();
             ButterKnife.bind(this, itemView);

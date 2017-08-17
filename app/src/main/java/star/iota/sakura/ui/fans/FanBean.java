@@ -1,4 +1,4 @@
-package star.iota.sakura.ui.fans.bean;
+package star.iota.sakura.ui.fans;
 
 import android.os.Parcel;
 import android.os.Parcelable;

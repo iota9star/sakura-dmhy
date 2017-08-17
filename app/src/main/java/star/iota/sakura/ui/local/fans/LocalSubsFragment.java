@@ -3,8 +3,8 @@ package star.iota.sakura.ui.local.fans;
 import android.content.DialogInterface;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -27,7 +27,6 @@ import io.reactivex.schedulers.Schedulers;
 import jp.wasabeef.recyclerview.animators.LandingAnimator;
 import star.iota.sakura.R;
 import star.iota.sakura.base.BaseFragment;
-import star.iota.sakura.base.SGSpacingItemDecoration;
 import star.iota.sakura.database.SubsDAO;
 import star.iota.sakura.database.SubsDAOImpl;
 import star.iota.sakura.ui.main.MainActivity;
@@ -54,8 +53,8 @@ public class LocalSubsFragment extends BaseFragment {
         setTitle("收藏 * 單項");
         mAdapter = new LocalSubsAdapter();
         mRecyclerView.setItemAnimator(new LandingAnimator());
-        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
-        mRecyclerView.addItemDecoration(new SGSpacingItemDecoration(1, mContext.getResources().getDimensionPixelOffset(R.dimen.v4dp)));
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(mAdapter);
         initRefreshLayout();
         initFab();
@@ -64,6 +63,7 @@ public class LocalSubsFragment extends BaseFragment {
     private void initRefreshLayout() {
         isRunning = false;
         mRefreshLayout.autoRefresh();
+        mRefreshLayout.setEnableLoadmore(false);
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {

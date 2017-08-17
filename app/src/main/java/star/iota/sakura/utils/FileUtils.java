@@ -28,9 +28,9 @@ public class FileUtils {
         intent.setType("*/*");
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         try {
-            activity.startActivityForResult(Intent.createChooser(intent, "请选择"), requestCode);
+            activity.startActivityForResult(Intent.createChooser(intent, "請選擇"), requestCode);
         } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(activity, "请安装文件管理器", Toast.LENGTH_SHORT)
+            Toast.makeText(activity, "請安裝文件管理器", Toast.LENGTH_SHORT)
                     .show();
         }
     }

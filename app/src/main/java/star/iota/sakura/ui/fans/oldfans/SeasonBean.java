@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import star.iota.sakura.ui.fans.bean.FanBean;
+import star.iota.sakura.ui.fans.FanBean;
 
 class SeasonBean {
     @SerializedName("Sun")
@@ -23,37 +23,37 @@ class SeasonBean {
     @SerializedName("Sat")
     private List<FanBean> Sat;
 
-    public List<FanBean> getSun() {
+    List<FanBean> getSun() {
         return Sun;
     }
 
 
-    public List<FanBean> getMon() {
+    List<FanBean> getMon() {
         return Mon;
     }
 
 
-    public List<FanBean> getTue() {
+    List<FanBean> getTue() {
         return Tue;
     }
 
 
-    public List<FanBean> getWed() {
+    List<FanBean> getWed() {
         return Wed;
     }
 
 
-    public List<FanBean> getThu() {
+    List<FanBean> getThu() {
         return Thu;
     }
 
 
-    public List<FanBean> getFri() {
+    List<FanBean> getFri() {
         return Fri;
     }
 
 
-    public List<FanBean> getSat() {
+    List<FanBean> getSat() {
         return Sat;
     }
 

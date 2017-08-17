@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 
 import star.iota.sakura.R;
 import star.iota.sakura.base.BaseAdapter;
-import star.iota.sakura.ui.fans.bean.FanBean;
+import star.iota.sakura.ui.fans.FanBean;
 
 
 class FanAdapter extends BaseAdapter<FanViewHolder, FanBean> {

@@ -119,8 +119,7 @@
         android:layout_margin="@dimen/v16dp"
         android:src="@drawable/ic_favorite_border_white_24dp"
         app:layout_anchor="@id/app_bar_layout"
-        app:layout_anchorGravity="start|bottom"
-        app:layout_behavior="star.iota.sakura.base.ScrollAwareFABBehavior" />
+        app:layout_anchorGravity="start|bottom" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floating_action_button"

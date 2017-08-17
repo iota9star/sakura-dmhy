@@ -9,25 +9,25 @@ class IndexBean {
     @SerializedName("years")
     private List<YearBean> years;
 
-    public List<YearBean> getYears() {
+    List<YearBean> getYears() {
         return years;
     }
 
-    public static class YearBean {
+    static class YearBean {
         @SerializedName("n")
         private int year;
         @SerializedName("seasons")
         private List<SeasonBean> seasons;
 
-        public int getYear() {
+        int getYear() {
             return year;
         }
 
-        public List<SeasonBean> getSeasons() {
+        List<SeasonBean> getSeasons() {
             return seasons;
         }
 
-        public static class SeasonBean {
+        static class SeasonBean {
             @SerializedName("text")
             private String text;
             @SerializedName("index")

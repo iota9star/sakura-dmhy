@@ -7,7 +7,7 @@ android {
         applicationId "star.iota.sakura"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 9
+        versionCode 10
         versionName "sakura never go away"
         resConfigs "zh"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -81,9 +81,6 @@ dependencies {
 
     //AlipayZeroSdk
     compile 'moe.feng:AlipayZeroSdk:latest.release'
-
-    //AutoFitTextView
-    compile 'com.github.AndroidDeveloperLB:AutoFitTextView:latest.release'
 
     //okgo
     compile 'com.lzy.net:okgo:latest.release'

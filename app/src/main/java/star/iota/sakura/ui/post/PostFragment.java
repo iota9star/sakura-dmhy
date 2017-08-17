@@ -2,8 +2,8 @@ package star.iota.sakura.ui.post;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -17,7 +17,6 @@ import jp.wasabeef.recyclerview.animators.LandingAnimator;
 import star.iota.sakura.R;
 import star.iota.sakura.base.BaseFragment;
 import star.iota.sakura.base.PVContract;
-import star.iota.sakura.base.SGSpacingItemDecoration;
 import star.iota.sakura.utils.SnackbarUtils;
 
 
@@ -106,8 +105,8 @@ public class PostFragment extends BaseFragment implements PVContract.View<List<P
     private void initRecyclerView() {
         mAdapter = new PostAdapter();
         mRecyclerView.setItemAnimator(new LandingAnimator());
-        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
-        mRecyclerView.addItemDecoration(new SGSpacingItemDecoration(1, mContext.getResources().getDimensionPixelOffset(R.dimen.v4dp)));
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(mAdapter);
     }
 

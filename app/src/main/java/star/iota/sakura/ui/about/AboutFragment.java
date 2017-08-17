@@ -1,6 +1,5 @@
 package star.iota.sakura.ui.about;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.method.LinkMovementMethod;
@@ -15,6 +14,7 @@ import star.iota.sakura.R;
 import star.iota.sakura.Url;
 import star.iota.sakura.base.BaseFragment;
 import star.iota.sakura.glide.GlideApp;
+import star.iota.sakura.utils.SnackbarUtils;
 
 public class AboutFragment extends BaseFragment {
     @BindView(R.id.image_view_banner)
@@ -39,7 +39,11 @@ public class AboutFragment extends BaseFragment {
                 intent.setData(Uri.parse("market://details?id=" + mContext.getPackageName()));
                 break;
             case R.id.linear_layout_donation_alipay:
-                AlipayZeroSdk.startAlipayClient((Activity) mContext, getResources().getString(R.string.alipay_code));
+                if (AlipayZeroSdk.hasInstalledAlipayClient(getActivity())) {
+                    AlipayZeroSdk.startAlipayClient(getActivity(), getResources().getString(R.string.alipay_code));
+                } else {
+                    SnackbarUtils.create(mContext, "您可能沒有安裝支付寶");
+                }
                 return;
         }
         if (intent.getData() != null) {

@@ -11,7 +11,7 @@ import com.bumptech.glide.module.AppGlideModule;
 public class MyGlideModule extends AppGlideModule {
     @Override
     public void applyOptions(Context context, GlideBuilder builder) {
-        int diskCacheSizeBytes = 1024 * 1024 * 1024;
+        int diskCacheSizeBytes = Integer.MAX_VALUE;
         builder.setDiskCache(new ExternalCacheDiskCacheFactory(context, diskCacheSizeBytes));
     }
 

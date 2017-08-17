@@ -13,8 +13,8 @@ import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 import java.util.List;
 
-import star.iota.sakura.ui.fans.bean.FanBean;
-import star.iota.sakura.ui.fans.bean.SubBean;
+import star.iota.sakura.ui.fans.FanBean;
+import star.iota.sakura.ui.fans.SubBean;
 
 public class FanDAOImpl implements FanDAO {
     private final DBHelper mHelper;

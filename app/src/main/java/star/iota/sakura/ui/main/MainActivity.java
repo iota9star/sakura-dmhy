@@ -56,7 +56,7 @@ import star.iota.sakura.database.FanDAOImpl;
 import star.iota.sakura.database.SubsDAOImpl;
 import star.iota.sakura.glide.GlideApp;
 import star.iota.sakura.ui.about.AboutFragment;
-import star.iota.sakura.ui.fans.bean.FanBean;
+import star.iota.sakura.ui.fans.FanBean;
 import star.iota.sakura.ui.fans.newfans.NewFansFragment;
 import star.iota.sakura.ui.index.IndexFragment;
 import star.iota.sakura.ui.local.fan.LocalFanFragment;
@@ -246,7 +246,7 @@ public class MainActivity extends BaseActivity {
                 }
             }, 3600);
         } else if (openCount % 100 == 0) {
-            SnackbarUtils.create(mContext, "這是您打開的第" + openCount + "次，將冒昧的顯示捐贈頁面");
+            SnackbarUtils.create(mContext, "這是您打開的第 " + openCount + " 次，將冒昧的顯示捐贈頁面");
             mToolbar.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -355,7 +355,7 @@ public class MainActivity extends BaseActivity {
                         new DividerDrawerItem(),
                         new PrimaryDrawerItem().withName(Menus.ABOUT).withIdentifier(Menus.ABOUT_ID).withIcon(Menus.ABOUT_ICON).withIconTintingEnabled(true)
                 )
-                .withSelectedItem(-1)
+                .withSelectedItem(Menus.NEWS_ID)
                 .build();
         View header = mDrawer.getHeader();
         ImageView banner = ButterKnife.findById(header, R.id.image_view_banner);

@@ -36,23 +36,17 @@
                     android:scaleType="centerCrop"
                     tools:ignore="ContentDescription" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#60a0a0a0" />
-
-                <com.lb.auto_fit_textview.AutoResizeTextView
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:layout_marginBottom="-28dp"
+                    android:layout_gravity="center"
                     android:gravity="center"
-                    android:paddingEnd="@dimen/v16dp"
-                    android:paddingLeft="@dimen/v16dp"
-                    android:paddingRight="@dimen/v16dp"
-                    android:paddingStart="@dimen/v16dp"
+                    android:shadowColor="#60606060"
+                    android:shadowDx="3"
+                    android:shadowDy="3"
+                    android:shadowRadius="10"
                     android:text="@string/app_name"
-                    android:textColor="#40252525"
+                    android:textColor="#40000000"
                     android:textSize="@dimen/v96sp"
                     android:textStyle="bold|italic" />
             </FrameLayout>

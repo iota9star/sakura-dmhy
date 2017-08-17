@@ -10,7 +10,7 @@ import butterknife.BindView;
 import star.iota.sakura.R;
 import star.iota.sakura.base.BaseViewHolder;
 import star.iota.sakura.glide.GlideApp;
-import star.iota.sakura.ui.fans.bean.FanBean;
+import star.iota.sakura.ui.fans.FanBean;
 import star.iota.sakura.ui.more.MoreActivity;
 
 

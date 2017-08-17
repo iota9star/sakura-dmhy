@@ -1,8 +1,8 @@
 package star.iota.sakura.ui.fans.oldfans;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -16,7 +16,6 @@ import star.iota.sakura.R;
 import star.iota.sakura.Url;
 import star.iota.sakura.base.BaseFragment;
 import star.iota.sakura.base.PVContract;
-import star.iota.sakura.base.SGSpacingItemDecoration;
 import star.iota.sakura.utils.SnackbarUtils;
 
 
@@ -79,8 +78,8 @@ public class FansFragment extends BaseFragment implements PVContract.View<List<F
     private void initRecyclerView() {
         mAdapter = new FansAdapter();
         mRecyclerView.setItemAnimator(new LandingAnimator());
-        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
-        mRecyclerView.addItemDecoration(new SGSpacingItemDecoration(1, mContext.getResources().getDimensionPixelOffset(R.dimen.v4dp)));
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(mAdapter);
     }
 

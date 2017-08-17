@@ -3,8 +3,8 @@ package star.iota.sakura.ui.local.fan;
 import android.content.DialogInterface;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -27,10 +27,9 @@ import io.reactivex.schedulers.Schedulers;
 import jp.wasabeef.recyclerview.animators.LandingAnimator;
 import star.iota.sakura.R;
 import star.iota.sakura.base.BaseFragment;
-import star.iota.sakura.base.SGSpacingItemDecoration;
 import star.iota.sakura.database.FanDAO;
 import star.iota.sakura.database.FanDAOImpl;
-import star.iota.sakura.ui.fans.bean.FanBean;
+import star.iota.sakura.ui.fans.FanBean;
 import star.iota.sakura.ui.main.MainActivity;
 import star.iota.sakura.utils.FileUtils;
 import star.iota.sakura.utils.SnackbarUtils;
@@ -55,8 +54,8 @@ public class LocalFanFragment extends BaseFragment {
         setTitle("收藏 * 番組");
         mAdapter = new LocalFanAdapter();
         mRecyclerView.setItemAnimator(new LandingAnimator());
-        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
-        mRecyclerView.addItemDecoration(new SGSpacingItemDecoration(1, mContext.getResources().getDimensionPixelOffset(R.dimen.v4dp)));
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(mAdapter);
         initRefreshLayout();
         initFab();
@@ -65,11 +64,12 @@ public class LocalFanFragment extends BaseFragment {
     private void initRefreshLayout() {
         isRunning = false;
         mRefreshLayout.autoRefresh();
+        mRefreshLayout.setEnableLoadmore(false);
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
                 if (isRunning) {
-                    SnackbarUtils.create(mContext, "正在加载中...");
+                    SnackbarUtils.create(mContext, "正在加載中...");
                     return;
                 }
                 isRunning = true;
@@ -104,7 +104,7 @@ public class LocalFanFragment extends BaseFragment {
                                         clearCollection();
                                     }
                                 })
-                                .setPositiveButton("按错了", new DialogInterface.OnClickListener() {
+                                .setPositiveButton("摁錯了", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         dialogInterface.dismiss();
@@ -125,7 +125,7 @@ public class LocalFanFragment extends BaseFragment {
     private void exportBackup() {
         final String backupPath = FileUtils.getBackupPath();
         if (backupPath == null) {
-            SnackbarUtils.create(mContext, "您可能没有挂载SD卡");
+            SnackbarUtils.create(mContext, "您可能沒有掛載SD卡");
             return;
         }
         final String rawBackupPath = backupPath + "番組/";
@@ -149,15 +149,15 @@ public class LocalFanFragment extends BaseFragment {
                     @Override
                     public void accept(Boolean aBoolean) throws Exception {
                         if (aBoolean) {
-                            SnackbarUtils.create(mContext, "备份成功：" + rawBackupPath + backupFileName);
+                            SnackbarUtils.create(mContext, "備份成功：" + rawBackupPath + backupFileName);
                         } else {
-                            SnackbarUtils.create(mContext, "由于未知原因备份失败");
+                            SnackbarUtils.create(mContext, "由於未知原因備份失敗");
                         }
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        SnackbarUtils.create(mContext, "备份失败：" + throwable.getMessage());
+                        SnackbarUtils.create(mContext, "備份失敗：" + throwable.getMessage());
                     }
                 });
     }
@@ -184,13 +184,13 @@ public class LocalFanFragment extends BaseFragment {
                                 }
                             }, 640);
                         } else {
-                            Toast.makeText(mContext, "可能出现错误，请重试", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext, "可能出現錯誤，請重試", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        Toast.makeText(mContext, "可能出现错误：" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, "可能出現錯誤：" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }

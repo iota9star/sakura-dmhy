@@ -13,8 +13,8 @@ import star.iota.sakura.Url;
 import star.iota.sakura.WeekIcon;
 import star.iota.sakura.base.PVContract;
 import star.iota.sakura.base.StringPresenter;
-import star.iota.sakura.ui.fans.bean.FanBean;
-import star.iota.sakura.ui.fans.bean.SubBean;
+import star.iota.sakura.ui.fans.FanBean;
+import star.iota.sakura.ui.fans.SubBean;
 
 
 class NewFansPresenter extends StringPresenter<List<NewFansBean>> {

@@ -36,17 +36,17 @@ import star.iota.sakura.base.BaseActivity;
 import star.iota.sakura.database.FanDAO;
 import star.iota.sakura.database.FanDAOImpl;
 import star.iota.sakura.glide.GlideApp;
-import star.iota.sakura.ui.fans.bean.FanBean;
-import star.iota.sakura.ui.fans.bean.SubBean;
+import star.iota.sakura.ui.fans.FanBean;
+import star.iota.sakura.ui.fans.SubBean;
 import star.iota.sakura.ui.more.MoreActivity;
 import star.iota.sakura.ui.post.PostFragment;
 import star.iota.sakura.utils.SnackbarUtils;
 
-public class LocalFanAdapter extends RecyclerView.Adapter<LocalFanAdapter.MyViewHolder> {
+class LocalFanAdapter extends RecyclerView.Adapter<LocalFanAdapter.MyViewHolder> {
 
     private final List<FanBean> list;
 
-    public LocalFanAdapter() {
+    LocalFanAdapter() {
         list = new ArrayList<>();
     }
 
@@ -191,7 +191,7 @@ public class LocalFanAdapter extends RecyclerView.Adapter<LocalFanAdapter.MyView
         @BindView(R.id.text_view_index)
         TextView mTextViewIndex;
 
-        public MyViewHolder(View itemView) {
+        MyViewHolder(View itemView) {
             super(itemView);
 
             context = itemView.getContext();

@@ -83,7 +83,7 @@ class IndexAdapter extends RecyclerView.Adapter<IndexAdapter.IndexViewHolder> {
         @BindView(R.id.flow_layout)
         FlowLayout mFlowLayout;
 
-        public IndexViewHolder(View itemView) {
+        IndexViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

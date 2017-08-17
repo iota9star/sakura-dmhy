@@ -33,6 +33,7 @@ class NewFansViewHolder extends BaseViewHolder<NewFansBean> {
                 .into(mImageViewWeek);
         NewFanAdapter adapter = new NewFanAdapter();
         mRecyclerView.setItemAnimator(new LandingAnimator());
+        mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
         mRecyclerView.setAdapter(adapter);
         adapter.add(bean.getFans());

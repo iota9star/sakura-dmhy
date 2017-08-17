@@ -36,8 +36,8 @@ import star.iota.sakura.base.PagerAdapter;
 import star.iota.sakura.database.FanDAO;
 import star.iota.sakura.database.FanDAOImpl;
 import star.iota.sakura.glide.GlideApp;
-import star.iota.sakura.ui.fans.bean.FanBean;
-import star.iota.sakura.ui.fans.bean.SubBean;
+import star.iota.sakura.ui.fans.FanBean;
+import star.iota.sakura.ui.fans.SubBean;
 import star.iota.sakura.ui.post.PostFragment;
 import star.iota.sakura.utils.SnackbarUtils;
 

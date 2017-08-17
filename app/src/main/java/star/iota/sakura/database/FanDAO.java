@@ -3,7 +3,7 @@ package star.iota.sakura.database;
 
 import java.util.List;
 
-import star.iota.sakura.ui.fans.bean.FanBean;
+import star.iota.sakura.ui.fans.FanBean;
 
 public interface FanDAO {
     boolean save(FanBean bean);

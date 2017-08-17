@@ -3,11 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/v2dp"
-    app:cardElevation="0.36dp"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackgroundBorderless"
     android:stateListAnimator="@animator/touch_floating"
+    app:cardElevation="0.36dp"
     app:cardPreventCornerOverlap="false"
     app:cardUseCompatPadding="true">
 
@@ -25,9 +24,9 @@
             android:textStyle="bold" />
 
         <View
-            android:layout_width="@dimen/v4dp"
+            android:layout_width="@dimen/v16dp"
             android:layout_height="@dimen/v16dp"
-            android:background="@color/colorPrimary" />
+            android:background="@drawable/bg_circle" />
 
         <cn.lankton.flowlayout.FlowLayout
             android:id="@+id/flow_layout"

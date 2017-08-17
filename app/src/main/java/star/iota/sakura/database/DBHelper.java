@@ -5,9 +5,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 
-public class DBHelper extends SQLiteOpenHelper {
-    public static final String TABLE_NAME_FANS = "fans";
-    public static final String TABLE_NAME_FAN = "fan";
+class DBHelper extends SQLiteOpenHelper {
+    static final String TABLE_NAME_FANS = "fans";
+    static final String TABLE_NAME_FAN = "fan";
     private static final String DB_NAME = "collection.db";
     private static final String CREATE_FANS_TABLE = "create table if not exists " + TABLE_NAME_FANS + "(" +
             "id integer primary key autoincrement," +
@@ -34,7 +34,7 @@ public class DBHelper extends SQLiteOpenHelper {
         super(context, DB_NAME, null, 1);
     }
 
-    public static DBHelper getInstance(Context context) {
+    static DBHelper getInstance(Context context) {
         if (mHelper == null) {
             synchronized (DBHelper.class) {
                 if (mHelper == null) {
