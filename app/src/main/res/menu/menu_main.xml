@@ -3,9 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="star.iota.sakura.ui.main.MainActivity">
     <item
+        android:id="@+id/action_category"
+        android:icon="@drawable/ic_category_white_24dp"
+        android:title="@string/category"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/action_search"
         android:icon="@drawable/ic_search_white_24dp"
         android:title="@string/search"
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="ifRoom|collapseActionView" />
+
 </menu>

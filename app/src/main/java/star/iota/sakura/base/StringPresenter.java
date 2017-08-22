@@ -48,13 +48,11 @@ public abstract class StringPresenter<T> implements PVContract.Presenter {
                             @Override
                             public void accept(@NonNull T result) throws Exception {
                                 view.success(result);
-                                System.gc();
                             }
                         }, new Consumer<Throwable>() {
                             @Override
                             public void accept(@NonNull Throwable throwable) throws Exception {
                                 view.error(throwable.getMessage());
-                                System.gc();
                             }
                         })
         );

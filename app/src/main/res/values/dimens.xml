@@ -22,4 +22,6 @@
     <dimen name="v14dp">14dp</dimen>
     <dimen name="v36sp">36sp</dimen>
     <dimen name="v72dp">72dp</dimen>
+    <dimen name="v68dp">68dp</dimen>
+    <dimen name="v6dp">6dp</dimen>
 </resources>

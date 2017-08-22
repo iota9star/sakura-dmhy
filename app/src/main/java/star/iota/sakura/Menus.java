@@ -2,6 +2,10 @@ package star.iota.sakura;
 
 
 public interface Menus {
+    String TEAM = "聯盟成員";
+    int TEAM_ID = 0;
+    int TEAM_ICON = R.drawable.ic_group_black_24dp;
+
     String NEW_FANS = "每週番組";
     int NEW_FANS_ID = 1;
     int NEW_FANS_ICON = R.drawable.ic_new_fans_24dp;

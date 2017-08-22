@@ -9,12 +9,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.Settings;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.ListPopupWindow;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.method.LinkMovementMethod;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -63,6 +68,7 @@ import star.iota.sakura.ui.local.fan.LocalFanFragment;
 import star.iota.sakura.ui.local.fans.LocalSubsFragment;
 import star.iota.sakura.ui.post.PostBean;
 import star.iota.sakura.ui.post.PostFragment;
+import star.iota.sakura.ui.team.TeamFragment;
 import star.iota.sakura.utils.ConfigUtils;
 import star.iota.sakura.utils.FileUtils;
 import star.iota.sakura.utils.SnackbarUtils;
@@ -71,11 +77,12 @@ public class MainActivity extends BaseActivity {
 
     public static final int FAN_IMPORT_CODE = 1;
     public static final int SUBS_IMPORT_CODE = 2;
-
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+    private int sort_id = 0;
     private Drawer mDrawer;
     private int mCurrentFragmentId;
+    private SearchView mSearchView;
 
     @Override
     protected void init() {
@@ -326,7 +333,7 @@ public class MainActivity extends BaseActivity {
         }
         String keywords = intent.getStringExtra(SearchManager.QUERY);
         mCurrentFragmentId = -1;
-        showFragment(PostFragment.newInstance(Url.SEARCH, "?keyword=" + keywords, "搜索：" + keywords));
+        showFragment(PostFragment.newInstance(Url.SEARCH, "?keyword=" + keywords + "&sort_id=" + sort_id, "搜索：" + keywords));
     }
 
     @Override
@@ -347,6 +354,7 @@ public class MainActivity extends BaseActivity {
                 .withHeader(R.layout.drawer_header_view)
                 .withHeaderDivider(false)
                 .addDrawerItems(
+                        new PrimaryDrawerItem().withName(Menus.TEAM).withIdentifier(Menus.TEAM_ID).withIcon(Menus.TEAM_ICON).withIconTintingEnabled(true),
                         new PrimaryDrawerItem().withName(Menus.NEWS).withIdentifier(Menus.NEWS_ID).withIcon(Menus.NEWS_ICON).withIconTintingEnabled(true),
                         new PrimaryDrawerItem().withName(Menus.NEW_FANS).withIdentifier(Menus.NEW_FANS_ID).withIcon(Menus.NEW_FANS_ICON).withIconTintingEnabled(true),
                         new PrimaryDrawerItem().withName(Menus.INDEX).withIdentifier(Menus.INDEX_ID).withIcon(Menus.INDEX_ICON).withIconTintingEnabled(true),
@@ -393,6 +401,9 @@ public class MainActivity extends BaseActivity {
                 if (identifier == mCurrentFragmentId || identifier == 999) return false;
                 mCurrentFragmentId = identifier;
                 switch (identifier) {
+                    case Menus.TEAM_ID:
+                        currentFragment = new TeamFragment();
+                        break;
                     case Menus.NEW_FANS_ID:
                         currentFragment = new NewFansFragment();
                         break;
@@ -443,6 +454,74 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+    private void showPopUpWindow() {
+        final ListPopupWindow listPopupWindow = new ListPopupWindow(mContext);
+        listPopupWindow.setAdapter(new ArrayAdapter<>(mContext, android.R.layout.simple_list_item_1,
+                new String[]{
+                        "所有",
+                        Menus.ANIME,
+                        Menus.MANGA,
+                        Menus.MUSIC,
+                        Menus.JP_TV,
+                        Menus.RAW,
+                        Menus.GAME,
+                        Menus.TOKUSATSU,
+                        Menus.OTHER
+                }));
+        listPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
+                String category = "";
+                switch (pos) {
+                    case 0:
+                        sort_id = 0;
+                        category = "所有";
+                        break;
+                    case 1:
+                        sort_id = 2;
+                        category = Menus.ANIME;
+                        break;
+                    case 2:
+                        sort_id = 3;
+                        category = Menus.MANGA;
+                        break;
+                    case 3:
+                        sort_id = 4;
+                        category = Menus.MUSIC;
+                        break;
+                    case 4:
+                        sort_id = 6;
+                        category = Menus.JP_TV;
+                        break;
+                    case 5:
+                        sort_id = 7;
+                        category = Menus.RAW;
+                        break;
+                    case 6:
+                        sort_id = 9;
+                        category = Menus.GAME;
+                        break;
+                    case 7:
+                        sort_id = 12;
+                        category = Menus.TOKUSATSU;
+                        break;
+                    case 8:
+                        sort_id = 1;
+                        category = Menus.OTHER;
+                        break;
+                }
+                mSearchView.setQueryHint("在" + category + "分類中搜索...");
+                listPopupWindow.dismiss();
+            }
+        });
+        listPopupWindow.setWidth((int) mContext.getResources().getDimension(R.dimen.v68dp));
+        listPopupWindow.setAnchorView(findViewById(R.id.action_category));
+        listPopupWindow.setHorizontalOffset((int) mContext.getResources().getDimension(R.dimen.v6dp));
+        listPopupWindow.setBackgroundDrawable(ContextCompat.getDrawable(mContext, R.drawable.bg_popup_window_category));
+        listPopupWindow.setModal(true);
+        listPopupWindow.show();
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -455,9 +534,19 @@ public class MainActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-        searchView.setQueryHint("請輸入關鍵字");
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        mSearchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        mSearchView.setQueryHint("在所有分類中搜索...");
+        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_category:
+                showPopUpWindow();
+                break;
+        }
         return true;
     }
 

@@ -81,7 +81,7 @@ public class PostFragment extends BaseFragment implements PVContract.View<List<P
                 isRunning = true;
                 isLoadMore = false;
                 mAdapter.clear();
-                mPresenter.get(mUrl + mParameter);
+                mPresenter.get(mUrl + mPage + mParameter);
             }
         });
         mRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
@@ -120,7 +120,7 @@ public class PostFragment extends BaseFragment implements PVContract.View<List<P
         if (isLoadMore) {
             mRefreshLayout.finishLoadmore(true);
         } else {
-            mPage = 2;
+            mPage = 1;
             mRefreshLayout.finishRefresh(true);
         }
         mRefreshLayout.postDelayed(new Runnable() {
