@@ -32,8 +32,8 @@ class NewFansViewHolder extends BaseViewHolder<NewFansBean> {
                 .fallback(R.drawable.bg_sakura)
                 .into(mImageViewWeek);
         NewFanAdapter adapter = new NewFanAdapter();
-        mRecyclerView.setItemAnimator(new LandingAnimator());
         mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setItemAnimator(new LandingAnimator());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
         mRecyclerView.setAdapter(adapter);
         adapter.add(bean.getFans());

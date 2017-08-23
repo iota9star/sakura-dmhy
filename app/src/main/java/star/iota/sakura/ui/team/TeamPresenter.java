@@ -23,8 +23,8 @@ class TeamPresenter extends StringPresenter<List<TeamBean>> {
         Elements elements = Jsoup.parse(s).select("#AdvSearchTeam > option");
         for (Element ele : elements) {
             String name = ele.text();
-            if (name.contains("全部")) continue;
             String id = ele.attr("value");
+            if (name.contains("全部") && id.equals("0")) continue;
             beans.add(new TeamBean(id, name));
         }
         return beans;

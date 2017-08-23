@@ -14,7 +14,7 @@ import star.iota.sakura.R;
 import star.iota.sakura.Url;
 import star.iota.sakura.base.BaseFragment;
 import star.iota.sakura.glide.GlideApp;
-import star.iota.sakura.utils.SnackbarUtils;
+import star.iota.sakura.utils.MessageBar;
 
 public class AboutFragment extends BaseFragment {
     @BindView(R.id.image_view_banner)
@@ -42,7 +42,7 @@ public class AboutFragment extends BaseFragment {
                 if (AlipayZeroSdk.hasInstalledAlipayClient(getActivity())) {
                     AlipayZeroSdk.startAlipayClient(getActivity(), getResources().getString(R.string.alipay_code));
                 } else {
-                    SnackbarUtils.create(mContext, "您可能沒有安裝支付寶");
+                    MessageBar.create(mContext, "您可能沒有安裝支付寶");
                 }
                 return;
         }

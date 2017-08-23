@@ -6,7 +6,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.github.rubensousa.floatingtoolbar.FloatingToolbar;
 import com.google.gson.Gson;
@@ -32,7 +31,7 @@ import star.iota.sakura.database.FanDAOImpl;
 import star.iota.sakura.ui.fans.FanBean;
 import star.iota.sakura.ui.main.MainActivity;
 import star.iota.sakura.utils.FileUtils;
-import star.iota.sakura.utils.SnackbarUtils;
+import star.iota.sakura.utils.MessageBar;
 
 
 public class LocalFanFragment extends BaseFragment {
@@ -53,8 +52,8 @@ public class LocalFanFragment extends BaseFragment {
     protected void init() {
         setTitle("收藏 * 番組");
         mAdapter = new LocalFanAdapter();
-        mRecyclerView.setItemAnimator(new LandingAnimator());
         mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setItemAnimator(new LandingAnimator());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(mAdapter);
         initRefreshLayout();
@@ -69,7 +68,7 @@ public class LocalFanFragment extends BaseFragment {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
                 if (isRunning) {
-                    SnackbarUtils.create(mContext, "正在加載中...");
+                    MessageBar.create(mContext, "正在加載中...");
                     return;
                 }
                 isRunning = true;
@@ -125,7 +124,7 @@ public class LocalFanFragment extends BaseFragment {
     private void exportBackup() {
         final String backupPath = FileUtils.getBackupPath();
         if (backupPath == null) {
-            SnackbarUtils.create(mContext, "您可能沒有掛載SD卡");
+            MessageBar.create(mContext, "您可能沒有掛載SD卡");
             return;
         }
         final String rawBackupPath = backupPath + "番組/";
@@ -149,15 +148,15 @@ public class LocalFanFragment extends BaseFragment {
                     @Override
                     public void accept(Boolean aBoolean) throws Exception {
                         if (aBoolean) {
-                            SnackbarUtils.create(mContext, "備份成功：" + rawBackupPath + backupFileName);
+                            MessageBar.create(mContext, "備份成功：" + rawBackupPath + backupFileName);
                         } else {
-                            SnackbarUtils.create(mContext, "由於未知原因備份失敗");
+                            MessageBar.create(mContext, "由於未知原因備份失敗");
                         }
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        SnackbarUtils.create(mContext, "備份失敗：" + throwable.getMessage());
+                        MessageBar.create(mContext, "備份失敗：" + throwable.getMessage());
                     }
                 });
     }
@@ -177,20 +176,15 @@ public class LocalFanFragment extends BaseFragment {
                     public void accept(Boolean aBoolean) throws Exception {
                         if (aBoolean) {
                             mAdapter.clear();
-                            mRecyclerView.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(mContext, "已清空收藏", Toast.LENGTH_SHORT).show();
-                                }
-                            }, 640);
+                            MessageBar.create(mContext, "已清空收藏");
                         } else {
-                            Toast.makeText(mContext, "可能出現錯誤，請重試", Toast.LENGTH_SHORT).show();
+                            MessageBar.create(mContext, "可能出現錯誤，請重試");
                         }
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        Toast.makeText(mContext, "可能出現錯誤：" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                        MessageBar.create(mContext, "可能出現錯誤：" + throwable.getMessage());
                     }
                 });
     }
@@ -210,20 +204,15 @@ public class LocalFanFragment extends BaseFragment {
                     public void accept(final List<FanBean> beans) throws Exception {
                         mRefreshLayout.finishRefresh();
                         Collections.reverse(beans);
-                        mRecyclerView.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                mAdapter.add(beans);
-                                isRunning = false;
-                            }
-                        }, 480);
+                        mAdapter.add(beans);
+                        isRunning = false;
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         mRefreshLayout.finishRefresh();
                         isRunning = false;
-                        SnackbarUtils.create(mContext, "可能出現錯誤：" + throwable.getMessage());
+                        MessageBar.create(mContext, "可能出現錯誤：" + throwable.getMessage());
                     }
                 });
     }

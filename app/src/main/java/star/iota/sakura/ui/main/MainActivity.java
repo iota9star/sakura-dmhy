@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.liuguangqiang.cookie.OnActionClickListener;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
@@ -43,7 +44,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
@@ -65,13 +65,15 @@ import star.iota.sakura.ui.fans.FanBean;
 import star.iota.sakura.ui.fans.newfans.NewFansFragment;
 import star.iota.sakura.ui.index.IndexFragment;
 import star.iota.sakura.ui.local.fan.LocalFanFragment;
-import star.iota.sakura.ui.local.fans.LocalSubsFragment;
+import star.iota.sakura.ui.local.subs.LocalSubsFragment;
 import star.iota.sakura.ui.post.PostBean;
 import star.iota.sakura.ui.post.PostFragment;
-import star.iota.sakura.ui.team.TeamFragment;
+import star.iota.sakura.ui.rss.RSSPostFragment;
+import star.iota.sakura.ui.team.def.TeamDefaultFragment;
+import star.iota.sakura.ui.team.rss.TeamRSSFragment;
 import star.iota.sakura.utils.ConfigUtils;
 import star.iota.sakura.utils.FileUtils;
-import star.iota.sakura.utils.SnackbarUtils;
+import star.iota.sakura.utils.MessageBar;
 
 public class MainActivity extends BaseActivity {
 
@@ -99,7 +101,7 @@ public class MainActivity extends BaseActivity {
             Uri uri = data.getData();
             String filePath = FileUtils.getUriRawPath(mContext, uri);
             if (filePath == null) {
-                SnackbarUtils.create(mContext, "獲取備份文件路徑出現未知錯誤");
+                MessageBar.create(mContext, "獲取備份文件路徑出現未知錯誤");
                 return;
             }
             switch (requestCode) {
@@ -111,7 +113,7 @@ public class MainActivity extends BaseActivity {
                     break;
             }
         } else {
-            SnackbarUtils.create(mContext, "獲取備份文件錯誤，錯誤碼：" + resultCode);
+            MessageBar.create(mContext, "獲取備份文件錯誤，錯誤碼：" + resultCode);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -156,15 +158,15 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void accept(Boolean aBoolean) throws Exception {
                         if (aBoolean) {
-                            SnackbarUtils.create(mContext, "導入成功，請刷新");
+                            MessageBar.create(mContext, "導入成功，請刷新");
                         } else {
-                            SnackbarUtils.create(mContext, "由於未知原因導入失敗");
+                            MessageBar.create(mContext, "由於未知原因導入失敗");
                         }
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        SnackbarUtils.create(mContext, "導入失敗，請檢查導入的文件是否正確：" + throwable.getMessage());
+                        MessageBar.create(mContext, "導入失敗，請檢查導入的文件是否正確：" + throwable.getMessage());
                     }
                 });
     }
@@ -209,15 +211,15 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void accept(Boolean aBoolean) throws Exception {
                         if (aBoolean) {
-                            SnackbarUtils.create(mContext, "導入成功，請刷新");
+                            MessageBar.create(mContext, "導入成功，請刷新");
                         } else {
-                            SnackbarUtils.create(mContext, "由於未知原因導入失敗");
+                            MessageBar.create(mContext, "由於未知原因導入失敗");
                         }
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        SnackbarUtils.create(mContext, "導入失敗，請檢查導入的文件是否正確：" + throwable.getMessage());
+                        MessageBar.create(mContext, "導入失敗，請檢查導入的文件是否正確：" + throwable.getMessage());
                     }
                 });
     }
@@ -228,9 +230,9 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void accept(@NonNull Boolean granted) throws Exception {
                         if (!granted) {
-                            SnackbarUtils.create(mContext, "您拒絕了文件寫入權限，備份可能會出現錯誤，是否前往開啓", "好的", new View.OnClickListener() {
+                            MessageBar.create(mContext, "您拒絕了文件寫入權限，備份可能會出現錯誤，是否前往開啓", "好的", new OnActionClickListener() {
                                 @Override
-                                public void onClick(View view) {
+                                public void onClick() {
                                     Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                                     Uri uri = Uri.fromParts("package", getPackageName(), null);
                                     intent.setData(uri);
@@ -253,7 +255,7 @@ public class MainActivity extends BaseActivity {
                 }
             }, 3600);
         } else if (openCount % 100 == 0) {
-            SnackbarUtils.create(mContext, "這是您打開的第 " + openCount + " 次，將冒昧的顯示捐贈頁面");
+            MessageBar.create(mContext, "這是您打開的第 " + openCount + " 次，將冒昧的顯示捐贈頁面");
             mToolbar.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -278,7 +280,7 @@ public class MainActivity extends BaseActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         ConfigUtils.saveDonationStatus(mContext, false);
                         dialogInterface.dismiss();
-                        SnackbarUtils.create(mContext, "如果想要支持我的話，可以在“關於本軟”中查看");
+                        MessageBar.create(mContext, "如果想要支持我的話，可以在“關於本軟”中查看");
                     }
                 })
                 .create();
@@ -289,7 +291,7 @@ public class MainActivity extends BaseActivity {
                 if (AlipayZeroSdk.hasInstalledAlipayClient(mContext)) {
                     AlipayZeroSdk.startAlipayClient(MainActivity.this, getResources().getString(R.string.alipay_code));
                 } else {
-                    SnackbarUtils.create(mContext, "您可能沒有安裝支付寶");
+                    MessageBar.create(mContext, "您可能沒有安裝支付寶");
                 }
             }
         });
@@ -354,10 +356,11 @@ public class MainActivity extends BaseActivity {
                 .withHeader(R.layout.drawer_header_view)
                 .withHeaderDivider(false)
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withName(Menus.TEAM).withIdentifier(Menus.TEAM_ID).withIcon(Menus.TEAM_ICON).withIconTintingEnabled(true),
+                        new PrimaryDrawerItem().withName(Menus.TEAM_DEFAULT).withIdentifier(Menus.TEAM_DEFAULT_ID).withIcon(Menus.TEAM_DEFAULT_ICON).withIconTintingEnabled(true),
                         new PrimaryDrawerItem().withName(Menus.NEWS).withIdentifier(Menus.NEWS_ID).withIcon(Menus.NEWS_ICON).withIconTintingEnabled(true),
                         new PrimaryDrawerItem().withName(Menus.NEW_FANS).withIdentifier(Menus.NEW_FANS_ID).withIcon(Menus.NEW_FANS_ICON).withIconTintingEnabled(true),
                         new PrimaryDrawerItem().withName(Menus.INDEX).withIdentifier(Menus.INDEX_ID).withIcon(Menus.INDEX_ICON).withIconTintingEnabled(true),
+                        new ExpandableDrawerItem().withIcon(Menus.RSS_ICON).withName(Menus.RSS).withIdentifier(Menus.RSS_ID).withSubItems(getRSS()).withSelectable(false).withIconTintingEnabled(true),
                         new ExpandableDrawerItem().withIcon(Menus.CATEGORY_ICON).withName(Menus.CATEGORY).withIdentifier(Menus.CATEGORY_ID).withSubItems(getCategory()).withSelectable(false).withIconTintingEnabled(true),
                         new ExpandableDrawerItem().withIcon(Menus.COLLECTION_ICON).withName(Menus.COLLECTION).withIdentifier(Menus.COLLECTION_ID).withSubItems(getCollection()).withSelectable(false).withIconTintingEnabled(true),
                         new DividerDrawerItem(),
@@ -366,7 +369,7 @@ public class MainActivity extends BaseActivity {
                 .withSelectedItem(Menus.NEWS_ID)
                 .build();
         View header = mDrawer.getHeader();
-        ImageView banner = ButterKnife.findById(header, R.id.image_view_banner);
+        ImageView banner = header.findViewById(R.id.image_view_banner);
         GlideApp.with(mContext)
                 .load(getResources().getString(R.string.banner))
                 .into(banner);
@@ -392,6 +395,13 @@ public class MainActivity extends BaseActivity {
         return menu;
     }
 
+    private ArrayList<IDrawerItem> getRSS() {
+        ArrayList<IDrawerItem> menu = new ArrayList<>();
+        menu.add(new SecondaryDrawerItem().withIcon(Menus.RSS_NEWS_ICON).withIconTintingEnabled(true).withIdentifier(Menus.RSS_NEWS_ID).withName(Menus.RSS_NEWS));
+        menu.add(new SecondaryDrawerItem().withIcon(Menus.RSS_SUBS_ICON).withIconTintingEnabled(true).withIdentifier(Menus.RSS_SUBS_ID).withName(Menus.RSS_SUBS));
+        return menu;
+    }
+
     private void initDrawerEvent() {
         mDrawer.setOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
             @Override
@@ -401,8 +411,8 @@ public class MainActivity extends BaseActivity {
                 if (identifier == mCurrentFragmentId || identifier == 999) return false;
                 mCurrentFragmentId = identifier;
                 switch (identifier) {
-                    case Menus.TEAM_ID:
-                        currentFragment = new TeamFragment();
+                    case Menus.TEAM_DEFAULT_ID:
+                        currentFragment = new TeamDefaultFragment();
                         break;
                     case Menus.NEW_FANS_ID:
                         currentFragment = new NewFansFragment();
@@ -445,6 +455,12 @@ public class MainActivity extends BaseActivity {
                         break;
                     case Menus.ABOUT_ID:
                         currentFragment = new AboutFragment();
+                        break;
+                    case Menus.RSS_NEWS_ID:
+                        currentFragment = RSSPostFragment.newInstance(Url.RSS_NEWS, "/rss.xml", Menus.RSS + "*" + Menus.RSS_NEWS);
+                        break;
+                    case Menus.RSS_SUBS_ID:
+                        currentFragment = new TeamRSSFragment();
                         break;
                 }
                 removeFragmentContainerChildrenViews();

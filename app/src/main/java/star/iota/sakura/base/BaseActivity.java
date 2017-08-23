@@ -60,6 +60,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+
     public void addFragment(BaseFragment fragment) {
         if (fragment != null) {
             getSupportFragmentManager().beginTransaction()

@@ -1,4 +1,4 @@
-package star.iota.sakura.ui.local.fans;
+package star.iota.sakura.ui.local.subs;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -25,8 +25,8 @@ import star.iota.sakura.database.SubsDAO;
 import star.iota.sakura.database.SubsDAOImpl;
 import star.iota.sakura.ui.post.PostBean;
 import star.iota.sakura.ui.post.PostFragment;
+import star.iota.sakura.utils.MessageBar;
 import star.iota.sakura.utils.SimpleUtils;
-import star.iota.sakura.utils.SnackbarUtils;
 
 
 class LocalSubsAdapter extends RecyclerView.Adapter<LocalSubsAdapter.MyViewHolder> {
@@ -63,7 +63,7 @@ class LocalSubsAdapter extends RecyclerView.Adapter<LocalSubsAdapter.MyViewHolde
             holder.mButtonSub.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    SnackbarUtils.create(holder.context, "該發佈者無鏈接");
+                    MessageBar.create(holder.context, "該發佈者無鏈接");
                 }
             });
         }
@@ -95,16 +95,16 @@ class LocalSubsAdapter extends RecyclerView.Adapter<LocalSubsAdapter.MyViewHolde
                             @Override
                             public void accept(Boolean aBoolean) throws Exception {
                                 if (aBoolean) {
-                                    SnackbarUtils.create(holder.context, "刪除成功：" + bean.getTitle());
+                                    MessageBar.create(holder.context, "刪除成功：" + bean.getTitle());
                                     remove(holder.getAdapterPosition());
                                 } else {
-                                    SnackbarUtils.create(holder.context, "刪除過程可能出現錯誤");
+                                    MessageBar.create(holder.context, "刪除過程可能出現錯誤");
                                 }
                             }
                         }, new Consumer<Throwable>() {
                             @Override
                             public void accept(Throwable throwable) throws Exception {
-                                SnackbarUtils.create(holder.context, "刪除過程可能出現錯誤：" + throwable.getMessage());
+                                MessageBar.create(holder.context, "刪除過程可能出現錯誤：" + throwable.getMessage());
                             }
                         });
             }

@@ -40,7 +40,7 @@ import star.iota.sakura.ui.fans.FanBean;
 import star.iota.sakura.ui.fans.SubBean;
 import star.iota.sakura.ui.more.MoreActivity;
 import star.iota.sakura.ui.post.PostFragment;
-import star.iota.sakura.utils.SnackbarUtils;
+import star.iota.sakura.utils.MessageBar;
 
 class LocalFanAdapter extends RecyclerView.Adapter<LocalFanAdapter.MyViewHolder> {
 
@@ -132,16 +132,16 @@ class LocalFanAdapter extends RecyclerView.Adapter<LocalFanAdapter.MyViewHolder>
                             @Override
                             public void accept(Boolean aBoolean) throws Exception {
                                 if (aBoolean) {
-                                    SnackbarUtils.create(holder.context, "刪除成功：" + bean.getName());
+                                    MessageBar.create(holder.context, "刪除成功：" + bean.getName());
                                     remove(holder.getAdapterPosition());
                                 } else {
-                                    SnackbarUtils.create(holder.context, "刪除錯誤：" + bean.getName());
+                                    MessageBar.create(holder.context, "刪除錯誤：" + bean.getName());
                                 }
                             }
                         }, new Consumer<Throwable>() {
                             @Override
                             public void accept(Throwable throwable) throws Exception {
-                                SnackbarUtils.create(holder.context, "刪除錯誤：" + throwable.getMessage());
+                                MessageBar.create(holder.context, "刪除錯誤：" + throwable.getMessage());
                             }
                         });
             }

@@ -2,8 +2,12 @@ package star.iota.sakura;
 
 
 public interface Url {
+
+    String RSS_NEWS = "https://share.dmhy.org/topics/rss/page/";
+
     String TEAM = "https://share.dmhy.org/topics/advanced-search";
-    String TEAM_SOURCE = "https://share.dmhy.org/topics/list/team_id/";
+    String TEAM_DEFAULT = "https://share.dmhy.org/topics/list/team_id/";
+    String TEAM_RSS = "https://share.dmhy.org/topics/rss/team_id/";
     String INDEX = "https://share.dmhy.org/json/index.json";
     String FANS = "https://share.dmhy.org/json/";
     String NEW_FANS = "https://share.dmhy.org/cms/page/name/programme.html";

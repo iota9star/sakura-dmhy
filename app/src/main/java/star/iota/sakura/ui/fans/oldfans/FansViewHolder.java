@@ -36,8 +36,8 @@ class FansViewHolder extends BaseViewHolder<FansBean> {
                 .fallback(R.drawable.bg_sakura)
                 .into(mImageViewWeek);
         FanAdapter adapter = new FanAdapter();
-        mRecyclerView.setItemAnimator(new LandingAnimator());
         mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setItemAnimator(new LandingAnimator());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
         mRecyclerView.setAdapter(adapter);
         List<FanBean> fans = bean.getFans();

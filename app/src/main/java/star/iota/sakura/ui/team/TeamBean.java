@@ -1,6 +1,6 @@
 package star.iota.sakura.ui.team;
 
-class TeamBean {
+public class TeamBean {
     private final String id;
     private final String name;
 

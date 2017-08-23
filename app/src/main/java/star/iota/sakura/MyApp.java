@@ -20,6 +20,7 @@ import com.scwang.smartrefresh.layout.api.RefreshFooter;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+import com.zzhoujay.richtext.RichText;
 
 import java.util.concurrent.TimeUnit;
 
@@ -75,6 +76,7 @@ public class MyApp extends Application {
         mContext = getApplicationContext();
         initOkGo();
         addCount();
+        RichText.initCacheDir(mContext);
     }
 
     private void addCount() {
@@ -95,4 +97,9 @@ public class MyApp extends Application {
                 .addCommonHeaders(headers);
     }
 
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        RichText.recycle();
+    }
 }

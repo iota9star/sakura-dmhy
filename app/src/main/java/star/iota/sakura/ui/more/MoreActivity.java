@@ -39,7 +39,7 @@ import star.iota.sakura.glide.GlideApp;
 import star.iota.sakura.ui.fans.FanBean;
 import star.iota.sakura.ui.fans.SubBean;
 import star.iota.sakura.ui.post.PostFragment;
-import star.iota.sakura.utils.SnackbarUtils;
+import star.iota.sakura.utils.MessageBar;
 
 public class MoreActivity extends BaseActivity {
 
@@ -75,7 +75,7 @@ public class MoreActivity extends BaseActivity {
         });
         final FanBean bean = getIntent().getParcelableExtra("bean");
         if (bean == null) {
-            SnackbarUtils.create(mContext, "未獲取到數據，3秒後返回前一界面");
+            MessageBar.create(mContext, "未獲取到數據，3秒後返回前一界面");
             mViewPager.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -145,21 +145,21 @@ public class MoreActivity extends BaseActivity {
                             @Override
                             public void accept(Boolean aBoolean) throws Exception {
                                 if (!success) {
-                                    SnackbarUtils.create(mContext, "操作失敗，請重試");
+                                    MessageBar.create(mContext, "操作失敗，請重試");
                                     return;
                                 }
                                 if (!aBoolean) {
-                                    SnackbarUtils.create(mContext, "收藏成功：" + bean.getName());
+                                    MessageBar.create(mContext, "收藏成功：" + bean.getName());
                                     mFab.setImageResource(R.drawable.ic_favorite_white_24dp);
                                 } else {
-                                    SnackbarUtils.create(mContext, "取消收藏成功：" + bean.getName());
+                                    MessageBar.create(mContext, "取消收藏成功：" + bean.getName());
                                     mFab.setImageResource(R.drawable.ic_favorite_border_white_24dp);
                                 }
                             }
                         }, new Consumer<Throwable>() {
                             @Override
                             public void accept(Throwable throwable) throws Exception {
-                                SnackbarUtils.create(mContext, "操作失敗，請重試：" + throwable.getMessage());
+                                MessageBar.create(mContext, "操作失敗，請重試：" + throwable.getMessage());
                             }
                         });
             }

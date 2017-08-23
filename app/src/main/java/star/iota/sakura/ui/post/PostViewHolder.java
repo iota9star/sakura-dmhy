@@ -18,8 +18,8 @@ import star.iota.sakura.base.BaseViewHolder;
 import star.iota.sakura.database.SubsDAO;
 import star.iota.sakura.database.SubsDAOImpl;
 import star.iota.sakura.ui.more.MoreActivity;
+import star.iota.sakura.utils.MessageBar;
 import star.iota.sakura.utils.SimpleUtils;
-import star.iota.sakura.utils.SnackbarUtils;
 
 
 class PostViewHolder extends BaseViewHolder<PostBean> {
@@ -69,7 +69,7 @@ class PostViewHolder extends BaseViewHolder<PostBean> {
                 mButtonSub.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        SnackbarUtils.create(mContext, "該發佈者無鏈接");
+                        MessageBar.create(mContext, "該發佈者無鏈接");
                     }
                 });
             }
@@ -95,7 +95,7 @@ class PostViewHolder extends BaseViewHolder<PostBean> {
                             public boolean test(@NonNull SubsDAO subsDAO) throws Exception {
                                 boolean exist = subsDAO.exist(bean.getUrl());
                                 if (exist) {
-                                    SnackbarUtils.create(mContext, "已存在：" + bean.getTitle());
+                                    MessageBar.create(mContext, "已存在：" + bean.getTitle());
                                 }
                                 return !exist;
                             }
@@ -113,15 +113,15 @@ class PostViewHolder extends BaseViewHolder<PostBean> {
                             @Override
                             public void accept(Boolean aBoolean) throws Exception {
                                 if (aBoolean) {
-                                    SnackbarUtils.create(mContext, "收藏成功：" + bean.getTitle());
+                                    MessageBar.create(mContext, "收藏成功：" + bean.getTitle());
                                 } else {
-                                    SnackbarUtils.create(mContext, "收藏過程中可能出現錯誤");
+                                    MessageBar.create(mContext, "收藏過程中可能出現錯誤");
                                 }
                             }
                         }, new Consumer<Throwable>() {
                             @Override
                             public void accept(Throwable throwable) throws Exception {
-                                SnackbarUtils.create(mContext, "收藏過程中可能出現錯誤：" + throwable.getMessage());
+                                MessageBar.create(mContext, "收藏過程中可能出現錯誤：" + throwable.getMessage());
                             }
                         });
             }

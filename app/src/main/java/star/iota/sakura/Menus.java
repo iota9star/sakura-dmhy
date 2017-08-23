@@ -2,17 +2,17 @@ package star.iota.sakura;
 
 
 public interface Menus {
-    String TEAM = "聯盟成員";
-    int TEAM_ID = 0;
-    int TEAM_ICON = R.drawable.ic_group_black_24dp;
+    String TEAM_DEFAULT = "聯盟成員";
+    int TEAM_DEFAULT_ID = 0;
+    int TEAM_DEFAULT_ICON = R.drawable.ic_group_black_24dp;
 
     String NEW_FANS = "每週番組";
     int NEW_FANS_ID = 1;
-    int NEW_FANS_ICON = R.drawable.ic_new_fans_24dp;
+    int NEW_FANS_ICON = R.drawable.ic_weekly_fans_black_24dp;
 
     String INDEX = "完結番組";
     int INDEX_ID = 2;
-    int INDEX_ICON = R.drawable.ic_index_black_24dp;
+    int INDEX_ICON = R.drawable.ic_history_fans_black_24dp;
 
     String ABOUT = "關於本軟";
     int ABOUT_ID = 3;
@@ -21,7 +21,7 @@ public interface Menus {
 
     String NEWS = "最新張貼";
     int NEWS_ID = 4;
-    int NEWS_ICON = R.drawable.ic_news_black_24dp;
+    int NEWS_ICON = R.drawable.ic_new_post_black_24dp;
 
     String ANIME = "動畫";
     int ANIME_ID = 5;
@@ -57,15 +57,27 @@ public interface Menus {
 
     String COLLECTION_SUBS = "單項";
     int COLLECTION_SUBS_ID = 13;
-    int COLLECTION_SUBS_ICON = R.drawable.ic_subs_black_24dp;
+    int COLLECTION_SUBS_ICON = R.drawable.ic_item_black_24dp;
 
     String COLLECTION_FAN = "番組";
     int COLLECTION_FAN_ID = 14;
     int COLLECTION_FAN_ICON = R.drawable.ic_fan_black_24dp;
 
+    String RSS = "RSS訂閱";
+    int RSS_ID = 15;
+    int RSS_ICON = R.drawable.ic_rss_feed_black_24dp;
+
+    String RSS_NEWS = "最新";
+    int RSS_NEWS_ID = 16;
+    int RSS_NEWS_ICON = R.drawable.ic_news_black_24dp;
+
+    String RSS_SUBS = "字幕組";
+    int RSS_SUBS_ID = 17;
+    int RSS_SUBS_ICON = R.drawable.ic_subs_black_24dp;
+
     String COLLECTION = "收藏列表";
     int COLLECTION_ID = 998;
-    int COLLECTION_ICON = R.drawable.ic_collections_black_24dp;
+    int COLLECTION_ICON = R.drawable.ic_collection_list_black_24dp;
 
     String CATEGORY = "分類列表";
     int CATEGORY_ID = 999;

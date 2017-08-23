@@ -14,7 +14,7 @@ import star.iota.sakura.Url;
 import star.iota.sakura.base.BaseActivity;
 import star.iota.sakura.base.BaseFragment;
 import star.iota.sakura.base.PVContract;
-import star.iota.sakura.utils.SnackbarUtils;
+import star.iota.sakura.utils.MessageBar;
 
 
 public class IndexFragment extends BaseFragment implements PVContract.View<IndexBean> {
@@ -47,7 +47,7 @@ public class IndexFragment extends BaseFragment implements PVContract.View<Index
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
                 if (isRunning) {
-                    SnackbarUtils.create(mContext, "还在加载中...");
+                    MessageBar.create(mContext, "还在加载中...");
                     return;
                 }
                 isRunning = true;
@@ -59,8 +59,8 @@ public class IndexFragment extends BaseFragment implements PVContract.View<Index
 
     private void initRecyclerView() {
         mAdapter = new IndexAdapter((BaseActivity) getActivity());
-        mRecyclerView.setItemAnimator(new LandingAnimator());
         mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setItemAnimator(new LandingAnimator());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(mAdapter);
     }
@@ -73,18 +73,13 @@ public class IndexFragment extends BaseFragment implements PVContract.View<Index
     @Override
     public void success(final IndexBean result) {
         mRefreshLayout.finishRefresh(true);
-        mRefreshLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mAdapter.add(result.getYears());
-                isRunning = false;
-            }
-        }, 360);
+        mAdapter.add(result.getYears());
+        isRunning = false;
     }
 
     @Override
     public void error(String error) {
-        SnackbarUtils.create(mContext, error);
+        MessageBar.create(mContext, "可能發生錯誤：" + error);
         isRunning = false;
         mRefreshLayout.finishRefresh(false);
     }

@@ -5,4 +5,6 @@
     <color name="colorAccent">#E16B8C</color>
     <color name="colorTransparent">#00000000</color>
     <color name="colorBackground">#f0f0f0</color>
+    <color name="cookieBackgroundColor">#252525</color>
+    <color name="cookieMessageColor">#ffffff</color>
 </resources>

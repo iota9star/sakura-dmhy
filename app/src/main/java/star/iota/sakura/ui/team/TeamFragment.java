@@ -14,25 +14,25 @@ import butterknife.BindView;
 import jp.wasabeef.recyclerview.animators.LandingAnimator;
 import star.iota.sakura.R;
 import star.iota.sakura.Url;
+import star.iota.sakura.base.BaseAdapter;
 import star.iota.sakura.base.BaseFragment;
 import star.iota.sakura.base.PVContract;
-import star.iota.sakura.utils.SnackbarUtils;
+import star.iota.sakura.utils.MessageBar;
 
 
-public class TeamFragment extends BaseFragment implements PVContract.View<List<TeamBean>> {
+public abstract class TeamFragment extends BaseFragment implements PVContract.View<List<TeamBean>> {
 
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
     @BindView(R.id.refresh_layout)
     SmartRefreshLayout mRefreshLayout;
-    private TeamAdapter mAdapter;
+    private BaseAdapter mAdapter;
 
     private TeamPresenter mPresenter;
     private boolean isRunning;
 
     @Override
     protected void init() {
-        setTitle("聯盟成員");
         initPresenter();
         initRecyclerView();
         initRefreshLayout();
@@ -50,7 +50,7 @@ public class TeamFragment extends BaseFragment implements PVContract.View<List<T
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
                 if (isRunning) {
-                    SnackbarUtils.create(mContext, "正在加载中...");
+                    MessageBar.create(mContext, "正在加载中...");
                     return;
                 }
                 isRunning = true;
@@ -61,12 +61,14 @@ public class TeamFragment extends BaseFragment implements PVContract.View<List<T
     }
 
     private void initRecyclerView() {
-        mAdapter = new TeamAdapter();
+        mAdapter = getAdapter();
+        mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setItemAnimator(new LandingAnimator());
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL));
-        mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mAdapter);
     }
+
+    protected abstract BaseAdapter getAdapter();
 
     @Override
     protected int getLayoutId() {
@@ -77,18 +79,13 @@ public class TeamFragment extends BaseFragment implements PVContract.View<List<T
     @Override
     public void success(final List<TeamBean> result) {
         mRefreshLayout.finishRefresh(true);
-        mRefreshLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mAdapter.add(result);
-                isRunning = false;
-            }
-        }, 360);
+        mAdapter.add(result);
+        isRunning = false;
     }
 
     @Override
     public void error(String error) {
-        SnackbarUtils.create(mContext, error);
+        MessageBar.create(mContext, error);
         isRunning = false;
         mRefreshLayout.finishRefresh(false);
     }

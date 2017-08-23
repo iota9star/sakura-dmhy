@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardPreventCornerOverlap="false"
+    app:cardUseCompatPadding="true">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/image_view_banner"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:layout_width="@dimen/v96dp"
+            android:layout_height="@dimen/v128dp"
+            android:layout_gravity="end|center_vertical"
+            android:src="@drawable/bg_flower"
+            tools:ignore="ContentDescription" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_view_cover_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/v4dp"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardPreventCornerOverlap="false"
+                app:cardUseCompatPadding="true"
+                app:contentPadding="@dimen/v2dp">
+
+                <ImageView
+                    android:id="@+id/image_view_cover"
+                    android:layout_width="@dimen/v96dp"
+                    android:layout_height="@dimen/v128dp"
+                    android:scaleType="centerCrop"
+                    tools:ignore="ContentDescription" />
+            </android.support.v7.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="@dimen/v8dp">
+
+                <TextView
+                    android:id="@+id/text_view_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:maxLines="4"
+                    android:textColor="#ec404040"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/text_view_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/v4dp"
+                    android:ellipsize="end"
+                    android:gravity="end"
+                    android:maxLines="1"
+                    android:textColor="#ec404040"
+                    android:textSize="@dimen/v12sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/text_view_category"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textColor="#ec404040"
+                        android:textSize="@dimen/v12sp"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/button_link"
+                        android:layout_width="@dimen/v32dp"
+                        android:layout_height="@dimen/v20dp"
+                        android:layout_margin="@dimen/v4dp"
+                        android:background="@drawable/bg_button"
+                        android:text="@string/link"
+                        android:textSize="@dimen/v10sp" />
+
+                    <Button
+                        android:id="@+id/button_magnet"
+                        android:layout_width="@dimen/v32dp"
+                        android:layout_height="@dimen/v20dp"
+                        android:layout_margin="@dimen/v4dp"
+                        android:background="@drawable/bg_button"
+                        android:text="@string/magnet"
+                        android:textSize="@dimen/v10sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+</android.support.v7.widget.CardView>

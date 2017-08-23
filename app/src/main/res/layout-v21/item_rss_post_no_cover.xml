@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackgroundBorderless"
+    android:stateListAnimator="@animator/touch_floating"
+    app:cardPreventCornerOverlap="false"
+    app:cardUseCompatPadding="true">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/image_view_banner"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/v128dp"
+            android:scaleType="centerCrop"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:layout_width="@dimen/v48dp"
+            android:layout_height="@dimen/v48dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="-8dp"
+            android:layout_marginStart="-4dp"
+            android:src="@drawable/bg_flower_sakura"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:layout_width="@dimen/v56dp"
+            android:layout_height="@dimen/v56dp"
+            android:layout_gravity="end"
+            android:src="@drawable/bg_flower"
+            tools:ignore="ContentDescription" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text_view_title"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="4"
+                android:padding="@dimen/v8dp"
+                android:shadowColor="#24242424"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:shadowRadius="3"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/colorPrimary" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="@dimen/v4dp">
+
+                <TextView
+                    android:id="@+id/text_view_category"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:textSize="@dimen/v12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/text_view_date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:textSize="@dimen/v12sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/button_link"
+                    android:layout_width="@dimen/v32dp"
+                    android:layout_height="@dimen/v20dp"
+                    android:layout_margin="@dimen/v4dp"
+                    android:background="@drawable/bg_button"
+                    android:text="@string/link"
+                    android:textSize="@dimen/v10sp" />
+
+                <Button
+                    android:id="@+id/button_magnet"
+                    android:layout_width="@dimen/v32dp"
+                    android:layout_height="@dimen/v20dp"
+                    android:layout_margin="@dimen/v4dp"
+                    android:background="@drawable/bg_button"
+                    android:text="@string/magnet"
+                    android:textSize="@dimen/v10sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+
+</android.support.v7.widget.CardView>

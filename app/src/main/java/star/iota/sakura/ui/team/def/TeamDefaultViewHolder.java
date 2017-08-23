@@ -1,4 +1,4 @@
-package star.iota.sakura.ui.team;
+package star.iota.sakura.ui.team.def;
 
 import android.support.v7.widget.CardView;
 import android.view.View;
@@ -10,15 +10,16 @@ import star.iota.sakura.Url;
 import star.iota.sakura.base.BaseActivity;
 import star.iota.sakura.base.BaseViewHolder;
 import star.iota.sakura.ui.post.PostFragment;
+import star.iota.sakura.ui.team.TeamBean;
 
 
-class TeamViewHolder extends BaseViewHolder<TeamBean> {
+class TeamDefaultViewHolder extends BaseViewHolder<TeamBean> {
     @BindView(R.id.card_view_container)
     CardView mCardViewContainer;
     @BindView(R.id.text_view_team_name)
     TextView mTextViewTeamName;
 
-    TeamViewHolder(View itemView) {
+    TeamDefaultViewHolder(View itemView) {
         super(itemView);
     }
 
@@ -29,7 +30,7 @@ class TeamViewHolder extends BaseViewHolder<TeamBean> {
             @Override
             public void onClick(View view) {
                 ((BaseActivity) mContext).addFragment(
-                        PostFragment.newInstance(Url.TEAM_SOURCE + bean.getId() + "/page/",
+                        PostFragment.newInstance(Url.TEAM_DEFAULT + bean.getId() + "/page/",
                                 "",
                                 bean.getName()));
             }

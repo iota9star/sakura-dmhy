@@ -1,4 +1,4 @@
-package star.iota.sakura.ui.post;
+package star.iota.sakura.ui.rss;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,14 +20,14 @@ import star.iota.sakura.base.PVContract;
 import star.iota.sakura.utils.MessageBar;
 
 
-public class PostFragment extends BaseFragment implements PVContract.View<List<PostBean>> {
+public class RSSPostFragment extends BaseFragment implements PVContract.View<List<RSSPostBean>> {
 
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
     @BindView(R.id.refresh_layout)
     SmartRefreshLayout mRefreshLayout;
-    private PostAdapter mAdapter;
-    private PostPresenter mPresenter;
+    private RSSPostAdapter mAdapter;
+    private RSSPostPresenter mPresenter;
     private boolean isRunning;
     private boolean isLoadMore;
     private int mPage;
@@ -35,8 +35,8 @@ public class PostFragment extends BaseFragment implements PVContract.View<List<P
     private String mParameter;
     private String mTitle;
 
-    public static PostFragment newInstance(String url, String parameter, String title) {
-        PostFragment fragment = new PostFragment();
+    public static RSSPostFragment newInstance(String url, String parameter, String title) {
+        RSSPostFragment fragment = new RSSPostFragment();
         Bundle bundle = new Bundle();
         bundle.putString("url", url);
         bundle.putString("parameter", parameter);
@@ -65,7 +65,7 @@ public class PostFragment extends BaseFragment implements PVContract.View<List<P
         isRunning = false;
         isLoadMore = false;
         mPage = 1;
-        mPresenter = new PostPresenter(this);
+        mPresenter = new RSSPostPresenter(this);
     }
 
     private void initRefreshLayout() {
@@ -103,8 +103,7 @@ public class PostFragment extends BaseFragment implements PVContract.View<List<P
     }
 
     private void initRecyclerView() {
-        mAdapter = new PostAdapter();
-        mRecyclerView.setHasFixedSize(true);
+        mAdapter = new RSSPostAdapter();
         mRecyclerView.setItemAnimator(new LandingAnimator());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(mAdapter);
@@ -116,7 +115,7 @@ public class PostFragment extends BaseFragment implements PVContract.View<List<P
     }
 
     @Override
-    public void success(final List<PostBean> result) {
+    public void success(final List<RSSPostBean> result) {
         if (isLoadMore) {
             mRefreshLayout.finishLoadmore(true);
         } else {
