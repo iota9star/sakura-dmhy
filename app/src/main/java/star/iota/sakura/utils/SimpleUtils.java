@@ -14,10 +14,10 @@ public class SimpleUtils {
             cm.setPrimaryClip(ClipData.newPlainText("content", content));
             MessageBar.create(context, "內容已複製到剪切板，同时尝试打开磁链");
             Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(Uri.parse(content), "application/x-bittorrent");
+            intent.setData(Uri.parse(content));
             context.startActivity(intent);
         } catch (Exception e) {
-            e.printStackTrace();
+            MessageBar.create(context, "發生錯誤：" + e.getMessage());
         }
     }
 

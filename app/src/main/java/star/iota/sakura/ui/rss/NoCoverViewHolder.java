@@ -1,6 +1,7 @@
 package star.iota.sakura.ui.rss;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
@@ -64,7 +65,7 @@ public class NoCoverViewHolder extends BaseViewHolder<RSSPostBean> {
         cardViewContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showInfo(bean.getDescription());
+                showInfo(bean);
             }
         });
         GlideApp.with(mContext)
@@ -83,12 +84,22 @@ public class NoCoverViewHolder extends BaseViewHolder<RSSPostBean> {
                 });
     }
 
-    private void showInfo(String desc) {
+    private void showInfo(final RSSPostBean bean) {
         @SuppressLint("InflateParams") View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_info, null);
         TextView info = view.findViewById(R.id.text_view_info);
-        RichText.fromHtml(desc).clickable(true).into(info);
+        RichText.fromHtml(bean.getDescription())
+                .clickable(true)
+                .into(info);
         new AlertDialog.Builder(mContext)
                 .setView(view)
+                .setTitle(mContext.getString(R.string.app_name))
+                .setIcon(R.mipmap.app_icon)
+                .setNegativeButton("瀏覽器打開", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        SimpleUtils.openUrl(mContext, bean.getLink().replace("http:", "https:"));
+                    }
+                })
                 .show();
     }
 }

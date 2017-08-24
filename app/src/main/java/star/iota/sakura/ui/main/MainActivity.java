@@ -378,6 +378,7 @@ public class MainActivity extends BaseActivity {
     private ArrayList<IDrawerItem> getCategory() {
         ArrayList<IDrawerItem> menu = new ArrayList<>();
         menu.add(new SecondaryDrawerItem().withIcon(Menus.ANIME_ICON).withIconTintingEnabled(true).withIdentifier(Menus.ANIME_ID).withName(Menus.ANIME));
+        menu.add(new SecondaryDrawerItem().withIcon(Menus.SEASON_ICON).withIconTintingEnabled(true).withIdentifier(Menus.SEASON_ID).withName(Menus.SEASON));
         menu.add(new SecondaryDrawerItem().withIcon(Menus.MANGA_ICON).withIconTintingEnabled(true).withIdentifier(Menus.MANGA_ID).withName(Menus.MANGA));
         menu.add(new SecondaryDrawerItem().withIcon(Menus.MUSIC_ICON).withIconTintingEnabled(true).withIdentifier(Menus.MUSIC_ID).withName(Menus.MUSIC));
         menu.add(new SecondaryDrawerItem().withIcon(Menus.JP_TV_ICON).withIconTintingEnabled(true).withIdentifier(Menus.JP_TV_ID).withName(Menus.JP_TV));
@@ -426,6 +427,9 @@ public class MainActivity extends BaseActivity {
                     case Menus.ANIME_ID:
                         currentFragment = PostFragment.newInstance(Url.ANIME, "", Menus.ANIME);
                         break;
+                    case Menus.SEASON_ID:
+                        currentFragment = PostFragment.newInstance(Url.SEASON, "", Menus.SEASON);
+                        break;
                     case Menus.MANGA_ID:
                         currentFragment = PostFragment.newInstance(Url.MANGA, "", Menus.MANGA);
                         break;
@@ -457,7 +461,7 @@ public class MainActivity extends BaseActivity {
                         currentFragment = new AboutFragment();
                         break;
                     case Menus.RSS_NEWS_ID:
-                        currentFragment = RSSPostFragment.newInstance(Url.RSS_NEWS, "/rss.xml", Menus.RSS + "*" + Menus.RSS_NEWS);
+                        currentFragment = RSSPostFragment.newInstance(Url.RSS_NEWS, "/rss.xml", Menus.RSS + " * " + Menus.RSS_NEWS);
                         break;
                     case Menus.RSS_SUBS_ID:
                         currentFragment = new TeamRSSFragment();
@@ -476,6 +480,7 @@ public class MainActivity extends BaseActivity {
                 new String[]{
                         "所有",
                         Menus.ANIME,
+                        Menus.SEASON,
                         Menus.MANGA,
                         Menus.MUSIC,
                         Menus.JP_TV,
@@ -498,30 +503,34 @@ public class MainActivity extends BaseActivity {
                         category = Menus.ANIME;
                         break;
                     case 2:
+                        sort_id = 31;
+                        category = Menus.SEASON;
+                        break;
+                    case 3:
                         sort_id = 3;
                         category = Menus.MANGA;
                         break;
-                    case 3:
+                    case 4:
                         sort_id = 4;
                         category = Menus.MUSIC;
                         break;
-                    case 4:
+                    case 5:
                         sort_id = 6;
                         category = Menus.JP_TV;
                         break;
-                    case 5:
+                    case 6:
                         sort_id = 7;
                         category = Menus.RAW;
                         break;
-                    case 6:
+                    case 7:
                         sort_id = 9;
                         category = Menus.GAME;
                         break;
-                    case 7:
+                    case 8:
                         sort_id = 12;
                         category = Menus.TOKUSATSU;
                         break;
-                    case 8:
+                    case 9:
                         sort_id = 1;
                         category = Menus.OTHER;
                         break;

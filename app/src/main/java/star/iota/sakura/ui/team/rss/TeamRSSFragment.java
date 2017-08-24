@@ -8,7 +8,7 @@ import star.iota.sakura.ui.team.TeamFragment;
 public class TeamRSSFragment extends TeamFragment {
     @Override
     protected BaseAdapter getAdapter() {
-        setTitle(Menus.RSS + "*" + Menus.RSS_SUBS);
+        setTitle(Menus.RSS + " * " + Menus.RSS_SUBS);
         return new TeamRSSAdapter();
     }
 }

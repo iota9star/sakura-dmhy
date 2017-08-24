@@ -42,6 +42,8 @@
                 android:id="@+id/text_view_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:padding="@dimen/v8dp"
                 android:shadowColor="#24242424"
                 android:shadowDx="1"
@@ -107,7 +109,7 @@
                     android:layout_height="@dimen/v20dp"
                     android:layout_margin="@dimen/v4dp"
                     android:background="@drawable/bg_button"
-                    android:text="@string/link"
+                    android:text="@string/info"
                     android:textSize="@dimen/v10sp" />
 
                 <Button

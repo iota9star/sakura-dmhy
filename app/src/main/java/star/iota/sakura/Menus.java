@@ -75,6 +75,10 @@ public interface Menus {
     int RSS_SUBS_ID = 17;
     int RSS_SUBS_ICON = R.drawable.ic_subs_black_24dp;
 
+    String SEASON = "季度";
+    int SEASON_ID = 18;
+    int SEASON_ICON = R.drawable.ic_season_black_24dp;
+
     String COLLECTION = "收藏列表";
     int COLLECTION_ID = 998;
     int COLLECTION_ICON = R.drawable.ic_collection_list_black_24dp;

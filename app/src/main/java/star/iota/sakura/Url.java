@@ -31,6 +31,8 @@ public interface Url {
 
     String OTHER = "https://share.dmhy.org/topics/list/sort_id/1/page/";
 
+    String SEASON = "https://share.dmhy.org/topics/list/sort_id/31/page/";
+
     String SEARCH = "https://share.dmhy.org/topics/list/page/";
 
 }
