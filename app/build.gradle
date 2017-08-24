@@ -7,7 +7,7 @@ android {
         applicationId "star.iota.sakura"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 13
+        versionCode 14
         versionName "sakura, ohayou"
         resConfigs "zh"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

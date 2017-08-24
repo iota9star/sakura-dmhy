@@ -63,10 +63,6 @@ public interface Menus {
     int COLLECTION_FAN_ID = 14;
     int COLLECTION_FAN_ICON = R.drawable.ic_fan_black_24dp;
 
-    String RSS = "RSS訂閱";
-    int RSS_ID = 15;
-    int RSS_ICON = R.drawable.ic_rss_feed_black_24dp;
-
     String RSS_NEWS = "最新";
     int RSS_NEWS_ID = 16;
     int RSS_NEWS_ICON = R.drawable.ic_news_black_24dp;
@@ -80,10 +76,14 @@ public interface Menus {
     int SEASON_ICON = R.drawable.ic_season_black_24dp;
 
     String COLLECTION = "收藏列表";
-    int COLLECTION_ID = 998;
+    int COLLECTION_ID = 999;
     int COLLECTION_ICON = R.drawable.ic_collection_list_black_24dp;
 
     String CATEGORY = "分類列表";
-    int CATEGORY_ID = 999;
+    int CATEGORY_ID = 998;
     int CATEGORY_ICON = R.drawable.ic_category_black_24dp;
+
+    String RSS = "RSS訂閱";
+    int RSS_ID = 997;
+    int RSS_ICON = R.drawable.ic_rss_feed_black_24dp;
 }

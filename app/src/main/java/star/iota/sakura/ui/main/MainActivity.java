@@ -409,7 +409,12 @@ public class MainActivity extends BaseActivity {
             public boolean onItemClick(View view, int position, IDrawerItem dItem) {
                 BaseFragment currentFragment = null;
                 int identifier = (int) dItem.getIdentifier();
-                if (identifier == mCurrentFragmentId || identifier == 999) return false;
+                if (identifier == mCurrentFragmentId
+                        || identifier == 999
+                        || identifier == 998
+                        || identifier == 997) {
+                    return false;
+                }
                 mCurrentFragmentId = identifier;
                 switch (identifier) {
                     case Menus.TEAM_DEFAULT_ID:
