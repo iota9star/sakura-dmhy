@@ -7,8 +7,8 @@ android {
         applicationId "star.iota.sakura"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 14
-        versionName "sakura, ohayou"
+        versionCode 16
+        versionName " ｸﾞｯ!(๑•̀ㅂ•́)و✧ ,lalala..."
         resConfigs "zh"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -80,9 +80,6 @@ dependencies {
 
     //jsoup
     compile 'org.jsoup:jsoup:latest.release'
-
-    //AlipayZeroSdk
-    compile 'moe.feng:AlipayZeroSdk:latest.release'
 
     //okgo
     compile 'com.lzy.net:okgo:latest.release'

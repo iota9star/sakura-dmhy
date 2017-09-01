@@ -1,16 +1,17 @@
 package star.iota.sakura.ui.local.fan;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.load.DataSource;
@@ -101,51 +102,61 @@ class LocalFanAdapter extends RecyclerView.Adapter<LocalFanAdapter.MyViewHolder>
         holder.mImageViewCover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (holder.mLinearLayoutButtonGroup.getVisibility() == View.GONE) {
-                    holder.mLinearLayoutButtonGroup.setVisibility(View.VISIBLE);
-                } else {
-                    holder.mLinearLayoutButtonGroup.setVisibility(View.GONE);
-                }
-            }
-        });
-        holder.mButtonInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
                 Intent intent = new Intent(holder.context, MoreActivity.class);
                 intent.putExtra("bean", bean);
                 holder.context.startActivity(intent);
             }
         });
-        holder.mButtonDelete.setOnClickListener(new View.OnClickListener() {
+        holder.mCardView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View view) {
-                Observable.just(new FanDAOImpl(holder.context))
-                        .map(new Function<FanDAO, Boolean>() {
+            public boolean onLongClick(View view) {
+                new AlertDialog.Builder(holder.context)
+                        .setIcon(R.mipmap.app_icon)
+                        .setTitle("是否删除 - " + bean.getName())
+                        .setNegativeButton("嗯", new DialogInterface.OnClickListener() {
                             @Override
-                            public Boolean apply(@NonNull FanDAO fanDAO) throws Exception {
-                                return fanDAO.delete(bean);
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                delete(holder, bean);
                             }
                         })
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Consumer<Boolean>() {
+                        .setPositiveButton("只是看看", new DialogInterface.OnClickListener() {
                             @Override
-                            public void accept(Boolean aBoolean) throws Exception {
-                                if (aBoolean) {
-                                    MessageBar.create(holder.context, "刪除成功：" + bean.getName());
-                                    remove(holder.getAdapterPosition());
-                                } else {
-                                    MessageBar.create(holder.context, "刪除錯誤：" + bean.getName());
-                                }
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
                             }
-                        }, new Consumer<Throwable>() {
-                            @Override
-                            public void accept(Throwable throwable) throws Exception {
-                                MessageBar.create(holder.context, "刪除錯誤：" + throwable.getMessage());
-                            }
-                        });
+                        })
+                        .show();
+                return false;
             }
         });
+    }
+
+    private void delete(final MyViewHolder holder, final FanBean bean) {
+        Observable.just(new FanDAOImpl(holder.context))
+                .map(new Function<FanDAO, Boolean>() {
+                    @Override
+                    public Boolean apply(@NonNull FanDAO fanDAO) throws Exception {
+                        return fanDAO.delete(bean);
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean aBoolean) throws Exception {
+                        if (aBoolean) {
+                            MessageBar.create(holder.context, "刪除成功：" + bean.getName());
+                            remove(holder.getAdapterPosition());
+                        } else {
+                            MessageBar.create(holder.context, "刪除錯誤：" + bean.getName());
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        MessageBar.create(holder.context, "刪除錯誤：" + throwable.getMessage());
+                    }
+                });
     }
 
     @Override
@@ -182,14 +193,10 @@ class LocalFanAdapter extends RecyclerView.Adapter<LocalFanAdapter.MyViewHolder>
         ImageView mImageViewCover;
         @BindView(R.id.image_view_banner)
         ImageView mImageViewBanner;
-        @BindView(R.id.button_delete)
-        Button mButtonDelete;
-        @BindView(R.id.button_info)
-        Button mButtonInfo;
-        @BindView(R.id.linear_layout_button_group)
-        LinearLayout mLinearLayoutButtonGroup;
         @BindView(R.id.text_view_index)
         TextView mTextViewIndex;
+        @BindView(R.id.card_view_container)
+        CardView mCardView;
 
         MyViewHolder(View itemView) {
             super(itemView);

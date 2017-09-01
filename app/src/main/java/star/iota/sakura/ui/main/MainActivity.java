@@ -1,27 +1,21 @@
 package star.iota.sakura.ui.main;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.Settings;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.ListPopupWindow;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -51,7 +45,6 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import jp.wasabeef.recyclerview.animators.LandingAnimator;
-import moe.feng.alipay.zerosdk.AlipayZeroSdk;
 import star.iota.sakura.Menus;
 import star.iota.sakura.R;
 import star.iota.sakura.Url;
@@ -71,7 +64,6 @@ import star.iota.sakura.ui.post.PostFragment;
 import star.iota.sakura.ui.rss.RSSPostFragment;
 import star.iota.sakura.ui.team.def.TeamDefaultFragment;
 import star.iota.sakura.ui.team.rss.TeamRSSFragment;
-import star.iota.sakura.utils.ConfigUtils;
 import star.iota.sakura.utils.FileUtils;
 import star.iota.sakura.utils.MessageBar;
 
@@ -91,7 +83,6 @@ public class MainActivity extends BaseActivity {
         setSupportActionBar(mToolbar);
         initDrawer();
         initDrawerEvent();
-        isShowDonationDialog();
         checkPermission();
     }
 
@@ -244,84 +235,6 @@ public class MainActivity extends BaseActivity {
                 });
     }
 
-    private void isShowDonationDialog() {
-        long openCount = ConfigUtils.getOpenCount(mContext);
-        if ((openCount % 16 == 0 || openCount == 5)
-                && ConfigUtils.isShowDonation(mContext)) {
-            mToolbar.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    donation();
-                }
-            }, 3600);
-        } else if (openCount % 100 == 0) {
-            MessageBar.create(mContext, "這是您打開的第 " + openCount + " 次，將冒昧的顯示捐贈頁面");
-            mToolbar.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    donation();
-                }
-            }, 3600);
-        }
-    }
-
-    private void donation() {
-        @SuppressLint("InflateParams") View view = getLayoutInflater().inflate(R.layout.dialog_donation, null);
-        AlertDialog dialog = new AlertDialog.Builder(mContext)
-                .setView(view)
-                .setNegativeButton("下次吧", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                })
-                .setNeutralButton("不再提醒", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        ConfigUtils.saveDonationStatus(mContext, false);
-                        dialogInterface.dismiss();
-                        MessageBar.create(mContext, "如果想要支持我的話，可以在“關於本軟”中查看");
-                    }
-                })
-                .create();
-        ((TextView) view.findViewById(R.id.text_view_please)).setMovementMethod(LinkMovementMethod.getInstance());
-        view.findViewById(R.id.linear_layout_donation_alipay).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (AlipayZeroSdk.hasInstalledAlipayClient(mContext)) {
-                    AlipayZeroSdk.startAlipayClient(MainActivity.this, getResources().getString(R.string.alipay_code));
-                } else {
-                    MessageBar.create(mContext, "您可能沒有安裝支付寶");
-                }
-            }
-        });
-        view.findViewById(R.id.linear_layout_donation_qq).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(mContext.getString(R.string.qq_pay_code)));
-                startActivity(intent);
-            }
-        });
-        view.findViewById(R.id.linear_layout_donation_wechat).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(mContext.getString(R.string.wechat_pay_code)));
-                startActivity(intent);
-            }
-        });
-        view.findViewById(R.id.linear_layout_grade).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("market://details?id=" + mContext.getPackageName()));
-                startActivity(intent);
-            }
-        });
-        dialog.show();
-    }
-
     @Override
     protected void setFirstFragment() {
         mCurrentFragmentId = Menus.NEWS_ID;
@@ -378,12 +291,22 @@ public class MainActivity extends BaseActivity {
     private ArrayList<IDrawerItem> getCategory() {
         ArrayList<IDrawerItem> menu = new ArrayList<>();
         menu.add(new SecondaryDrawerItem().withIcon(Menus.ANIME_ICON).withIconTintingEnabled(true).withIdentifier(Menus.ANIME_ID).withName(Menus.ANIME));
-        menu.add(new SecondaryDrawerItem().withIcon(Menus.SEASON_ICON).withIconTintingEnabled(true).withIdentifier(Menus.SEASON_ID).withName(Menus.SEASON));
+        menu.add(new SecondaryDrawerItem().withIcon(Menus.ANIME_SEASON_ICON).withIconTintingEnabled(true).withIdentifier(Menus.ANIME_SEASON_ID).withName(Menus.ANIME_SEASON));
         menu.add(new SecondaryDrawerItem().withIcon(Menus.MANGA_ICON).withIconTintingEnabled(true).withIdentifier(Menus.MANGA_ID).withName(Menus.MANGA));
+        menu.add(new SecondaryDrawerItem().withIcon(Menus.MANGA_GT_ORIGINAL_ICON).withIconTintingEnabled(true).withIdentifier(Menus.MANGA_GT_ORIGINAL_ID).withName(Menus.MANGA_GT_ORIGINAL));
+        menu.add(new SecondaryDrawerItem().withIcon(Menus.MANGA_JP_ORIGINAL_ICON).withIconTintingEnabled(true).withIdentifier(Menus.MANGA_JP_ORIGINAL_ID).withName(Menus.MANGA_JP_ORIGINAL));
         menu.add(new SecondaryDrawerItem().withIcon(Menus.MUSIC_ICON).withIconTintingEnabled(true).withIdentifier(Menus.MUSIC_ID).withName(Menus.MUSIC));
+        menu.add(new SecondaryDrawerItem().withIcon(Menus.MUSIC_ANIME_ICON).withIconTintingEnabled(true).withIdentifier(Menus.MUSIC_ANIME_ID).withName(Menus.MUSIC_ANIME));
+        menu.add(new SecondaryDrawerItem().withIcon(Menus.MUSIC_TR_ICON).withIconTintingEnabled(true).withIdentifier(Menus.MUSIC_TR_ID).withName(Menus.MUSIC_TR));
+        menu.add(new SecondaryDrawerItem().withIcon(Menus.MUSIC_POP_ICON).withIconTintingEnabled(true).withIdentifier(Menus.MUSIC_POP_ID).withName(Menus.MUSIC_POP));
         menu.add(new SecondaryDrawerItem().withIcon(Menus.JP_TV_ICON).withIconTintingEnabled(true).withIdentifier(Menus.JP_TV_ID).withName(Menus.JP_TV));
         menu.add(new SecondaryDrawerItem().withIcon(Menus.RAW_ICON).withIconTintingEnabled(true).withIdentifier(Menus.RAW_ID).withName(Menus.RAW));
         menu.add(new SecondaryDrawerItem().withIcon(Menus.GAME_ICON).withIconTintingEnabled(true).withIdentifier(Menus.GAME_ID).withName(Menus.GAME));
+        menu.add(new SecondaryDrawerItem().withIcon(Menus.GAME_PC_ICON).withIconTintingEnabled(true).withIdentifier(Menus.GAME_PC_ID).withName(Menus.GAME_PC));
+        menu.add(new SecondaryDrawerItem().withIcon(Menus.GAME_TV_ICON).withIconTintingEnabled(true).withIdentifier(Menus.GAME_TV_ID).withName(Menus.GAME_TV));
+        menu.add(new SecondaryDrawerItem().withIcon(Menus.GAME_PSP_ICON).withIconTintingEnabled(true).withIdentifier(Menus.GAME_PSP_ID).withName(Menus.GAME_PSP));
+        menu.add(new SecondaryDrawerItem().withIcon(Menus.GAME_ONLINE_ICON).withIconTintingEnabled(true).withIdentifier(Menus.GAME_ONLINE_ID).withName(Menus.GAME_ONLINE));
+        menu.add(new SecondaryDrawerItem().withIcon(Menus.GAME_ACCESSORIES_ICON).withIconTintingEnabled(true).withIdentifier(Menus.GAME_ACCESSORIES_ID).withName(Menus.GAME_ACCESSORIES));
         menu.add(new SecondaryDrawerItem().withIcon(Menus.TOKUSATSU_ICON).withIconTintingEnabled(true).withIdentifier(Menus.TOKUSATSU_ID).withName(Menus.TOKUSATSU));
         menu.add(new SecondaryDrawerItem().withIcon(Menus.OTHER_ICON).withIconTintingEnabled(true).withIdentifier(Menus.OTHER_ID).withName(Menus.OTHER));
         return menu;
@@ -410,9 +333,9 @@ public class MainActivity extends BaseActivity {
                 BaseFragment currentFragment = null;
                 int identifier = (int) dItem.getIdentifier();
                 if (identifier == mCurrentFragmentId
-                        || identifier == 999
-                        || identifier == 998
-                        || identifier == 997) {
+                        || identifier == Menus.RSS_ID
+                        || identifier == Menus.CATEGORY_ID
+                        || identifier == Menus.COLLECTION_ID) {
                     return false;
                 }
                 mCurrentFragmentId = identifier;
@@ -432,14 +355,29 @@ public class MainActivity extends BaseActivity {
                     case Menus.ANIME_ID:
                         currentFragment = PostFragment.newInstance(Url.ANIME, "", Menus.ANIME);
                         break;
-                    case Menus.SEASON_ID:
-                        currentFragment = PostFragment.newInstance(Url.SEASON, "", Menus.SEASON);
+                    case Menus.ANIME_SEASON_ID:
+                        currentFragment = PostFragment.newInstance(Url.ANIME_SEASON, "", Menus.ANIME_SEASON);
                         break;
                     case Menus.MANGA_ID:
                         currentFragment = PostFragment.newInstance(Url.MANGA, "", Menus.MANGA);
                         break;
+                    case Menus.MANGA_GT_ORIGINAL_ID:
+                        currentFragment = PostFragment.newInstance(Url.MANGA_GT_ORIGINAL, "", Menus.MANGA_GT_ORIGINAL);
+                        break;
+                    case Menus.MANGA_JP_ORIGINAL_ID:
+                        currentFragment = PostFragment.newInstance(Url.MANGA_JP_ORIGINAL, "", Menus.MANGA_JP_ORIGINAL);
+                        break;
                     case Menus.MUSIC_ID:
                         currentFragment = PostFragment.newInstance(Url.MUSIC, "", Menus.MUSIC);
+                        break;
+                    case Menus.MUSIC_ANIME_ID:
+                        currentFragment = PostFragment.newInstance(Url.MUSIC_ANIME, "", Menus.MUSIC_ANIME);
+                        break;
+                    case Menus.MUSIC_TR_ID:
+                        currentFragment = PostFragment.newInstance(Url.MUSIC_TR, "", Menus.MUSIC_TR);
+                        break;
+                    case Menus.MUSIC_POP_ID:
+                        currentFragment = PostFragment.newInstance(Url.MUSIC_POP, "", Menus.MUSIC_POP);
                         break;
                     case Menus.JP_TV_ID:
                         currentFragment = PostFragment.newInstance(Url.JP_TV, "", Menus.JP_TV);
@@ -449,6 +387,21 @@ public class MainActivity extends BaseActivity {
                         break;
                     case Menus.GAME_ID:
                         currentFragment = PostFragment.newInstance(Url.GAME, "", Menus.GAME);
+                        break;
+                    case Menus.GAME_PC_ID:
+                        currentFragment = PostFragment.newInstance(Url.GAME_PC, "", Menus.GAME_PC);
+                        break;
+                    case Menus.GAME_TV_ID:
+                        currentFragment = PostFragment.newInstance(Url.GAME_TV, "", Menus.GAME_TV);
+                        break;
+                    case Menus.GAME_ONLINE_ID:
+                        currentFragment = PostFragment.newInstance(Url.GAME_ONLINE, "", Menus.GAME_ONLINE);
+                        break;
+                    case Menus.GAME_PSP_ID:
+                        currentFragment = PostFragment.newInstance(Url.GAME_PSP, "", Menus.GAME_PSP);
+                        break;
+                    case Menus.GAME_ACCESSORIES_ID:
+                        currentFragment = PostFragment.newInstance(Url.GAME_ACCESSORIES, "", Menus.GAME_ACCESSORIES);
                         break;
                     case Menus.TOKUSATSU_ID:
                         currentFragment = PostFragment.newInstance(Url.TOKUSATSU, "", Menus.TOKUSATSU);
@@ -483,14 +436,24 @@ public class MainActivity extends BaseActivity {
         final ListPopupWindow listPopupWindow = new ListPopupWindow(mContext);
         listPopupWindow.setAdapter(new ArrayAdapter<>(mContext, android.R.layout.simple_list_item_1,
                 new String[]{
-                        "所有",
+                        Menus.ALL,
                         Menus.ANIME,
-                        Menus.SEASON,
+                        Menus.ANIME_SEASON,
                         Menus.MANGA,
+                        Menus.MANGA_GT_ORIGINAL,
+                        Menus.MANGA_JP_ORIGINAL,
                         Menus.MUSIC,
+                        Menus.MUSIC_ANIME,
+                        Menus.MUSIC_TR,
+                        Menus.MUSIC_POP,
                         Menus.JP_TV,
                         Menus.RAW,
                         Menus.GAME,
+                        Menus.GAME_PC,
+                        Menus.GAME_TV,
+                        Menus.GAME_PSP,
+                        Menus.GAME_ONLINE,
+                        Menus.GAME_ACCESSORIES,
                         Menus.TOKUSATSU,
                         Menus.OTHER
                 }));
@@ -500,43 +463,83 @@ public class MainActivity extends BaseActivity {
                 String category = "";
                 switch (pos) {
                     case 0:
-                        sort_id = 0;
-                        category = "所有";
+                        sort_id = Menus.ALL_ID;
+                        category = Menus.ALL;
                         break;
                     case 1:
-                        sort_id = 2;
+                        sort_id = Menus.ANIME_ID;
                         category = Menus.ANIME;
                         break;
                     case 2:
-                        sort_id = 31;
-                        category = Menus.SEASON;
+                        sort_id = Menus.ANIME_SEASON_ID;
+                        category = Menus.ANIME_SEASON;
                         break;
                     case 3:
-                        sort_id = 3;
+                        sort_id = Menus.MANGA_ID;
                         category = Menus.MANGA;
                         break;
                     case 4:
-                        sort_id = 4;
-                        category = Menus.MUSIC;
+                        sort_id = Menus.MANGA_GT_ORIGINAL_ID;
+                        category = Menus.MANGA_GT_ORIGINAL;
                         break;
                     case 5:
-                        sort_id = 6;
-                        category = Menus.JP_TV;
+                        sort_id = Menus.MANGA_JP_ORIGINAL_ID;
+                        category = Menus.MANGA_JP_ORIGINAL;
                         break;
                     case 6:
-                        sort_id = 7;
-                        category = Menus.RAW;
+                        sort_id = Menus.MUSIC_ID;
+                        category = Menus.MUSIC;
                         break;
                     case 7:
-                        sort_id = 9;
-                        category = Menus.GAME;
+                        sort_id = Menus.MUSIC_ANIME_ID;
+                        category = Menus.MUSIC_ANIME;
                         break;
                     case 8:
-                        sort_id = 12;
-                        category = Menus.TOKUSATSU;
+                        sort_id = Menus.MUSIC_TR_ID;
+                        category = Menus.MUSIC_TR;
                         break;
                     case 9:
-                        sort_id = 1;
+                        sort_id = Menus.MUSIC_POP_ID;
+                        category = Menus.MUSIC_POP;
+                        break;
+                    case 10:
+                        sort_id = Menus.JP_TV_ID;
+                        category = Menus.JP_TV;
+                        break;
+                    case 11:
+                        sort_id = Menus.RAW_ID;
+                        category = Menus.RAW;
+                        break;
+                    case 12:
+                        sort_id = Menus.GAME_ID;
+                        category = Menus.GAME;
+                        break;
+                    case 13:
+                        sort_id = Menus.GAME_PC_ID;
+                        category = Menus.GAME_PC;
+                        break;
+                    case 14:
+                        sort_id = Menus.GAME_TV_ID;
+                        category = Menus.GAME_TV;
+                        break;
+                    case 15:
+                        sort_id = Menus.GAME_PSP_ID;
+                        category = Menus.GAME_PSP;
+                        break;
+                    case 16:
+                        sort_id = Menus.GAME_ONLINE_ID;
+                        category = Menus.GAME_ONLINE;
+                        break;
+                    case 17:
+                        sort_id = Menus.GAME_ACCESSORIES_ID;
+                        category = Menus.GAME_ACCESSORIES;
+                        break;
+                    case 18:
+                        sort_id = Menus.TOKUSATSU_ID;
+                        category = Menus.TOKUSATSU;
+                        break;
+                    case 19:
+                        sort_id = Menus.OTHER_ID;
                         category = Menus.OTHER;
                         break;
                 }
@@ -544,10 +547,11 @@ public class MainActivity extends BaseActivity {
                 listPopupWindow.dismiss();
             }
         });
-        listPopupWindow.setWidth((int) mContext.getResources().getDimension(R.dimen.v68dp));
+        listPopupWindow.setWidth(mContext.getResources().getDimensionPixelOffset(R.dimen.v96dp));
+        listPopupWindow.setHeight(mContext.getResources().getDimensionPixelOffset(R.dimen.v256dp) * 2);
+        listPopupWindow.setHorizontalOffset(-mContext.getResources().getDimensionPixelOffset(R.dimen.v24dp));
+        listPopupWindow.setVerticalOffset(-mContext.getResources().getDimensionPixelOffset(R.dimen.v8dp));
         listPopupWindow.setAnchorView(findViewById(R.id.action_category));
-        listPopupWindow.setHorizontalOffset((int) mContext.getResources().getDimension(R.dimen.v6dp));
-        listPopupWindow.setBackgroundDrawable(ContextCompat.getDrawable(mContext, R.drawable.bg_popup_window_category));
         listPopupWindow.setModal(true);
         listPopupWindow.show();
     }
@@ -565,7 +569,7 @@ public class MainActivity extends BaseActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         mSearchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-        mSearchView.setQueryHint("在所有分類中搜索...");
+        mSearchView.setQueryHint("在全部分類中搜索...");
         mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         return true;
     }

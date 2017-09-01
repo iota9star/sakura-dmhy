@@ -28,7 +28,6 @@ import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
 
 import okhttp3.OkHttpClient;
-import star.iota.sakura.utils.ConfigUtils;
 
 
 public class MyApp extends Application {
@@ -75,14 +74,7 @@ public class MyApp extends Application {
         super.onCreate();
         mContext = getApplicationContext();
         initOkGo();
-        addCount();
         RichText.initCacheDir(mContext);
-    }
-
-    private void addCount() {
-        long openCount = ConfigUtils.getOpenCount(this);
-        openCount++;
-        ConfigUtils.saveOpenCount(this, openCount);
     }
 
     private void initOkGo() {

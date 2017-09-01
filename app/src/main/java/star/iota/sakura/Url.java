@@ -15,11 +15,25 @@ public interface Url {
 
     String NEWS = "https://share.dmhy.org/topics/list/page/";
 
+    String SEARCH = "https://share.dmhy.org/topics/list/page/";
+
     String ANIME = "https://share.dmhy.org/topics/list/sort_id/2/page/";
+
+    String ANIME_SEASON = "https://share.dmhy.org/topics/list/sort_id/31/page/";
 
     String MANGA = "https://share.dmhy.org/topics/list/sort_id/3/page/";
 
+    String MANGA_GT_ORIGINAL = "https://share.dmhy.org/topics/list/sort_id/41/page/";
+
+    String MANGA_JP_ORIGINAL = "https://share.dmhy.org/topics/list/sort_id/42/page/";
+
     String MUSIC = "https://share.dmhy.org/topics/list/sort_id/4/page/";
+
+    String MUSIC_ANIME = "https://share.dmhy.org/topics/list/sort_id/43/page/";
+
+    String MUSIC_TR = "https://share.dmhy.org/topics/list/sort_id/44/page/";
+
+    String MUSIC_POP = "https://share.dmhy.org/topics/list/sort_id/15/page/";
 
     String JP_TV = "https://share.dmhy.org/topics/list/sort_id/6/page/";
 
@@ -27,12 +41,17 @@ public interface Url {
 
     String GAME = "https://share.dmhy.org/topics/list/sort_id/9/page/";
 
+    String GAME_PC = "https://share.dmhy.org/topics/list/sort_id/17/page/";
+
+    String GAME_TV = "https://share.dmhy.org/topics/list/sort_id/18/page/";
+
+    String GAME_PSP = "https://share.dmhy.org/topics/list/sort_id/19/page/";
+
+    String GAME_ONLINE = "https://share.dmhy.org/topics/list/sort_id/20/page/";
+
+    String GAME_ACCESSORIES = "https://share.dmhy.org/topics/list/sort_id/21/page/";
+
     String TOKUSATSU = "https://share.dmhy.org/topics/list/sort_id/12/page/";
 
     String OTHER = "https://share.dmhy.org/topics/list/sort_id/1/page/";
-
-    String SEASON = "https://share.dmhy.org/topics/list/sort_id/31/page/";
-
-    String SEARCH = "https://share.dmhy.org/topics/list/page/";
-
 }

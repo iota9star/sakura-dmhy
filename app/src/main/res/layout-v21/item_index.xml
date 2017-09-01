@@ -6,7 +6,7 @@
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackgroundBorderless"
     android:stateListAnimator="@animator/touch_floating"
-    app:cardElevation="0.36dp"
+    app:cardElevation="0dp"
     app:cardPreventCornerOverlap="false"
     app:cardUseCompatPadding="true">
 

@@ -1,16 +1,10 @@
 <resources>
-    <string name="app_name">Sakura</string>
+    <string name="app_name">SAKURA</string>
     <string name="search">搜索</string>
-    <string name="alipay">支付寶捐贈</string>
-    <string name="qqpay">QQ捐赠</string>
-    <string name="wechatpay">微信捐贈</string>
-    <string name="alipay_code">FKX08696X3YPOJFGWKD92E</string>
-    <string name="qq_pay_code">http://r.photo.store.qq.com/psb?/a97e084f-86ae-45db-a2e4-e63a3cb987b3/6wuOxikFvnHSM6rPTGtGM3U5WQBtTwiLW99WmaLsuPQ!/r/dGsBAAAAAAAA</string>
-    <string name="wechat_pay_code">http://r.photo.store.qq.com/psb?/a97e084f-86ae-45db-a2e4-e63a3cb987b3/EWJsk3GK9MggfSSVklZb9mqNNK7oGcFry4EEYuAx.HM!/r/dGkBAAAAAAAA</string>
-    <string name="ganxie">感谢</string>
-    <string name="ganxieneirong">1.感謝動漫花園以及所有的發佈組，可以的話，請前往<a href="https://share.dmhy.org/">@動漫花園</a>點擊廣告支持其發展\n\n2.向開源致敬，感謝所有無私的開源貢獻者\n\n3.特别感谢酷安<a href="http://www.coolapk.com/u/473036">@Delsart</a>的櫻花素材\n\n4.本軟件素材大多來自網絡，如有侵權，請聯繫我刪除</string>
-    <string name="juedebucuo">觉得还不错</string>
-    <string name="geiwopingfen">给我评分</string>
+    <string name="ganxie">感謝</string>
+    <string name="ganxieneirong">1.感謝動漫花園以及所有的發佈組，可以的話，請前往<a href="https://share.dmhy.org/">@動漫花園</a>點擊廣告支持其發展\n\n2.向開源致敬，感謝所有無私的開源貢獻者\n\n3.感谢酷安<a href="http://www.coolapk.com/u/473036">@Delsart</a>的櫻花素材\n\n4.本軟件素材大多來自網絡，如有侵權，請聯繫我刪除</string>
+    <string name="juedebucuo">覺得還不錯的話</string>
+    <string name="geiwopingfen">給我評分</string>
     <string name="source">來源</string>
     <string name="dmhy">動漫花園</string>
     <string name="info">信息</string>
@@ -21,8 +15,8 @@
     <string name="sakura">http://r.photo.store.qq.com/psb?/a97e084f-86ae-45db-a2e4-e63a3cb987b3/P6Wmqmq3nW1DotpXhuLhwTaThhBM.t44pAPMIv.lTL8!/r/dGkBAAAAAAAA</string>
     <string name="collection">收藏</string>
     <string name="delete">刪除</string>
-    <string name="buy_a_coffee">\u3000\u3000嗨，最近还好吗？\n\n\u3000\u3000本应用使用还算开心吗？如果有什么使用上的问题，可以去应用市场给我反馈，这会让应用获得更好的体验\n\n\u3000\u3000本应用花费了作者大量的时间和精力，如果可以的话，在此恳请您给应用一个好评，如果经济宽裕的话，也可以给我捐助，您的每一分捐助都会让作者获得更多的信心去做好这个应用，在此感谢您\n\n\u3000\u3000本应用完全免费，应用中所有资源均来自网络，如有侵权，请联系网站管理员删除。如果可以的话，请前往 <a href="https://share.dmhy.org/">@动漫花园</a> 点击广告支持其发展</string>
-    <string name="_import">导入</string>
-    <string name="_export">导出</string>
-    <string name="category">分类</string>
+    <string name="_import">導入</string>
+    <string name="_export">導出</string>
+    <string name="category">分類</string>
+    <string name="copyright">©2002 - ~ 動漫花園</string>
 </resources>

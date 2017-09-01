@@ -12,23 +12,40 @@
         android:scaleType="centerCrop"
         tools:ignore="ContentDescription" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginLeft="@dimen/v16dp"
-        android:layout_marginStart="@dimen/v16dp"
-        android:maxLines="1"
-        android:text="@string/app_name"
-        android:textColor="#40000000"
-        android:textSize="@dimen/v64sp"
-        android:textStyle="bold|italic" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/v256dp"
+        android:background="@drawable/bg_drawer_header" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="@dimen/v92dp"
         android:layout_height="@dimen/v92dp"
         android:layout_gravity="center"
         android:src="@mipmap/app_icon"
-        app:civ_border_color="@color/md_white_1000"
+        app:civ_border_color="#ffffff"
         app:civ_border_width="@dimen/v4dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:maxLines="1"
+            android:padding="@dimen/v4dp"
+            android:text="@string/app_name"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/v24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/copyright" />
+    </LinearLayout>
 </FrameLayout>
