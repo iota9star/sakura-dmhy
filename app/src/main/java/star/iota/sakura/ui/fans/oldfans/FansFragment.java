@@ -47,7 +47,7 @@ public class FansFragment extends BaseFragment implements PVContract.View<List<F
             MessageBar.create(mContext, "获取数据错误，请返回重试");
             return;
         }
-        setTitle(index + "番组");
+        setToolbarTitle(index + "番组");
         initPresenter();
         initRecyclerView();
         initRefreshLayout();
@@ -100,6 +100,11 @@ public class FansFragment extends BaseFragment implements PVContract.View<List<F
         MessageBar.create(mContext, "可能發生錯誤：" + error);
         isRunning = false;
         mRefreshLayout.finishRefresh(false);
+    }
+
+    @Override
+    public void isCache() {
+        MessageBar.create(getActivity(),"请注意，以下内容来自缓存");
     }
 
     @Override

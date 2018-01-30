@@ -67,7 +67,7 @@ class PostViewHolder extends BaseViewHolder<PostBean> {
     @Override
     public void bindView(final PostBean bean) {
         mTextViewCategory.setText(bean.getCategory());
-        mTextViewTitle.setText(bean.getTitle());
+        mTextViewTitle.setText((bean.getTitle().replaceAll("]\\s*\\[|\\[|]|】\\s*【|】|【", "/") + "/").replaceAll("(/\\s*/+)+", "/"));
         mTextViewTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,7 +121,7 @@ class PostViewHolder extends BaseViewHolder<PostBean> {
                             public boolean test(@NonNull SubsDAO subsDAO) throws Exception {
                                 boolean exist = subsDAO.exist(bean.getUrl());
                                 if (exist) {
-                                    MessageBar.create(mContext, "已存在：" + bean.getTitle());
+                                    MessageBar.create(mContext, "已存在：" +(bean.getTitle().replaceAll("]\\s*\\[|\\[|]|】\\s*【|】|【", "/") + "/").replaceAll("(/\\s*/+)+", "/"));
                                 }
                                 return !exist;
                             }
@@ -139,7 +139,7 @@ class PostViewHolder extends BaseViewHolder<PostBean> {
                             @Override
                             public void accept(Boolean aBoolean) throws Exception {
                                 if (aBoolean) {
-                                    MessageBar.create(mContext, "收藏成功：" + bean.getTitle());
+                                    MessageBar.create(mContext, "收藏成功：" +(bean.getTitle().replaceAll("]\\s*\\[|\\[|]|】\\s*【|】|【", "/") + "/").replaceAll("(/\\s*/+)+", "/"));
                                 } else {
                                     MessageBar.create(mContext, "收藏過程中可能出現錯誤");
                                 }

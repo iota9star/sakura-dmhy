@@ -46,7 +46,7 @@ class LocalSubsAdapter extends RecyclerView.Adapter<LocalSubsAdapter.MyViewHolde
     public void onBindViewHolder(final MyViewHolder holder, int pos) {
         final PostBean bean = list.get(pos);
         holder.mTextViewCategory.setText(bean.getCategory());
-        holder.mTextViewTitle.setText(bean.getTitle());
+        holder.mTextViewTitle.setText((bean.getTitle().replaceAll("]\\s*\\[|\\[|]|】\\s*【|】|【", "/") + "/").replaceAll("(/\\s*/+)+", "/"));
         holder.mTextViewDate.setText(bean.getDate());
         holder.mTextViewSize.setText(bean.getSize());
         if (bean.getSub() != null) {
@@ -95,7 +95,7 @@ class LocalSubsAdapter extends RecyclerView.Adapter<LocalSubsAdapter.MyViewHolde
                             @Override
                             public void accept(Boolean aBoolean) throws Exception {
                                 if (aBoolean) {
-                                    MessageBar.create(holder.context, "刪除成功：" + bean.getTitle());
+                                    MessageBar.create(holder.context, "刪除成功：" + (bean.getTitle().replaceAll("]\\s*\\[|\\[|]|】\\s*【|】|【", "/") + "/").replaceAll("(/\\s*/+)+", "/"));
                                     remove(holder.getAdapterPosition());
                                 } else {
                                     MessageBar.create(holder.context, "刪除過程可能出現錯誤");

@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/DMHY.iml" filepath="$PROJECT_DIR$/DMHY.iml" />
+      <module fileurl="file://D:\WorkSpace\Sakura-java\DMHY.iml" filepath="D:\WorkSpace\Sakura-java\DMHY.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Sakura-java.iml" filepath="$PROJECT_DIR$/.idea/Sakura-java.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

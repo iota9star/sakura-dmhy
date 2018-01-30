@@ -5,9 +5,11 @@
     android:id="@+id/card_view_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="4dp"
     android:clickable="true"
+    android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
-    app:cardElevation="0.36dp"
+    app:cardCornerRadius="0dp"
     app:cardPreventCornerOverlap="false"
     app:cardUseCompatPadding="true">
 
@@ -16,8 +18,8 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:layout_width="@dimen/v48dp"
-            android:layout_height="@dimen/v48dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_gravity="bottom"
             android:layout_marginBottom="-8dp"
             android:layout_marginLeft="-4dp"
@@ -26,8 +28,8 @@
             tools:ignore="ContentDescription" />
 
         <ImageView
-            android:layout_width="@dimen/v56dp"
-            android:layout_height="@dimen/v56dp"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             android:layout_gravity="end"
             android:src="@drawable/bg_flower"
             tools:ignore="ContentDescription" />
@@ -42,25 +44,20 @@
                 android:id="@+id/text_view_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/v8dp"
+                android:padding="8dp"
                 android:shadowColor="#24242424"
                 android:shadowDx="1"
                 android:shadowDy="1"
                 android:shadowRadius="3"
                 android:textColor="@color/colorAccent"
-                android:textSize="@dimen/v12sp"
+                android:textSize="12sp"
                 android:textStyle="bold" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/colorPrimary" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:padding="@dimen/v4dp">
+                android:padding="4dp">
 
                 <TextView
                     android:id="@+id/text_view_category"
@@ -70,7 +67,7 @@
                     android:ellipsize="end"
                     android:gravity="center"
                     android:maxLines="1"
-                    android:textSize="@dimen/v10sp" />
+                    android:textSize="10sp" />
 
                 <TextView
                     android:id="@+id/text_view_size"
@@ -80,7 +77,7 @@
                     android:ellipsize="end"
                     android:gravity="center"
                     android:maxLines="1"
-                    android:textSize="@dimen/v10sp" />
+                    android:textSize="10sp" />
 
                 <TextView
                     android:id="@+id/text_view_date"
@@ -90,43 +87,47 @@
                     android:ellipsize="end"
                     android:gravity="center"
                     android:maxLines="1"
-                    android:textSize="@dimen/v10sp" />
+                    android:textSize="10sp" />
 
                 <Button
                     android:id="@+id/button_sub"
-                    android:layout_width="@dimen/v36dp"
-                    android:layout_height="@dimen/v20dp"
-                    android:layout_margin="@dimen/v4dp"
+                    android:layout_width="36dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="4dp"
                     android:background="@drawable/bg_button"
                     android:text="@string/sub"
-                    android:textSize="@dimen/v10sp" />
+                    android:textColor="@color/buttonColor"
+                    android:textSize="10sp" />
 
                 <Button
                     android:id="@+id/button_link"
-                    android:layout_width="@dimen/v32dp"
-                    android:layout_height="@dimen/v20dp"
-                    android:layout_margin="@dimen/v4dp"
+                    android:layout_width="32dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="4dp"
                     android:background="@drawable/bg_button"
                     android:text="@string/link"
-                    android:textSize="@dimen/v10sp" />
+                    android:textColor="@color/buttonColor"
+                    android:textSize="10sp" />
 
                 <Button
                     android:id="@+id/button_magnet"
-                    android:layout_width="@dimen/v32dp"
-                    android:layout_height="@dimen/v20dp"
-                    android:layout_margin="@dimen/v4dp"
+                    android:layout_width="32dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="4dp"
                     android:background="@drawable/bg_button"
                     android:text="@string/magnet"
-                    android:textSize="@dimen/v10sp" />
+                    android:textColor="@color/buttonColor"
+                    android:textSize="10sp" />
 
                 <Button
                     android:id="@+id/button_delete"
-                    android:layout_width="@dimen/v36dp"
-                    android:layout_height="@dimen/v20dp"
-                    android:layout_margin="@dimen/v4dp"
+                    android:layout_width="36dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="4dp"
                     android:background="@drawable/bg_button"
                     android:text="@string/delete"
-                    android:textSize="@dimen/v10sp" />
+                    android:textColor="@color/buttonColor"
+                    android:textSize="10sp" />
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>

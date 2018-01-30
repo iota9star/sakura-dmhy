@@ -38,7 +38,7 @@ public class NoCoverViewHolder extends BaseViewHolder<RSSPostBean> {
 
     @Override
     public void bindView(final RSSPostBean bean) {
-        textViewTitle.setText(bean.getTitle());
+        textViewTitle.setText((bean.getTitle().replaceAll("]\\s*\\[|\\[|]|】\\s*【|】|【", "/") + "/").replaceAll("(/\\s*/+)+", "/"));
         textViewCategory.setText(bean.getCategory());
         textViewDate.setText(DateUtils.getBefore(bean.getPubDate()));
         buttonMagnet.setOnClickListener(new View.OnClickListener() {

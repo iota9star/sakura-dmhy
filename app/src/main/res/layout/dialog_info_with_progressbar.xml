@@ -3,9 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    app:cardCornerRadius="0dp"
     app:cardPreventCornerOverlap="false"
     app:cardUseCompatPadding="true"
-    app:contentPadding="@dimen/v8dp">
+    app:contentPadding="8dp">
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -21,10 +22,10 @@
 
             <ProgressBar
                 android:id="@+id/progress_bar"
-                android:layout_width="@dimen/v48dp"
-                android:layout_height="@dimen/v48dp"
-                android:layout_marginBottom="@dimen/v64dp"
-                android:layout_marginTop="@dimen/v64dp" />
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginBottom="64dp"
+                android:layout_marginTop="64dp" />
 
             <TextView
                 android:id="@+id/text_view_info"

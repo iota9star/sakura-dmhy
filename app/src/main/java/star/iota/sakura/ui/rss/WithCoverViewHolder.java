@@ -3,6 +3,8 @@ package star.iota.sakura.ui.rss;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.graphics.Palette;
@@ -13,10 +15,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.zzhoujay.richtext.RichText;
 import com.zzhoujay.richtext.callback.OnImageClickListener;
 
@@ -59,7 +59,7 @@ public class WithCoverViewHolder extends BaseViewHolder<RSSPostBean> {
 
     @Override
     public void bindView(final RSSPostBean bean) {
-        textViewTitle.setText(bean.getTitle());
+        textViewTitle.setText(("/" + bean.getTitle().replaceAll("]\\s*\\[|\\[|]|】\\s*【|】|【", "/") + "/").replaceAll("(/\\s*/+)+", "/"));
         textViewCategory.setText(bean.getCategory());
         textViewDate.setText(DateUtils.getBefore(bean.getPubDate()));
         buttonMagnet.setOnClickListener(new View.OnClickListener() {
@@ -90,24 +90,16 @@ public class WithCoverViewHolder extends BaseViewHolder<RSSPostBean> {
                 .asBitmap()
                 .load(bean.getCover())
                 .placeholder(R.drawable.bg_sakura)
-                .fallback(R.drawable.bg_sakura)
                 .error(R.drawable.bg_sakura)
+                .fallback(R.drawable.bg_sakura)
                 .dontAnimate()
-                .listener(new RequestListener<Bitmap>() {
+                .into(new SimpleTarget<Bitmap>(mContext.getResources().getDimensionPixelSize(R.dimen.v96dp), mContext.getResources().getDimensionPixelSize(R.dimen.v128dp)) {
                     @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object o, Target<Bitmap> target, boolean b) {
-                        onErrorLoadDefault();
-                        String cover = bean.getCover().replace("http:", "https:");
-                        bean.setCover(cover);
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onResourceReady(Bitmap bitmap, Object o, Target<Bitmap> target, DataSource dataSource, boolean b) {
-                        Blurry.with(mContext).from(bitmap).into(imageViewBanner);
-                        Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                        Blurry.with(mContext).from(resource).into(imageViewBanner);
+                        Palette.from(resource).generate(new Palette.PaletteAsyncListener() {
                             @Override
-                            public void onGenerated(Palette palette) {
+                            public void onGenerated(@NonNull Palette palette) {
                                 List<Palette.Swatch> swatches = palette.getSwatches();
                                 for (Palette.Swatch swatch : swatches) {
                                     if (swatch != null) {
@@ -116,10 +108,17 @@ public class WithCoverViewHolder extends BaseViewHolder<RSSPostBean> {
                                 }
                             }
                         });
-                        return false;
+                        imageViewCover.setImageBitmap(resource);
                     }
-                })
-                .into(imageViewCover);
+
+                    @Override
+                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                        GlideApp.with(mContext).clear(imageViewCover);
+                        String cover = bean.getCover().replace("http:", "https:");
+                        bean.setCover(cover);
+                        onErrorLoadDefault();
+                    }
+                });
     }
 
     private void showInfo(final RSSPostBean bean) {
@@ -154,21 +153,16 @@ public class WithCoverViewHolder extends BaseViewHolder<RSSPostBean> {
                 .load(mContext.getString(R.string.banner))
                 .centerCrop()
                 .placeholder(R.drawable.bg_sakura)
-                .fallback(R.drawable.bg_sakura)
                 .error(R.drawable.bg_sakura)
+                .fallback(R.drawable.bg_sakura)
                 .dontAnimate()
-                .listener(new RequestListener<Bitmap>() {
+                .into(new SimpleTarget<Bitmap>(mContext.getResources().getDimensionPixelSize(R.dimen.v96dp), mContext.getResources().getDimensionPixelSize(R.dimen.v128dp)) {
                     @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object o, Target<Bitmap> target, boolean b) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onResourceReady(Bitmap bitmap, Object o, Target<Bitmap> target, DataSource dataSource, boolean b) {
-                        Blurry.with(mContext).from(bitmap).into(imageViewBanner);
-                        Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                        Blurry.with(mContext).from(resource).into(imageViewBanner);
+                        Palette.from(resource).generate(new Palette.PaletteAsyncListener() {
                             @Override
-                            public void onGenerated(Palette palette) {
+                            public void onGenerated(@NonNull Palette palette) {
                                 List<Palette.Swatch> swatches = palette.getSwatches();
                                 for (Palette.Swatch swatch : swatches) {
                                     if (swatch != null) {
@@ -177,10 +171,9 @@ public class WithCoverViewHolder extends BaseViewHolder<RSSPostBean> {
                                 }
                             }
                         });
-                        return false;
+                        imageViewCover.setImageBitmap(resource);
                     }
-                })
-                .into(imageViewCover);
+                });
     }
 
     private void bindTextColor(Palette.Swatch swatch) {

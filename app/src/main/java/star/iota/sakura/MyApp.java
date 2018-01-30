@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.crashlytics.android.Crashlytics;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheEntity;
 import com.lzy.okgo.cache.CacheMode;
@@ -12,7 +13,7 @@ import com.lzy.okgo.cookie.CookieJarImpl;
 import com.lzy.okgo.cookie.store.SPCookieStore;
 import com.lzy.okgo.https.HttpsUtils;
 import com.lzy.okgo.model.HttpHeaders;
-import com.scwang.smartrefresh.header.DeliveryHeader;
+import com.scwang.smartrefresh.header.StoreHouseHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreater;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreater;
@@ -27,6 +28,7 @@ import java.util.concurrent.TimeUnit;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
 
+import io.fabric.sdk.android.Fabric;
 import okhttp3.OkHttpClient;
 
 
@@ -40,7 +42,13 @@ public class MyApp extends Application {
             @NonNull
             @Override
             public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
-                return new DeliveryHeader(context);
+                StoreHouseHeader storeHouseHeader = new StoreHouseHeader(context);
+                storeHouseHeader.initWithString(context.getString(R.string.app_name), 28);
+                storeHouseHeader.setLineWidth(4);
+                storeHouseHeader.setTextColor(0xff5384);
+                storeHouseHeader.setMinimumHeight(context.getResources().getDimensionPixelSize(R.dimen.v64dp));
+                storeHouseHeader.setDropHeight(context.getResources().getDimensionPixelSize(R.dimen.v128dp));
+                return storeHouseHeader;
             }
         });
         SmartRefreshLayout.setDefaultRefreshFooterCreater(new DefaultRefreshFooterCreater() {
@@ -75,6 +83,7 @@ public class MyApp extends Application {
         mContext = getApplicationContext();
         initOkGo();
         RichText.initCacheDir(mContext);
+        Fabric.with(this, new Crashlytics());
     }
 
     private void initOkGo() {

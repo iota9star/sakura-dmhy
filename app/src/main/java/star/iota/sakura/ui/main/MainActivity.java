@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.Settings;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.ListPopupWindow;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -73,6 +74,8 @@ public class MainActivity extends BaseActivity {
     public static final int SUBS_IMPORT_CODE = 2;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+    @BindView(R.id.collapsing_toolbar_layout)
+    CollapsingToolbarLayout mCollapsingToolbarLayout;
     private int sort_id = 0;
     private Drawer mDrawer;
     private int mCurrentFragmentId;
@@ -80,10 +83,24 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void init() {
-        setSupportActionBar(mToolbar);
         initDrawer();
         initDrawerEvent();
+        initToolbar();
         checkPermission();
+    }
+
+    private void initToolbar() {
+        setSupportActionBar(mToolbar);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDrawer.openDrawer();
+            }
+        });
+    }
+
+    public CollapsingToolbarLayout getCollapsingToolbarLayout() {
+        return mCollapsingToolbarLayout;
     }
 
     @Override
@@ -264,7 +281,6 @@ public class MainActivity extends BaseActivity {
     private void initDrawer() {
         mDrawer = new DrawerBuilder()
                 .withActivity(this)
-                .withToolbar(mToolbar)
                 .withItemAnimator(new LandingAnimator())
                 .withHeader(R.layout.drawer_header_view)
                 .withHeaderDivider(false)

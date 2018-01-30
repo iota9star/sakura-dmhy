@@ -32,8 +32,8 @@ class NewFanViewHolder extends BaseViewHolder<FanBean> {
         GlideApp.with(mContext)
                 .load(bean.getCover().replace("http://", "https://"))
                 .placeholder(R.drawable.bg_sakura)
-                .error(R.drawable.bg_sakura)
                 .fallback(R.drawable.bg_sakura)
+                .error(R.drawable.bg_sakura)
                 .into(mImageViewCover);
         mTextViewName.setText(bean.getName());
         mCardViewContainer.setOnClickListener(new View.OnClickListener() {

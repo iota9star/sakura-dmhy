@@ -3,12 +3,14 @@
     android:id="@+id/refresh_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground">
+    android:background="#ffffff">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:padding="4dp"
         android:scrollbars="vertical" />
 
 </com.scwang.smartrefresh.layout.SmartRefreshLayout>

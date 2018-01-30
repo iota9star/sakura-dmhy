@@ -38,7 +38,7 @@ public class AboutFragment extends BaseFragment {
 
     @Override
     protected void init() {
-        setTitle("關於本軟");
+        setToolbarTitle("關於本軟");
         GlideApp.with(mContext)
                 .load(getResources().getString(R.string.sakura))
                 .into(mImageViewBanner);

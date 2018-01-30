@@ -6,9 +6,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.OnRefreshLoadmoreListener;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
 import java.util.List;
 
@@ -55,7 +55,7 @@ public class RSSPostFragment extends BaseFragment implements PVContract.View<Lis
 
     @Override
     protected void init() {
-        setTitle(mTitle);
+        setToolbarTitle(mTitle);
         initPresenter();
         initRecyclerView();
         initRefreshLayout();
@@ -70,23 +70,9 @@ public class RSSPostFragment extends BaseFragment implements PVContract.View<Lis
 
     private void initRefreshLayout() {
         mRefreshLayout.autoRefresh();
-        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+        mRefreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadmoreListener() {
             @Override
-            public void onRefresh(RefreshLayout refreshLayout) {
-                if (isRunning) {
-                    MessageBar.create(mContext, "正在加载中...");
-                    return;
-                }
-                mPage = 1;
-                isRunning = true;
-                isLoadMore = false;
-                mAdapter.clear();
-                mPresenter.get(mUrl + mPage + mParameter);
-            }
-        });
-        mRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
-            @Override
-            public void onLoadmore(RefreshLayout refreshLayout) {
+            public void onLoadmore(RefreshLayout refreshlayout) {
                 if (isRunning) {
                     MessageBar.create(mContext, "正在加载中...");
                     return;
@@ -98,6 +84,19 @@ public class RSSPostFragment extends BaseFragment implements PVContract.View<Lis
                     url = url.replace("+team_id%3A", "&team_id=");
                 }
                 mPresenter.get(url);
+            }
+
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                if (isRunning) {
+                    MessageBar.create(mContext, "正在加载中...");
+                    return;
+                }
+                mPage = 1;
+                isRunning = true;
+                isLoadMore = false;
+                mAdapter.clear();
+                mPresenter.get(mUrl + mPage + mParameter);
             }
         });
     }
@@ -140,6 +139,11 @@ public class RSSPostFragment extends BaseFragment implements PVContract.View<Lis
         } else {
             mRefreshLayout.finishRefresh(false);
         }
+    }
+
+    @Override
+    public void isCache() {
+        MessageBar.create(getActivity(), "请注意，以下内容来自缓存");
     }
 
     @Override

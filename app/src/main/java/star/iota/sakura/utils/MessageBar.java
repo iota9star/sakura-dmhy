@@ -10,7 +10,7 @@ import java.util.Random;
 
 
 public class MessageBar {
-    private static final String[] FACES = {
+    public static final String[] FACES = {
             "ヽ(✿ﾟ▽ﾟ)ノ", "━━(￣ー￣*|||━━", "┗|*｀0′*|┛", "o(*^▽^*)┛",
             "( σ'ω')σ", "✧(≖ ◡ ≖✿)", "|(•_•) |•_•) |_•) |•) | )", "(ﾟｰﾟ)",
             "´･∀･)乂(･∀･｀", "(。・∀・)ノ", "(oﾟvﾟ)ノ", "(*ﾟｰﾟ)",
@@ -29,7 +29,7 @@ public class MessageBar {
             "（゜▽＾*））", "ヽ(✿ﾟ▽ﾟ)ノ", "(( へ(へ´∀`)へ", "╰(*°▽°*)╯",
             "^O^", "♪(^∇^*)", "(≧∀≦)ゞ", "(๑´ㅂ`๑)",
             "(๑¯∀¯๑)", "(/≧▽≦)/", "ヽ(ﾟ∀ﾟ*)ﾉ━━━ｩ♪", "o(*≧▽≦)ツ┏━┓",
-            "ε(*´･∀･｀)зﾞ", "~(～￣▽￣)～", "(o゜▽゜)o☆", "o(*￣▽￣*)o"
+            "ε(*´･∀･｀)зﾞ", "~(～￣▽￣)～", "(o゜▽゜)o☆", "o(*￣▽￣*)o", "(〃ﾉωﾉ)"
     };
 
     public static void create(Context context, String content) {

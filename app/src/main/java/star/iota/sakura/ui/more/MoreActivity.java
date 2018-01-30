@@ -170,7 +170,7 @@ public class MoreActivity extends BaseActivity {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                 int offset = appBarLayout.getTotalScrollRange() + verticalOffset;
-                if (offset < getResources().getDimensionPixelOffset(R.dimen.v14dp)) {
+                if (offset < getResources().getDimensionPixelOffset(R.dimen.v8dp)) {
                     mTabLayout.setPadding(0, 0, 0, 0);
                 } else {
                     mTabLayout.setPadding(getResources().getDimensionPixelOffset(R.dimen.v96dp), 0, 0, 0);
@@ -195,8 +195,8 @@ public class MoreActivity extends BaseActivity {
                 .asBitmap()
                 .load(bean.getCover().replace("http://", "https://"))
                 .error(R.drawable.bg_sakura)
-                .placeholder(R.drawable.bg_sakura)
                 .fallback(R.drawable.bg_sakura)
+                .placeholder(R.drawable.bg_sakura)
                 .listener(new RequestListener<Bitmap>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object o, Target<Bitmap> target, boolean b) {

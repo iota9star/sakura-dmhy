@@ -7,8 +7,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
 import java.util.List;
 
@@ -55,7 +54,7 @@ public class PostFragment extends BaseFragment implements PVContract.View<List<P
 
     @Override
     protected void init() {
-        setTitle(mTitle);
+        setToolbarTitle(mTitle);
         initPresenter();
         initRecyclerView();
         initRefreshLayout();
@@ -70,23 +69,9 @@ public class PostFragment extends BaseFragment implements PVContract.View<List<P
 
     private void initRefreshLayout() {
         mRefreshLayout.autoRefresh();
-        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+        mRefreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
-            public void onRefresh(RefreshLayout refreshLayout) {
-                if (isRunning) {
-                    MessageBar.create(mContext, "正在加载中...");
-                    return;
-                }
-                mPage = 1;
-                isRunning = true;
-                isLoadMore = false;
-                mAdapter.clear();
-                mPresenter.get(mUrl + mPage + mParameter);
-            }
-        });
-        mRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
-            @Override
-            public void onLoadmore(RefreshLayout refreshLayout) {
+            public void onLoadMore(RefreshLayout refreshLayout) {
                 if (isRunning) {
                     MessageBar.create(mContext, "正在加载中...");
                     return;
@@ -98,6 +83,19 @@ public class PostFragment extends BaseFragment implements PVContract.View<List<P
                     url = url.replace("+team_id%3A", "&team_id=");
                 }
                 mPresenter.get(url);
+            }
+
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                if (isRunning) {
+                    MessageBar.create(mContext, "正在加载中...");
+                    return;
+                }
+                mPage = 1;
+                isRunning = true;
+                isLoadMore = false;
+                mAdapter.clear();
+                mPresenter.get(mUrl + mPage + mParameter);
             }
         });
     }
@@ -141,6 +139,11 @@ public class PostFragment extends BaseFragment implements PVContract.View<List<P
         } else {
             mRefreshLayout.finishRefresh(false);
         }
+    }
+
+    @Override
+    public void isCache() {
+        MessageBar.create(getActivity(), "请注意，以下内容来自缓存");
     }
 
     @Override

@@ -14,5 +14,7 @@ public interface PVContract {
 
         void error(String error);
 
+        void isCache();
+
     }
 }

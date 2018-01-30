@@ -11,8 +11,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.Random;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import star.iota.sakura.utils.MessageBar;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
@@ -74,9 +77,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
             getSupportFragmentManager().popBackStack();
         } else {
+            String hi[] = {"期待与你下一次的相遇", "要经常来看看我哦", "今天也要努力呢", "与你相伴的时光使我快乐", "我是多么盼望你能早点回来"};
             System.arraycopy(mHints, 1, mHints, 0, mHints.length - 1);
             mHints[mHints.length - 1] = SystemClock.uptimeMillis();
-            Snackbar.make(findViewById(android.R.id.content), "真的要退出了吗？\n退出的話，請再按一次", Snackbar.LENGTH_SHORT).setAction("嗯", new View.OnClickListener() {
+            String[] faces = MessageBar.FACES;
+            Snackbar.make(findViewById(android.R.id.content), hi[new Random().nextInt(hi.length)], Snackbar.LENGTH_SHORT).setAction(faces[new Random().nextInt(faces.length)], new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     System.exit(0);

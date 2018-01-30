@@ -5,9 +5,12 @@
     android:id="@+id/card_view_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="4dp"
     android:clickable="true"
+    android:focusable="true"
     android:foreground="?android:attr/selectableItemBackgroundBorderless"
     android:stateListAnimator="@animator/touch_floating"
+    app:cardCornerRadius="0dp"
     app:cardPreventCornerOverlap="false"
     app:cardUseCompatPadding="true">
 
@@ -27,14 +30,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:padding="@dimen/v16dp"
+            android:padding="16dp"
             android:textColor="#60606060"
-            android:textSize="@dimen/v36sp"
+            android:textSize="36sp"
             android:textStyle="bold|italic" />
 
         <ImageView
-            android:layout_width="@dimen/v96dp"
-            android:layout_height="@dimen/v128dp"
+            android:layout_width="96dp"
+            android:layout_height="128dp"
             android:layout_gravity="end|center_vertical"
             android:src="@drawable/bg_flower"
             tools:ignore="ContentDescription" />
@@ -47,18 +50,20 @@
             <android.support.v7.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/v4dp"
+                android:layout_margin="4dp"
                 android:clickable="true"
+                android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackgroundBorderless"
                 android:stateListAnimator="@animator/touch_floating"
+                app:cardCornerRadius="0dp"
                 app:cardPreventCornerOverlap="false"
                 app:cardUseCompatPadding="true"
-                app:contentPadding="@dimen/v2dp">
+                app:contentPadding="2dp">
 
                 <ImageView
                     android:id="@+id/image_view_cover"
-                    android:layout_width="@dimen/v96dp"
-                    android:layout_height="@dimen/v128dp"
+                    android:layout_width="96dp"
+                    android:layout_height="128dp"
                     android:adjustViewBounds="true"
                     tools:ignore="ContentDescription" />
 
@@ -68,31 +73,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:padding="@dimen/v8dp">
+                android:padding="8dp">
 
                 <TextView
                     android:id="@+id/text_view_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/v4dp"
+                    android:layout_margin="4dp"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:textColor="#ecececec"
-                    android:textSize="@dimen/v16sp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/text_view_official"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/v4dp"
+                    android:layout_margin="4dp"
                     android:autoLink="all"
                     android:clickable="true"
                     android:ellipsize="end"
+                    android:focusable="true"
                     android:maxLines="1"
                     android:textColor="#ecececec"
                     android:textIsSelectable="true"
-                    android:textSize="@dimen/v12sp" />
+                    android:textSize="12sp" />
 
                 <cn.lankton.flowlayout.FlowLayout
                     android:id="@+id/flow_layout"

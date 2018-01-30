@@ -5,9 +5,11 @@
     android:id="@+id/card_view_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="4dp"
     android:clickable="true"
+    android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
-    app:cardElevation="0.36dp"
+    app:cardCornerRadius="0dp"
     app:cardPreventCornerOverlap="false"
     app:cardUseCompatPadding="true">
 
@@ -21,12 +23,12 @@
             android:layout_height="wrap_content"
             android:gravity="end"
             android:textColor="#60e16b8c"
-            android:textSize="@dimen/v24sp"
+            android:textSize="24sp"
             android:textStyle="bold|italic" />
 
         <ImageView
-            android:layout_width="@dimen/v36dp"
-            android:layout_height="@dimen/v36dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:layout_gravity="bottom"
             android:layout_marginBottom="-8dp"
             android:layout_marginLeft="-4dp"
@@ -35,8 +37,8 @@
             tools:ignore="ContentDescription" />
 
         <ImageView
-            android:layout_width="@dimen/v56dp"
-            android:layout_height="@dimen/v56dp"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             android:layout_gravity="end"
             android:src="@drawable/bg_flower"
             tools:ignore="ContentDescription" />
@@ -53,26 +55,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"
+                android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:padding="@dimen/v8dp"
-                android:shadowColor="#24242424"
-                android:shadowDx="1"
-                android:shadowDy="1"
-                android:shadowRadius="3"
-                android:textColor="#606060"
-                android:textSize="@dimen/v12sp"
+                android:lineSpacingExtra="2sp"
+                android:lineSpacingMultiplier="1.2"
+                android:paddingBottom="16dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingTop="16dp"
+                android:textColor="#212121"
                 android:textStyle="bold" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@color/colorAccent" />
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:background="#ecececec" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="@dimen/v2dp">
+                android:gravity="center_vertical"
+                android:padding="8dp"
+                android:paddingBottom="16dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp">
 
                 <TextView
                     android:id="@+id/text_view_size"
@@ -82,9 +90,7 @@
                     android:ellipsize="end"
                     android:gravity="center"
                     android:maxLines="1"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="@dimen/v10sp"
-                    android:textStyle="bold" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/text_view_date"
@@ -94,47 +100,48 @@
                     android:ellipsize="end"
                     android:gravity="center"
                     android:maxLines="1"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="@dimen/v10sp"
-                    android:textStyle="bold" />
+                    android:textSize="12sp" />
 
                 <Button
                     android:id="@+id/button_sub"
-                    android:layout_width="@dimen/v36dp"
-                    android:layout_height="@dimen/v20dp"
-                    android:layout_margin="@dimen/v2dp"
+                    android:layout_width="36dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="2dp"
                     android:background="@drawable/bg_button"
                     android:text="@string/sub"
-                    android:textSize="@dimen/v10sp" />
+                    android:textColor="@color/buttonColor"
+                    android:textSize="10sp" />
 
                 <Button
                     android:id="@+id/button_link"
-                    android:layout_width="@dimen/v32dp"
-                    android:layout_height="@dimen/v20dp"
-                    android:layout_margin="@dimen/v2dp"
+                    android:layout_width="32dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="2dp"
                     android:background="@drawable/bg_button"
                     android:text="@string/info"
-                    android:textSize="@dimen/v10sp" />
+                    android:textColor="@color/buttonColor"
+                    android:textSize="10sp" />
 
                 <Button
                     android:id="@+id/button_magnet"
-                    android:layout_width="@dimen/v32dp"
-                    android:layout_height="@dimen/v20dp"
-                    android:layout_margin="@dimen/v2dp"
+                    android:layout_width="32dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="2dp"
                     android:background="@drawable/bg_button"
                     android:text="@string/magnet"
-                    android:textSize="@dimen/v10sp" />
+                    android:textColor="@color/buttonColor"
+                    android:textSize="10sp" />
 
                 <Button
                     android:id="@+id/button_collection"
-                    android:layout_width="@dimen/v36dp"
-                    android:layout_height="@dimen/v20dp"
-                    android:layout_margin="@dimen/v2dp"
+                    android:layout_width="36dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="2dp"
                     android:background="@drawable/bg_button"
                     android:text="@string/collection"
-                    android:textSize="@dimen/v10sp" />
+                    android:textColor="@color/buttonColor"
+                    android:textSize="10sp" />
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>
-
 </android.support.v7.widget.CardView>

@@ -6,17 +6,40 @@
     android:animateLayoutChanges="true">
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:animateLayoutChanges="true"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <star.iota.sakura.widget.BoldFontCollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar_layout"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/v48dp"
-            app:navigationIcon="?attr/homeAsUpIndicator"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            android:layout_height="104dp"
+            app:expandedTitleGravity="top"
+            app:expandedTitleMarginStart="16dp"
+            app:expandedTitleMarginTop="56dp"
+            app:expandedTitleTextAppearance="@style/ExpandedTitleAppearance"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:contentInsetLeft="0dp"
+                app:contentInsetStart="0dp"
+                app:contentInsetStartWithNavigation="0dp"
+                app:layout_collapseMode="pin"
+                app:navigationIcon="@drawable/ic_action_menu"
+                app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            </android.support.v7.widget.Toolbar>
+
+        </star.iota.sakura.widget.BoldFontCollapsingToolbarLayout>
+
     </android.support.design.widget.AppBarLayout>
 
     <FrameLayout
@@ -28,7 +51,7 @@
     <com.github.rubensousa.floatingtoolbar.FloatingToolbar
         android:id="@+id/floating_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/v48dp"
+        android:layout_height="48dp"
         android:layout_gravity="bottom"
         app:floatingMenu="@menu/menu_local" />
 
@@ -37,7 +60,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/v16dp"
+        android:layout_margin="16dp"
         android:src="@drawable/ic_add_white_24dp"
         app:layout_behavior="star.iota.sakura.base.ScrollAwareFABBehavior" />
 </android.support.design.widget.CoordinatorLayout>

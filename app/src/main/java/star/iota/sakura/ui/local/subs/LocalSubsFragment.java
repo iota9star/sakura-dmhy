@@ -49,7 +49,7 @@ public class LocalSubsFragment extends BaseFragment {
 
     @Override
     protected void init() {
-        setTitle("收藏 * 單項");
+        setToolbarTitle("收藏 * 單項");
         mAdapter = new LocalSubsAdapter();
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setItemAnimator(new LandingAnimator());

@@ -40,6 +40,9 @@ public abstract class StringPresenter<T> implements PVContract.Presenter {
                         .map(new Function<Response<String>, T>() {
                             @Override
                             public T apply(@NonNull Response<String> s) throws Exception {
+                                if (s.isFromCache()) {
+                                    view.isCache();
+                                }
                                 return dealResponse(s.body());
                             }
                         })

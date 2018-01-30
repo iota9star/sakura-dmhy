@@ -50,7 +50,7 @@ public class LocalFanFragment extends BaseFragment {
 
     @Override
     protected void init() {
-        setTitle("收藏 * 番組");
+        setToolbarTitle("收藏 * 番組");
         mAdapter = new LocalFanAdapter();
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setItemAnimator(new LandingAnimator());

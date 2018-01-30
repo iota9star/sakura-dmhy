@@ -16,7 +16,6 @@ import star.iota.sakura.base.StringPresenter;
 import star.iota.sakura.ui.fans.FanBean;
 import star.iota.sakura.ui.fans.SubBean;
 
-
 class NewFansPresenter extends StringPresenter<List<NewFansBean>> {
 
     NewFansPresenter(PVContract.View view) {
@@ -25,7 +24,7 @@ class NewFansPresenter extends StringPresenter<List<NewFansBean>> {
 
     @Override
     protected List<NewFansBean> dealResponse(String s) {
-        String regex = "[a-z]{3}array\\.push\\(\\[(.*)\\]\\);";
+        String regex = "[a-z]{3}array\\.push\\(\\[(.*)]\\);";
         Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
         Matcher matcher = pattern.matcher(s);
         List<NewFansBean> list = new ArrayList<>();

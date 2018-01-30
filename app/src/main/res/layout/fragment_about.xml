@@ -10,59 +10,40 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingEnd="@dimen/v8dp"
-        android:paddingStart="@dimen/v8dp">
+        android:orientation="vertical">
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/v8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
             android:clickable="true"
+            android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
-            app:cardElevation="0.36dp"
+            app:cardCornerRadius="0dp"
             app:cardPreventCornerOverlap="false"
             app:cardUseCompatPadding="true">
 
-            <FrameLayout
+            <ImageView
+                android:id="@+id/image_view_banner"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="256dp"
+                android:scaleType="centerCrop"
+                tools:ignore="ContentDescription" />
 
-                <ImageView
-                    android:id="@+id/image_view_banner"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/v256dp"
-                    android:scaleType="centerCrop"
-                    tools:ignore="ContentDescription" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#60a0a0a0" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:shadowColor="#60606060"
-                    android:shadowDx="3"
-                    android:shadowDy="3"
-                    android:shadowRadius="10"
-                    android:text="@string/app_name"
-                    android:textColor="#40000000"
-                    android:textSize="@dimen/v96sp"
-                    android:textStyle="bold|italic" />
-            </FrameLayout>
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/v8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
             android:clickable="true"
+            android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
-            app:cardElevation="0.36dp"
+            app:cardCornerRadius="0dp"
             app:cardPreventCornerOverlap="false"
             app:cardUseCompatPadding="true">
 
@@ -74,12 +55,12 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/v8dp"
+                    android:padding="8dp"
                     android:text="@string/source" />
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/v2dp"
+                    android:layout_height="2dp"
                     android:layout_gravity="center"
                     android:background="@color/colorAccent" />
 
@@ -88,20 +69,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clickable="true"
+                    android:focusable="true"
                     android:foreground="?android:attr/selectableItemBackground"
-                    android:padding="@dimen/v8dp"
+                    android:padding="8dp"
                     android:text="@string/dmhy"
-                    android:textSize="@dimen/v12sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/v8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
             android:clickable="true"
+            android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
-            app:cardElevation="0.36dp"
+            app:cardCornerRadius="0dp"
             app:cardPreventCornerOverlap="false"
             app:cardUseCompatPadding="true">
 
@@ -113,12 +98,12 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/v8dp"
+                    android:padding="8dp"
                     android:text="@string/ganxie" />
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/v2dp"
+                    android:layout_height="2dp"
                     android:layout_gravity="center"
                     android:background="@color/colorAccent" />
 
@@ -126,20 +111,23 @@
                     android:id="@+id/text_view_thx"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/v8dp"
+                    android:padding="8dp"
                     android:text="@string/ganxieneirong"
-                    android:textSize="@dimen/v12sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/v96dp"
-            android:layout_marginTop="@dimen/v8dp"
+            android:layout_marginBottom="196dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
             android:clickable="true"
+            android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
-            app:cardElevation="0.36dp"
+            app:cardCornerRadius="0dp"
             app:cardPreventCornerOverlap="false"
             app:cardUseCompatPadding="true">
 
@@ -151,12 +139,12 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/v8dp"
+                    android:padding="8dp"
                     android:text="@string/juedebucuo" />
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/v2dp"
+                    android:layout_height="2dp"
                     android:layout_gravity="center"
                     android:background="@color/colorAccent" />
 
@@ -165,8 +153,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clickable="true"
+                    android:focusable="true"
                     android:foreground="?android:attr/selectableItemBackground"
-                    android:padding="@dimen/v8dp">
+                    android:padding="8dp">
 
                     <TextView
                         android:layout_width="0dp"
@@ -174,11 +163,11 @@
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:text="@string/geiwopingfen"
-                        android:textSize="@dimen/v12sp" />
+                        android:textSize="12sp" />
 
                     <de.hdodenhof.circleimageview.CircleImageView
-                        android:layout_width="@dimen/v24dp"
-                        android:layout_height="@dimen/v24dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_gravity="end"
                         android:src="@drawable/ic_google_paly_store" />
                 </LinearLayout>

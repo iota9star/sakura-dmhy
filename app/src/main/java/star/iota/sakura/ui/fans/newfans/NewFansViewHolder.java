@@ -28,8 +28,8 @@ class NewFansViewHolder extends BaseViewHolder<NewFansBean> {
         GlideApp.with(mContext)
                 .load(bean.getWeek().replace("http://", "https://"))
                 .placeholder(R.drawable.bg_sakura)
-                .error(R.drawable.bg_sakura)
                 .fallback(R.drawable.bg_sakura)
+                .error(R.drawable.bg_sakura)
                 .into(mImageViewWeek);
         NewFanAdapter adapter = new NewFanAdapter();
         mRecyclerView.setHasFixedSize(true);

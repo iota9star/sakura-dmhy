@@ -3,10 +3,10 @@
     <item
         android:state_enabled="true"
         android:state_pressed="true">
-        <objectAnimator
+         <objectAnimator
             android:duration="@android:integer/config_shortAnimTime"
             android:propertyName="translationZ"
-            android:valueTo="@dimen/v4dp"
+            android:valueTo="8dp"
             android:valueType="floatType" />
     </item>
     <item>

@@ -1,6 +1,7 @@
 package star.iota.sakura.ui.rss;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -24,7 +25,7 @@ class RSSPostAdapter extends BaseAdapter<BaseViewHolder, RSSPostBean> {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (mBeans.get(position).getCover() == null) {
+        if (mBeans.get(position).getCover() == null || TextUtils.isEmpty(mBeans.get(position).getCover())) {
             ((NoCoverViewHolder) holder).bindView(mBeans.get(position));
         } else {
             ((WithCoverViewHolder) holder).bindView(mBeans.get(position));

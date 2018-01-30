@@ -29,7 +29,7 @@ public class IndexFragment extends BaseFragment implements PVContract.View<Index
 
     @Override
     protected void init() {
-        setTitle("完結番組");
+        setToolbarTitle("完結番組");
         initPresenter();
         initRecyclerView();
         initRefreshLayout();
@@ -82,6 +82,11 @@ public class IndexFragment extends BaseFragment implements PVContract.View<Index
         MessageBar.create(mContext, "可能發生錯誤：" + error);
         isRunning = false;
         mRefreshLayout.finishRefresh(false);
+    }
+
+    @Override
+    public void isCache() {
+        MessageBar.create(getActivity(),"请注意，以下内容来自缓存");
     }
 
     @Override

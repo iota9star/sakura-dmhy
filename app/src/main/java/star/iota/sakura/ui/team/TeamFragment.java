@@ -97,4 +97,9 @@ public abstract class TeamFragment extends BaseFragment implements PVContract.Vi
             mPresenter.unsubscribe();
         }
     }
+
+    @Override
+    public void isCache() {
+        MessageBar.create(getActivity(),"请注意，以下内容来自缓存");
+    }
 }

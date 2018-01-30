@@ -3,28 +3,35 @@
 buildscript {
     repositories {
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
-        google();
+        google()
+        maven { url 'https://maven.google.com' }
         jcenter()
-        mavenCentral()
         maven { url "https://jitpack.io" }
         maven { url = 'https://dl.bintray.com/yuancloud/maven/' }
+        mavenCentral()
+        maven { url "http://lib.gcssloop.com/repository/gcssloop-central/" }
+        maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
-        classpath 'com.jakewharton:butterknife-gradle-plugin:latest.release'
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        classpath 'com.android.tools.build:gradle:3.0.1'
+
+        classpath 'io.fabric.tools:gradle:latest.release'
+        //noinspection GradleDependency
+        classpath 'com.jakewharton:butterknife-gradle-plugin:8.5.1'
     }
 }
 
 allprojects {
     repositories {
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        google()
+        maven { url 'https://maven.google.com' }
         jcenter()
-        google();
-        mavenCentral()
         maven { url "https://jitpack.io" }
         maven { url = 'https://dl.bintray.com/yuancloud/maven/' }
+        mavenCentral()
+        maven { url "http://lib.gcssloop.com/repository/gcssloop-central/" }
+        maven { url 'https://maven.fabric.io/public' }
     }
 }
 

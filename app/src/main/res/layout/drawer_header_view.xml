@@ -8,44 +8,72 @@
     <ImageView
         android:id="@+id/image_view_banner"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/v256dp"
+        android:layout_height="180dp"
         android:scaleType="centerCrop"
         tools:ignore="ContentDescription" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:alpha="0.64"
+        android:gravity="end"
+        android:text="@string/app_name"
+        android:textColor="@color/colorAccent"
+        android:textSize="48sp"
+        android:textStyle="italic" />
+
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/v256dp"
+        android:layout_height="180dp"
         android:background="@drawable/bg_drawer_header" />
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="@dimen/v92dp"
-        android:layout_height="@dimen/v92dp"
-        android:layout_gravity="center"
-        android:src="@mipmap/app_icon"
-        app:civ_border_color="#ffffff"
-        app:civ_border_width="@dimen/v4dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:orientation="vertical">
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:gravity="center_vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:maxLines="1"
-            android:padding="@dimen/v4dp"
-            android:text="@string/app_name"
-            android:textColor="@color/colorAccent"
-            android:textSize="@dimen/v24sp"
-            android:textStyle="bold" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@mipmap/app_icon"
+            app:civ_border_color="#ffffff"
+            app:civ_border_width="2dp" />
 
-        <TextView
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/copyright" />
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text="@string/dmhy"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="24sp"
+                android:textStyle="bold|italic" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text="@string/copyright"
+                android:textColor="?android:textColorSecondary"
+                android:textSize="12sp"
+                android:textStyle="bold|italic" />
+        </LinearLayout>
     </LinearLayout>
 </FrameLayout>

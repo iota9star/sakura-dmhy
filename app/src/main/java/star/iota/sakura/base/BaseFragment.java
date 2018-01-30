@@ -2,9 +2,12 @@ package star.iota.sakura.base;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +17,7 @@ import com.github.rubensousa.floatingtoolbar.FloatingToolbar;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import star.iota.sakura.R;
+import star.iota.sakura.ui.main.MainActivity;
 
 public abstract class BaseFragment extends Fragment {
 
@@ -26,8 +30,11 @@ public abstract class BaseFragment extends Fragment {
 
     protected abstract int getLayoutId();
 
-    protected void setTitle(CharSequence title) {
-        getActivity().setTitle(title);
+    protected void setToolbarTitle(CharSequence title) {
+        FragmentActivity activity = getActivity();
+        if (activity instanceof MainActivity) {
+            ((MainActivity) activity).getCollapsingToolbarLayout().setTitle(title);
+        }
     }
 
 
@@ -35,7 +42,7 @@ public abstract class BaseFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = getActivity();
-        mPreTitle = getActivity().getTitle();
+        mPreTitle = ((AppCompatActivity) getActivity()).getSupportActionBar().getTitle();
     }
 
     protected boolean isHideFab() {
@@ -51,7 +58,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (mContainerView == null) {
             mContainerView = inflater.inflate(getLayoutId(), container, false);
         }
@@ -73,7 +80,7 @@ public abstract class BaseFragment extends Fragment {
             unbinder.unbind();
         }
         if (mPreTitle != null) {
-            setTitle(mPreTitle);
+            setToolbarTitle(mPreTitle);
         }
     }
 

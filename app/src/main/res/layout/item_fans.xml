@@ -4,9 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="4dp"
     android:clickable="true"
+    android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
-    app:cardElevation="0dp"
+    app:cardCornerRadius="0dp"
     app:cardPreventCornerOverlap="false"
     app:cardUseCompatPadding="true">
 
@@ -19,13 +21,15 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:clickable="true"
+            android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="0dp"
             app:cardPreventCornerOverlap="false"
             app:cardUseCompatPadding="true">
 
             <ImageView
                 android:id="@+id/image_view_week"
-                android:layout_width="@dimen/v96dp"
+                android:layout_width="96dp"
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
