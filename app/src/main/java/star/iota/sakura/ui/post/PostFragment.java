@@ -7,7 +7,8 @@ import android.support.v7.widget.RecyclerView;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.List;
 
@@ -69,22 +70,7 @@ public class PostFragment extends BaseFragment implements PVContract.View<List<P
 
     private void initRefreshLayout() {
         mRefreshLayout.autoRefresh();
-        mRefreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
-            @Override
-            public void onLoadMore(RefreshLayout refreshLayout) {
-                if (isRunning) {
-                    MessageBar.create(mContext, "正在加载中...");
-                    return;
-                }
-                isRunning = true;
-                isLoadMore = true;
-                String url = mUrl + mPage + mParameter;
-                if (url.contains("+team_id%3A")) {
-                    url = url.replace("+team_id%3A", "&team_id=");
-                }
-                mPresenter.get(url);
-            }
-
+        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 if (isRunning) {
@@ -96,6 +82,22 @@ public class PostFragment extends BaseFragment implements PVContract.View<List<P
                 isLoadMore = false;
                 mAdapter.clear();
                 mPresenter.get(mUrl + mPage + mParameter);
+            }
+        });
+        mRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                if (isRunning) {
+                    MessageBar.create(mContext, "正在加载中...");
+                    return;
+                }
+                isRunning = true;
+                isLoadMore = true;
+                String url = mUrl + mPage + mParameter;
+                if (url.contains("+team_id%3A")) {
+                    url = url.replace("+team_id%3A", "&team_id=");
+                }
+                mPresenter.get(url);
             }
         });
     }

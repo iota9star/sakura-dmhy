@@ -66,13 +66,7 @@ public class MoreActivity extends BaseActivity {
 
     @Override
     protected void init() {
-        setSupportActionBar(mToolbar);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        initToolbar();
         final FanBean bean = getIntent().getParcelableExtra("bean");
         if (bean == null) {
             MessageBar.create(mContext, "未獲取到數據，3秒後返回前一界面");
@@ -88,6 +82,18 @@ public class MoreActivity extends BaseActivity {
         initViewPager(bean);
         initEvent(bean);
     }
+
+    private void initToolbar() {
+        setSupportActionBar(mToolbar);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+        mCollapsingToolbarLayout.setTitle("");
+    }
+
 
     private void initEvent(final FanBean bean) {
         final FanDAOImpl fanDAO = new FanDAOImpl(mContext);

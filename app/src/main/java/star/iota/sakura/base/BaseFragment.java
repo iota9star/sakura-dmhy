@@ -37,14 +37,6 @@ public abstract class BaseFragment extends Fragment {
         }
     }
 
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mContext = getActivity();
-        mPreTitle = ((AppCompatActivity) getActivity()).getSupportActionBar().getTitle();
-    }
-
     protected boolean isHideFab() {
         return true;
     }
@@ -61,6 +53,10 @@ public abstract class BaseFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (mContainerView == null) {
             mContainerView = inflater.inflate(getLayoutId(), container, false);
+        }
+        mContext = getActivity();
+        if (getActivity() != null) {
+            mPreTitle = ((AppCompatActivity) getActivity()).getSupportActionBar().getTitle();
         }
         FloatingActionButton fab = getFab();
         if (isHideFab()) {

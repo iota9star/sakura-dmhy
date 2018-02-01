@@ -6,9 +6,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.OnRefreshLoadmoreListener;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.List;
 
@@ -70,7 +70,7 @@ public class RSSPostFragment extends BaseFragment implements PVContract.View<Lis
 
     private void initRefreshLayout() {
         mRefreshLayout.autoRefresh();
-        mRefreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadmoreListener() {
+        mRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
                 if (isRunning) {
@@ -85,7 +85,8 @@ public class RSSPostFragment extends BaseFragment implements PVContract.View<Lis
                 }
                 mPresenter.get(url);
             }
-
+        });
+        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 if (isRunning) {

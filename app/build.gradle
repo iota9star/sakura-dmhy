@@ -32,7 +32,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-
     implementation 'com.android.support:appcompat-v7:27.0.2'
     implementation 'com.android.support:design:27.0.2'
     implementation 'com.android.support:recyclerview-v7:27.0.2'
@@ -40,93 +39,118 @@ dependencies {
     implementation 'com.android.support:palette-v7:27.0.2'
 
     //fabric
+
     //noinspection GradleDependency
     implementation('com.crashlytics.sdk.android:crashlytics:latest.release') {
         transitive = true
     }
+
     //glide
+
     //noinspection GradleDependency
     implementation 'com.github.bumptech.glide:glide:latest.release'
+
     //noinspection GradleDependency
     annotationProcessor 'com.github.bumptech.glide:compiler:latest.release'
 
     //blurry
+
     //noinspection GradleDependency
     implementation 'jp.wasabeef:blurry:latest.release'
 
     //flowlayout
+
     //noinspection GradleDependency
     implementation 'cn.lankton:flowlayout:latest.release'
 
     //OkHttp
+
     //noinspection GradleDependency
     implementation 'com.squareup.okhttp3:okhttp:latest.release'
 
     //okio
+
     //noinspection GradleDependency
     implementation 'com.squareup.okio:okio:latest.release'
 
     //RxJava
+
     //noinspection GradleDependency
     implementation 'io.reactivex.rxjava2:rxjava:latest.release'
 
     //RxAndroid
+
     //noinspection GradleDependency
     implementation 'io.reactivex.rxjava2:rxandroid:latest.release'
 
     //ButterKnife
+
     //noinspection GradleDependency
     implementation 'com.jakewharton:butterknife:8.5.1'
+
     //noinspection GradleDependency
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 
     //material drawer
+
     //noinspection GradleDependency
-    implementation("com.mikepenz:materialdrawer:latest.release") {
+    implementation('com.mikepenz:materialdrawer:latest.release') {
         transitive = true
     }
 
     //recyclerview-animators
+
     //noinspection GradleDependency
     implementation 'jp.wasabeef:recyclerview-animators:latest.release'
 
     //RxPermission
+
     //noinspection GradleDependency
     implementation 'com.tbruyelle.rxpermissions2:rxpermissions:latest.release'
 
     //circle image view
+
     //noinspection GradleDependency
     implementation 'de.hdodenhof:circleimageview:latest.release'
 
     //floating toolbar
+
     //noinspection GradleDependency
     implementation 'com.github.rubensousa:floatingtoolbar:latest.release'
 
     //jsoup
+
     //noinspection GradleDependency
     implementation 'org.jsoup:jsoup:latest.release'
 
     //okgo
+
     //noinspection GradleDependency
     implementation 'com.lzy.net:okgo:latest.release'
+
     //noinspection GradleDependency
     implementation 'com.lzy.net:okrx2:latest.release'
 
     //gson
+
     //noinspection GradleDependency
     implementation 'com.google.code.gson:gson:latest.release'
 
     //richtext
+
     //noinspection GradleDependency
     implementation 'com.zzhoujay.richtext:richtext:latest.release'
 
     //SmartRefreshLayout
+
     //noinspection GradleDependency
-    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.4-7'
+
     //noinspection GradleDependency
-    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.4-7'
 
     //cookiebar
+
     //noinspection GradleDependency
     implementation 'com.liuguangqiang.cookie:library:latest.release'
 }
