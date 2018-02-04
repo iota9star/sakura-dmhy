@@ -135,7 +135,7 @@ public class FanDAOImpl implements FanDAO {
                 fan.setName(name);
                 fan.setKeyword(keyword);
                 fan.setOfficial(official);
-                fan.setSubs((List<SubBean>) new Gson().fromJson(subs, new TypeToken<List<SubBean>>() {
+                fan.setSubs(new Gson().fromJson(subs, new TypeToken<List<SubBean>>() {
                 }.getType()));
                 fans.add(fan);
             }

@@ -35,7 +35,7 @@ public class SubsDAOImpl implements SubsDAO {
             contentValues.put("date", bean.getDate());
             contentValues.put("category", bean.getCategory());
             contentValues.put("sub", new Gson().toJson(bean.getSub()));
-            contentValues.put("title", (bean.getTitle().replaceAll("]\\s*\\[|\\[|]|】\\s*【|】|【", "/") + "/").replaceAll("(/\\s*/+)+", "/"));
+            contentValues.put("title", ("/" + bean.getTitle().replaceAll("]\\s*\\[|\\[|]|】\\s*【|】|【", "/") + "/").replaceAll("(/\\s*/+)+", "/"));
             contentValues.put("magnet", bean.getMagnet());
             contentValues.put("size", bean.getSize());
             contentValues.put("url", bean.getUrl());

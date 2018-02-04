@@ -24,16 +24,12 @@ import java.util.List;
 import butterknife.BindView;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import jp.wasabeef.blurry.Blurry;
 import star.iota.sakura.R;
 import star.iota.sakura.Url;
 import star.iota.sakura.base.BaseActivity;
 import star.iota.sakura.base.PagerAdapter;
-import star.iota.sakura.database.FanDAO;
 import star.iota.sakura.database.FanDAOImpl;
 import star.iota.sakura.glide.GlideApp;
 import star.iota.sakura.ui.fans.FanBean;
@@ -70,12 +66,7 @@ public class MoreActivity extends BaseActivity {
         final FanBean bean = getIntent().getParcelableExtra("bean");
         if (bean == null) {
             MessageBar.create(mContext, "未獲取到數據，3秒後返回前一界面");
-            mViewPager.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    finish();
-                }
-            }, 3000);
+            mViewPager.postDelayed(this::finish, 3000);
             return;
         }
         initHeader(bean);
@@ -85,12 +76,7 @@ public class MoreActivity extends BaseActivity {
 
     private void initToolbar() {
         setSupportActionBar(mToolbar);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        mToolbar.setNavigationOnClickListener(view -> finish());
         mCollapsingToolbarLayout.setTitle("");
     }
 
@@ -98,28 +84,17 @@ public class MoreActivity extends BaseActivity {
     private void initEvent(final FanBean bean) {
         final FanDAOImpl fanDAO = new FanDAOImpl(mContext);
         Observable.just(fanDAO)
-                .map(new Function<FanDAO, Boolean>() {
-                    @Override
-                    public Boolean apply(@NonNull FanDAO fanDAO) throws Exception {
-                        return fanDAO.exist(bean);
-                    }
-                })
+                .map(fanDAO1 -> fanDAO1.exist(bean))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Boolean>() {
-                    @Override
-                    public void accept(Boolean aBoolean) throws Exception {
-                        if (aBoolean) {
-                            mFab.setImageResource(R.drawable.ic_favorite_white_24dp);
-                        } else {
-                            mFab.setImageResource(R.drawable.ic_favorite_border_white_24dp);
-                        }
+                .subscribe(aBoolean -> {
+                    if (aBoolean) {
+                        mFab.setImageResource(R.drawable.ic_favorite_white_24dp);
+                    } else {
+                        mFab.setImageResource(R.drawable.ic_favorite_border_white_24dp);
                     }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
+                }, throwable -> {
 
-                    }
                 });
         mFab.setOnClickListener(new View.OnClickListener() {
 
@@ -128,46 +103,30 @@ public class MoreActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Observable.just(bean)
-                        .map(new Function<FanBean, Boolean>() {
-                            @Override
-                            public Boolean apply(@NonNull FanBean bean) throws Exception {
-                                return fanDAO.exist(bean);
+                        .map(fanDAO::exist)
+                        .map(aBoolean -> {
+                            if (aBoolean) {
+                                success = fanDAO.delete(bean);
+                            } else {
+                                success = fanDAO.save(bean);
                             }
-                        })
-                        .map(new Function<Boolean, Boolean>() {
-                            @Override
-                            public Boolean apply(@NonNull Boolean aBoolean) throws Exception {
-                                if (aBoolean) {
-                                    success = fanDAO.delete(bean);
-                                } else {
-                                    success = fanDAO.save(bean);
-                                }
-                                return aBoolean;
-                            }
+                            return aBoolean;
                         })
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Consumer<Boolean>() {
-                            @Override
-                            public void accept(Boolean aBoolean) throws Exception {
-                                if (!success) {
-                                    MessageBar.create(mContext, "操作失敗，請重試");
-                                    return;
-                                }
-                                if (!aBoolean) {
-                                    MessageBar.create(mContext, "收藏成功：" + bean.getName());
-                                    mFab.setImageResource(R.drawable.ic_favorite_white_24dp);
-                                } else {
-                                    MessageBar.create(mContext, "取消收藏成功：" + bean.getName());
-                                    mFab.setImageResource(R.drawable.ic_favorite_border_white_24dp);
-                                }
+                        .subscribe(aBoolean -> {
+                            if (!success) {
+                                MessageBar.create(mContext, "操作失敗，請重試");
+                                return;
                             }
-                        }, new Consumer<Throwable>() {
-                            @Override
-                            public void accept(Throwable throwable) throws Exception {
-                                MessageBar.create(mContext, "操作失敗，請重試：" + throwable.getMessage());
+                            if (!aBoolean) {
+                                MessageBar.create(mContext, "收藏成功：" + bean.getName());
+                                mFab.setImageResource(R.drawable.ic_favorite_white_24dp);
+                            } else {
+                                MessageBar.create(mContext, "取消收藏成功：" + bean.getName());
+                                mFab.setImageResource(R.drawable.ic_favorite_border_white_24dp);
                             }
-                        });
+                        }, throwable -> MessageBar.create(mContext, "操作失敗，請重試：" + throwable.getMessage()));
             }
         });
         mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {

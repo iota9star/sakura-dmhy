@@ -8,4 +8,6 @@
     <color name="colorBackground">#f0f0f0</color>
     <color name="cookieBackgroundColor">#252525</color>
     <color name="cookieMessageColor">#ffffff</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
 </resources>

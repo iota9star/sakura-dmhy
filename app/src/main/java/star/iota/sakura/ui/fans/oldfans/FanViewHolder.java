@@ -36,13 +36,10 @@ class FanViewHolder extends BaseViewHolder<FanBean> {
                 .fallback(R.drawable.bg_sakura)
                 .into(mImageViewCover);
         mTextViewName.setText(bean.getName());
-        mCardViewContainer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(mContext, MoreActivity.class);
-                intent.putExtra("bean", bean);
-                mContext.startActivity(intent);
-            }
+        mCardViewContainer.setOnClickListener(view -> {
+            Intent intent = new Intent(mContext, MoreActivity.class);
+            intent.putExtra("bean", bean);
+            mContext.startActivity(intent);
         });
     }
 }

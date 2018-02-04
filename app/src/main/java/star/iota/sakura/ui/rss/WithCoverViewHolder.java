@@ -1,7 +1,6 @@
 package star.iota.sakura.ui.rss;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
@@ -18,7 +17,6 @@ import android.widget.TextView;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.zzhoujay.richtext.RichText;
-import com.zzhoujay.richtext.callback.OnImageClickListener;
 
 import java.util.List;
 
@@ -62,30 +60,10 @@ public class WithCoverViewHolder extends BaseViewHolder<RSSPostBean> {
         textViewTitle.setText(("/" + bean.getTitle().replaceAll("]\\s*\\[|\\[|]|】\\s*【|】|【", "/") + "/").replaceAll("(/\\s*/+)+", "/"));
         textViewCategory.setText(bean.getCategory());
         textViewDate.setText(DateUtils.getBefore(bean.getPubDate()));
-        buttonMagnet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SimpleUtils.copy(mContext, bean.getUrl());
-            }
-        });
-        buttonLink.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SimpleUtils.openUrl(mContext, bean.getLink().replace("http:", "https:"));
-            }
-        });
-        cardViewCoverContainer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SimpleUtils.openUrl(mContext, bean.getCover());
-            }
-        });
-        cardViewContainer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showInfo(bean);
-            }
-        });
+        buttonMagnet.setOnClickListener(view -> SimpleUtils.copy(mContext, bean.getUrl()));
+        buttonLink.setOnClickListener(view -> SimpleUtils.openUrl(mContext, bean.getLink().replace("http:", "https:")));
+        cardViewCoverContainer.setOnClickListener(view -> SimpleUtils.openUrl(mContext, bean.getCover()));
+        cardViewContainer.setOnClickListener(view -> showInfo(bean));
         GlideApp.with(mContext)
                 .asBitmap()
                 .load(bean.getCover())
@@ -97,14 +75,11 @@ public class WithCoverViewHolder extends BaseViewHolder<RSSPostBean> {
                     @Override
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                         Blurry.with(mContext).from(resource).into(imageViewBanner);
-                        Palette.from(resource).generate(new Palette.PaletteAsyncListener() {
-                            @Override
-                            public void onGenerated(@NonNull Palette palette) {
-                                List<Palette.Swatch> swatches = palette.getSwatches();
-                                for (Palette.Swatch swatch : swatches) {
-                                    if (swatch != null) {
-                                        bindTextColor(swatch);
-                                    }
+                        Palette.from(resource).generate(palette -> {
+                            List<Palette.Swatch> swatches = palette.getSwatches();
+                            for (Palette.Swatch swatch : swatches) {
+                                if (swatch != null) {
+                                    bindTextColor(swatch);
                                 }
                             }
                         });
@@ -127,23 +102,13 @@ public class WithCoverViewHolder extends BaseViewHolder<RSSPostBean> {
         RichText.fromHtml(bean.getDescription())
                 .clickable(true)
                 .autoPlay(true)
-                .imageClick(new OnImageClickListener() {
-                    @Override
-                    public void imageClicked(List<String> list, int i) {
-                        SimpleUtils.openUrl(mContext, list.get(i));
-                    }
-                })
+                .imageClick((list, i) -> SimpleUtils.openUrl(mContext, list.get(i)))
                 .into(info);
         new AlertDialog.Builder(mContext)
                 .setView(view)
                 .setTitle(mContext.getString(R.string.app_name))
                 .setIcon(R.mipmap.app_icon)
-                .setNegativeButton("瀏覽器打開", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        SimpleUtils.openUrl(mContext, bean.getLink().replace("http:", "https:"));
-                    }
-                })
+                .setNegativeButton("瀏覽器打開", (dialogInterface, i) -> SimpleUtils.openUrl(mContext, bean.getLink().replace("http:", "https:")))
                 .show();
     }
 
@@ -160,14 +125,11 @@ public class WithCoverViewHolder extends BaseViewHolder<RSSPostBean> {
                     @Override
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                         Blurry.with(mContext).from(resource).into(imageViewBanner);
-                        Palette.from(resource).generate(new Palette.PaletteAsyncListener() {
-                            @Override
-                            public void onGenerated(@NonNull Palette palette) {
-                                List<Palette.Swatch> swatches = palette.getSwatches();
-                                for (Palette.Swatch swatch : swatches) {
-                                    if (swatch != null) {
-                                        bindTextColor(swatch);
-                                    }
+                        Palette.from(resource).generate(palette -> {
+                            List<Palette.Swatch> swatches = palette.getSwatches();
+                            for (Palette.Swatch swatch : swatches) {
+                                if (swatch != null) {
+                                    bindTextColor(swatch);
                                 }
                             }
                         });

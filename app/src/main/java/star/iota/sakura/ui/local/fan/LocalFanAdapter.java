@@ -1,7 +1,6 @@
 package star.iota.sakura.ui.local.fan;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
@@ -27,14 +26,10 @@ import butterknife.ButterKnife;
 import cn.lankton.flowlayout.FlowLayout;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import jp.wasabeef.blurry.Blurry;
 import star.iota.sakura.R;
 import star.iota.sakura.base.BaseActivity;
-import star.iota.sakura.database.FanDAO;
 import star.iota.sakura.database.FanDAOImpl;
 import star.iota.sakura.glide.GlideApp;
 import star.iota.sakura.ui.fans.FanBean;
@@ -65,15 +60,10 @@ class LocalFanAdapter extends RecyclerView.Adapter<LocalFanAdapter.MyViewHolder>
         for (final SubBean sub : bean.getSubs()) {
             TextView b = (TextView) inflater.inflate(R.layout.item_sub, holder.mFlowLayout, false);
             b.setText(sub.getName());
-            b.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    ((BaseActivity) holder.context).addFragment(
-                            PostFragment.newInstance(sub.getUrl() + "/page/",
-                                    "",
-                                    sub.getName()));
-                }
-            });
+            b.setOnClickListener(view -> ((BaseActivity) holder.context).addFragment(
+                    PostFragment.newInstance(sub.getUrl() + "/page/",
+                            "",
+                            sub.getName())));
             holder.mFlowLayout.addView(b);
         }
         GlideApp.with(holder.context)
@@ -99,64 +89,35 @@ class LocalFanAdapter extends RecyclerView.Adapter<LocalFanAdapter.MyViewHolder>
         holder.mTextViewName.setText(bean.getName());
         holder.mTextViewOfficial.setText(String.format("官網：%s", bean.getOfficial()));
         holder.mTextViewIndex.setText(String.valueOf(list.size() - pos));
-        holder.mImageViewCover.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(holder.context, MoreActivity.class);
-                intent.putExtra("bean", bean);
-                holder.context.startActivity(intent);
-            }
+        holder.mImageViewCover.setOnClickListener(view -> {
+            Intent intent = new Intent(holder.context, MoreActivity.class);
+            intent.putExtra("bean", bean);
+            holder.context.startActivity(intent);
         });
-        holder.mCardView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                new AlertDialog.Builder(holder.context)
-                        .setIcon(R.mipmap.app_icon)
-                        .setTitle("是否删除 - " + bean.getName())
-                        .setNegativeButton("嗯", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                delete(holder, bean);
-                            }
-                        })
-                        .setPositiveButton("只是看看", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.dismiss();
-                            }
-                        })
-                        .show();
-                return false;
-            }
+        holder.mCardView.setOnLongClickListener(view -> {
+            new AlertDialog.Builder(holder.context)
+                    .setIcon(R.mipmap.app_icon)
+                    .setTitle("是否删除 - " + bean.getName())
+                    .setNegativeButton("嗯", (dialogInterface, i) -> delete(holder, bean))
+                    .setPositiveButton("只是看看", (dialogInterface, i) -> dialogInterface.dismiss())
+                    .show();
+            return false;
         });
     }
 
     private void delete(final MyViewHolder holder, final FanBean bean) {
         Observable.just(new FanDAOImpl(holder.context))
-                .map(new Function<FanDAO, Boolean>() {
-                    @Override
-                    public Boolean apply(@NonNull FanDAO fanDAO) throws Exception {
-                        return fanDAO.delete(bean);
-                    }
-                })
+                .map(fanDAO -> fanDAO.delete(bean))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Boolean>() {
-                    @Override
-                    public void accept(Boolean aBoolean) throws Exception {
-                        if (aBoolean) {
-                            MessageBar.create(holder.context, "刪除成功：" + bean.getName());
-                            remove(holder.getAdapterPosition());
-                        } else {
-                            MessageBar.create(holder.context, "刪除錯誤：" + bean.getName());
-                        }
+                .subscribe(aBoolean -> {
+                    if (aBoolean) {
+                        MessageBar.create(holder.context, "刪除成功：" + bean.getName());
+                        remove(holder.getAdapterPosition());
+                    } else {
+                        MessageBar.create(holder.context, "刪除錯誤：" + bean.getName());
                     }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        MessageBar.create(holder.context, "刪除錯誤：" + throwable.getMessage());
-                    }
-                });
+                }, throwable -> MessageBar.create(holder.context, "刪除錯誤：" + throwable.getMessage()));
     }
 
     @Override

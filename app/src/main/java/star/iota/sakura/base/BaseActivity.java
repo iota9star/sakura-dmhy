@@ -8,7 +8,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.Random;
@@ -81,12 +80,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             System.arraycopy(mHints, 1, mHints, 0, mHints.length - 1);
             mHints[mHints.length - 1] = SystemClock.uptimeMillis();
             String[] faces = MessageBar.FACES;
-            Snackbar.make(findViewById(android.R.id.content), hi[new Random().nextInt(hi.length)], Snackbar.LENGTH_SHORT).setAction(faces[new Random().nextInt(faces.length)], new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    System.exit(0);
-                }
-            }).show();
+            Snackbar.make(findViewById(android.R.id.content), hi[new Random().nextInt(hi.length)], Snackbar.LENGTH_SHORT).setAction(faces[new Random().nextInt(faces.length)], view -> System.exit(0)).show();
             if (SystemClock.uptimeMillis() - mHints[0] <= 1600) {
                 System.exit(0);
             }

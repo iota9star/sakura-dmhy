@@ -3,7 +3,6 @@ package star.iota.sakura;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
-import android.support.annotation.NonNull;
 
 import com.crashlytics.android.Crashlytics;
 import com.lzy.okgo.OkGo;
@@ -15,18 +14,10 @@ import com.lzy.okgo.https.HttpsUtils;
 import com.lzy.okgo.model.HttpHeaders;
 import com.scwang.smartrefresh.header.StoreHouseHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreater;
-import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreater;
-import com.scwang.smartrefresh.layout.api.RefreshFooter;
-import com.scwang.smartrefresh.layout.api.RefreshHeader;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.zzhoujay.richtext.RichText;
 
 import java.util.concurrent.TimeUnit;
-
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLSession;
 
 import io.fabric.sdk.android.Fabric;
 import okhttp3.OkHttpClient;
@@ -38,26 +29,16 @@ public class MyApp extends Application {
     private static Context mContext;
 
     static {
-        SmartRefreshLayout.setDefaultRefreshHeaderCreater(new DefaultRefreshHeaderCreater() {
-            @NonNull
-            @Override
-            public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
-                StoreHouseHeader storeHouseHeader = new StoreHouseHeader(context);
-                storeHouseHeader.initWithString(context.getString(R.string.app_name), 28);
-                storeHouseHeader.setLineWidth(4);
-                storeHouseHeader.setTextColor(0xff5384);
-                storeHouseHeader.setMinimumHeight(context.getResources().getDimensionPixelSize(R.dimen.v64dp));
-                storeHouseHeader.setDropHeight(context.getResources().getDimensionPixelSize(R.dimen.v128dp));
-                return storeHouseHeader;
-            }
+        SmartRefreshLayout.setDefaultRefreshHeaderCreater((context, layout) -> {
+            StoreHouseHeader storeHouseHeader = new StoreHouseHeader(context);
+            storeHouseHeader.initWithString(context.getString(R.string.app_name), 28);
+            storeHouseHeader.setLineWidth(4);
+            storeHouseHeader.setTextColor(0xff5384);
+            storeHouseHeader.setMinimumHeight(context.getResources().getDimensionPixelSize(R.dimen.v64dp));
+            storeHouseHeader.setDropHeight(context.getResources().getDimensionPixelSize(R.dimen.v128dp));
+            return storeHouseHeader;
         });
-        SmartRefreshLayout.setDefaultRefreshFooterCreater(new DefaultRefreshFooterCreater() {
-            @NonNull
-            @Override
-            public RefreshFooter createRefreshFooter(Context context, RefreshLayout layout) {
-                return new ClassicsFooter(context);
-            }
-        });
+        SmartRefreshLayout.setDefaultRefreshFooterCreater((context, layout) -> new ClassicsFooter(context));
     }
 
     public static OkHttpClient makeOkHttpClient() {
@@ -67,12 +48,7 @@ public class MyApp extends Application {
                 .writeTimeout(OkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS)
                 .connectTimeout(OkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS)
                 .cookieJar(new CookieJarImpl(new SPCookieStore(mContext)))
-                .hostnameVerifier(new HostnameVerifier() {
-                    @Override
-                    public boolean verify(String s, SSLSession sslSession) {
-                        return true;
-                    }
-                })
+                .hostnameVerifier((s, sslSession) -> true)
                 .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)
                 .build();
     }

@@ -6,9 +6,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.List;
 
@@ -48,6 +45,7 @@ public class RSSPostFragment extends BaseFragment implements PVContract.View<Lis
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //noinspection ConstantConditions
         mUrl = getArguments().getString("url");
         mParameter = getArguments().getString("parameter");
         mTitle = getArguments().getString("title");
@@ -70,35 +68,29 @@ public class RSSPostFragment extends BaseFragment implements PVContract.View<Lis
 
     private void initRefreshLayout() {
         mRefreshLayout.autoRefresh();
-        mRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
-            @Override
-            public void onLoadmore(RefreshLayout refreshlayout) {
-                if (isRunning) {
-                    MessageBar.create(mContext, "正在加载中...");
-                    return;
-                }
-                isRunning = true;
-                isLoadMore = true;
-                String url = mUrl + mPage + mParameter;
-                if (url.contains("+team_id%3A")) {
-                    url = url.replace("+team_id%3A", "&team_id=");
-                }
-                mPresenter.get(url);
+        mRefreshLayout.setOnLoadmoreListener(refreshlayout -> {
+            if (isRunning) {
+                MessageBar.create(mContext, "正在加载中...");
+                return;
             }
+            isRunning = true;
+            isLoadMore = true;
+            String url = mUrl + mPage + mParameter;
+            if (url.contains("+team_id%3A")) {
+                url = url.replace("+team_id%3A", "&team_id=");
+            }
+            mPresenter.get(url);
         });
-        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(RefreshLayout refreshlayout) {
-                if (isRunning) {
-                    MessageBar.create(mContext, "正在加载中...");
-                    return;
-                }
-                mPage = 1;
-                isRunning = true;
-                isLoadMore = false;
-                mAdapter.clear();
-                mPresenter.get(mUrl + mPage + mParameter);
+        mRefreshLayout.setOnRefreshListener(refreshlayout -> {
+            if (isRunning) {
+                MessageBar.create(mContext, "正在加载中...");
+                return;
             }
+            mPage = 1;
+            isRunning = true;
+            isLoadMore = false;
+            mAdapter.clear();
+            mPresenter.get(mUrl + mPage + mParameter);
         });
     }
 

@@ -3,10 +3,8 @@ package star.iota.sakura.base;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,8 +29,8 @@ public abstract class BaseFragment extends Fragment {
     protected abstract int getLayoutId();
 
     protected void setToolbarTitle(CharSequence title) {
-        FragmentActivity activity = getActivity();
-        if (activity instanceof MainActivity) {
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        if (activity != null && activity instanceof MainActivity) {
             ((MainActivity) activity).getCollapsingToolbarLayout().setTitle(title);
         }
     }
@@ -42,10 +40,12 @@ public abstract class BaseFragment extends Fragment {
     }
 
     protected FloatingActionButton getFab() {
+        //noinspection ConstantConditions
         return ButterKnife.findById(getActivity(), R.id.floating_action_button);
     }
 
     protected FloatingToolbar getFloatingToolbar() {
+        //noinspection ConstantConditions
         return ButterKnife.findById(getActivity(), R.id.floating_toolbar);
     }
 
@@ -54,9 +54,10 @@ public abstract class BaseFragment extends Fragment {
         if (mContainerView == null) {
             mContainerView = inflater.inflate(getLayoutId(), container, false);
         }
-        mContext = getActivity();
-        if (getActivity() != null) {
-            mPreTitle = ((AppCompatActivity) getActivity()).getSupportActionBar().getTitle();
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        mContext = activity;
+        if (activity instanceof MainActivity) {
+            mPreTitle = ((MainActivity) activity).getCollapsingToolbarLayout().getTitle();
         }
         FloatingActionButton fab = getFab();
         if (isHideFab()) {

@@ -1,6 +1,5 @@
 package star.iota.sakura.ui.local.fan;
 
-import android.content.DialogInterface;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,25 +9,17 @@ import android.view.MenuItem;
 import com.github.rubensousa.floatingtoolbar.FloatingToolbar;
 import com.google.gson.Gson;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.Collections;
-import java.util.List;
 
 import butterknife.BindView;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import jp.wasabeef.recyclerview.animators.LandingAnimator;
 import star.iota.sakura.R;
 import star.iota.sakura.base.BaseFragment;
-import star.iota.sakura.database.FanDAO;
 import star.iota.sakura.database.FanDAOImpl;
-import star.iota.sakura.ui.fans.FanBean;
 import star.iota.sakura.ui.main.MainActivity;
 import star.iota.sakura.utils.FileUtils;
 import star.iota.sakura.utils.MessageBar;
@@ -64,17 +55,14 @@ public class LocalFanFragment extends BaseFragment {
         isRunning = false;
         mRefreshLayout.autoRefresh();
         mRefreshLayout.setEnableLoadmore(false);
-        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(RefreshLayout refreshLayout) {
-                if (isRunning) {
-                    MessageBar.create(mContext, "正在加載中...");
-                    return;
-                }
-                isRunning = true;
-                mAdapter.clear();
-                loadData();
+        mRefreshLayout.setOnRefreshListener(refreshLayout -> {
+            if (isRunning) {
+                MessageBar.create(mContext, "正在加載中...");
+                return;
             }
+            isRunning = true;
+            mAdapter.clear();
+            loadData();
         });
     }
 
@@ -97,18 +85,8 @@ public class LocalFanFragment extends BaseFragment {
                         new AlertDialog.Builder(mContext)
                                 .setIcon(R.mipmap.app_icon)
                                 .setTitle("清空列表")
-                                .setNegativeButton("嗯", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        clearCollection();
-                                    }
-                                })
-                                .setPositiveButton("摁錯了", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        dialogInterface.dismiss();
-                                    }
-                                })
+                                .setNegativeButton("嗯", (dialogInterface, i) -> clearCollection())
+                                .setPositiveButton("摁錯了", (dialogInterface, i) -> dialogInterface.dismiss())
                                 .show();
                         break;
                 }
@@ -130,90 +108,48 @@ public class LocalFanFragment extends BaseFragment {
         final String rawBackupPath = backupPath + "番組/";
         final String backupFileName = FileUtils.getBackupFileName();
         Observable.just(new FanDAOImpl(mContext))
-                .map(new Function<FanDAO, List<FanBean>>() {
-                    @Override
-                    public List<FanBean> apply(@NonNull FanDAO fanDAO) throws Exception {
-                        return fanDAO.query();
-                    }
-                })
-                .map(new Function<List<FanBean>, Boolean>() {
-                    @Override
-                    public Boolean apply(@NonNull List<FanBean> fanBeen) throws Exception {
-                        return FileUtils.backup(rawBackupPath, backupFileName, new Gson().toJson(fanBeen));
-                    }
-                })
+                .map(FanDAOImpl::query)
+                .map(fanBeen -> FileUtils.backup(rawBackupPath, backupFileName, new Gson().toJson(fanBeen)))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Boolean>() {
-                    @Override
-                    public void accept(Boolean aBoolean) throws Exception {
-                        if (aBoolean) {
-                            MessageBar.create(mContext, "備份成功：" + rawBackupPath + backupFileName);
-                        } else {
-                            MessageBar.create(mContext, "由於未知原因備份失敗");
-                        }
+                .subscribe(aBoolean -> {
+                    if (aBoolean) {
+                        MessageBar.create(mContext, "備份成功：" + rawBackupPath + backupFileName);
+                    } else {
+                        MessageBar.create(mContext, "由於未知原因備份失敗");
                     }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        MessageBar.create(mContext, "備份失敗：" + throwable.getMessage());
-                    }
-                });
+                }, throwable -> MessageBar.create(mContext, "備份失敗：" + throwable.getMessage()));
     }
 
     private void clearCollection() {
         Observable.just(new FanDAOImpl(mContext))
-                .map(new Function<FanDAO, Boolean>() {
-                    @Override
-                    public Boolean apply(@NonNull FanDAO fanDAO) throws Exception {
-                        return fanDAO.deleteAll();
-                    }
-                })
+                .map(FanDAOImpl::deleteAll)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Boolean>() {
-                    @Override
-                    public void accept(Boolean aBoolean) throws Exception {
-                        if (aBoolean) {
-                            mAdapter.clear();
-                            MessageBar.create(mContext, "已清空收藏");
-                        } else {
-                            MessageBar.create(mContext, "可能出現錯誤，請重試");
-                        }
+                .subscribe(aBoolean -> {
+                    if (aBoolean) {
+                        mAdapter.clear();
+                        MessageBar.create(mContext, "已清空收藏");
+                    } else {
+                        MessageBar.create(mContext, "可能出現錯誤，請重試");
                     }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        MessageBar.create(mContext, "可能出現錯誤：" + throwable.getMessage());
-                    }
-                });
+                }, throwable -> MessageBar.create(mContext, "可能出現錯誤：" + throwable.getMessage()));
     }
 
     private void loadData() {
         Observable.just(new FanDAOImpl(mContext))
-                .map(new Function<FanDAO, List<FanBean>>() {
-                    @Override
-                    public List<FanBean> apply(@NonNull FanDAO fanDao) throws Exception {
-                        return fanDao.query();
-                    }
-                })
+                .map(FanDAOImpl::query)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<List<FanBean>>() {
-                    @Override
-                    public void accept(final List<FanBean> beans) throws Exception {
-                        mRefreshLayout.finishRefresh();
-                        Collections.reverse(beans);
-                        mAdapter.add(beans);
-                        isRunning = false;
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        mRefreshLayout.finishRefresh();
-                        isRunning = false;
-                        MessageBar.create(mContext, "可能出現錯誤：" + throwable.getMessage());
-                    }
+                .subscribe(beans -> {
+                    mRefreshLayout.finishRefresh();
+                    Collections.reverse(beans);
+                    mAdapter.add(beans);
+                    isRunning = false;
+                }, throwable -> {
+                    mRefreshLayout.finishRefresh();
+                    isRunning = false;
+                    MessageBar.create(mContext, "可能出現錯誤：" + throwable.getMessage());
                 });
     }
 

@@ -1,7 +1,6 @@
 package star.iota.sakura.ui.rss;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
@@ -38,27 +37,12 @@ public class NoCoverViewHolder extends BaseViewHolder<RSSPostBean> {
 
     @Override
     public void bindView(final RSSPostBean bean) {
-        textViewTitle.setText((bean.getTitle().replaceAll("]\\s*\\[|\\[|]|】\\s*【|】|【", "/") + "/").replaceAll("(/\\s*/+)+", "/"));
+        textViewTitle.setText(("/" + bean.getTitle().replaceAll("]\\s*\\[|\\[|]|】\\s*【|】|【", "/") + "/").replaceAll("(/\\s*/+)+", "/"));
         textViewCategory.setText(bean.getCategory());
         textViewDate.setText(DateUtils.getBefore(bean.getPubDate()));
-        buttonMagnet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SimpleUtils.copy(mContext, bean.getUrl());
-            }
-        });
-        buttonLink.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SimpleUtils.openUrl(mContext, bean.getLink().replace("http:", "https:"));
-            }
-        });
-        cardViewContainer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showInfo(bean);
-            }
-        });
+        buttonMagnet.setOnClickListener(view -> SimpleUtils.copy(mContext, bean.getUrl()));
+        buttonLink.setOnClickListener(view -> SimpleUtils.openUrl(mContext, bean.getLink().replace("http:", "https:")));
+        cardViewContainer.setOnClickListener(view -> showInfo(bean));
     }
 
     private void showInfo(final RSSPostBean bean) {
@@ -71,12 +55,7 @@ public class NoCoverViewHolder extends BaseViewHolder<RSSPostBean> {
                 .setView(view)
                 .setTitle(mContext.getString(R.string.app_name))
                 .setIcon(R.mipmap.app_icon)
-                .setNegativeButton("瀏覽器打開", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        SimpleUtils.openUrl(mContext, bean.getLink().replace("http:", "https:"));
-                    }
-                })
+                .setNegativeButton("瀏覽器打開", (dialogInterface, i) -> SimpleUtils.openUrl(mContext, bean.getLink().replace("http:", "https:")))
                 .show();
     }
 }

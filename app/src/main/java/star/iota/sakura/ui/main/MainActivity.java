@@ -14,13 +14,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.liuguangqiang.cookie.OnActionClickListener;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
@@ -41,8 +39,6 @@ import java.util.List;
 import butterknife.BindView;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import jp.wasabeef.recyclerview.animators.LandingAnimator;
@@ -91,12 +87,7 @@ public class MainActivity extends BaseActivity {
 
     private void initToolbar() {
         setSupportActionBar(mToolbar);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDrawer.openDrawer();
-            }
-        });
+        mToolbar.setNavigationOnClickListener(v -> mDrawer.openDrawer());
     }
 
     public CollapsingToolbarLayout getCollapsingToolbarLayout() {
@@ -128,126 +119,78 @@ public class MainActivity extends BaseActivity {
 
     private void importSubs(String filePath) {
         Observable.just(filePath)
-                .map(new Function<String, String>() {
-                    @Override
-                    public String apply(@NonNull String s) throws Exception {
-                        FileInputStream fis = new FileInputStream(new File(s));
-                        BufferedInputStream bis = new BufferedInputStream(fis);
-                        InputStreamReader isr = new InputStreamReader(bis);
-                        BufferedReader br = new BufferedReader(isr);
-                        StringBuilder sb = new StringBuilder();
-                        String temp;
-                        while ((temp = br.readLine()) != null) {
-                            sb.append(temp);
-                        }
-                        br.close();
-                        isr.close();
-                        bis.close();
-                        fis.close();
-                        return sb.toString();
+                .map(s -> {
+                    FileInputStream fis = new FileInputStream(new File(s));
+                    BufferedInputStream bis = new BufferedInputStream(fis);
+                    InputStreamReader isr = new InputStreamReader(bis);
+                    BufferedReader br = new BufferedReader(isr);
+                    StringBuilder sb = new StringBuilder();
+                    String temp;
+                    while ((temp = br.readLine()) != null) {
+                        sb.append(temp);
                     }
+                    br.close();
+                    isr.close();
+                    bis.close();
+                    fis.close();
+                    return sb.toString();
                 })
-                .map(new Function<String, List<PostBean>>() {
-                    @Override
-                    public List<PostBean> apply(@NonNull String s) throws Exception {
-                        return new Gson().fromJson(s, new TypeToken<List<PostBean>>() {
-                        }.getType());
-                    }
-                })
-                .map(new Function<List<PostBean>, Boolean>() {
-                    @Override
-                    public Boolean apply(@NonNull List<PostBean> postBeen) throws Exception {
-                        return new SubsDAOImpl(mContext).save(postBeen);
-                    }
-                })
+                .map((Function<String, List<PostBean>>) s -> new Gson().fromJson(s, new TypeToken<List<PostBean>>() {
+                }.getType()))
+                .map(postBeen -> new SubsDAOImpl(mContext).save(postBeen))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Boolean>() {
-                    @Override
-                    public void accept(Boolean aBoolean) throws Exception {
-                        if (aBoolean) {
-                            MessageBar.create(mContext, "導入成功，請刷新");
-                        } else {
-                            MessageBar.create(mContext, "由於未知原因導入失敗");
-                        }
+                .subscribe(aBoolean -> {
+                    if (aBoolean) {
+                        MessageBar.create(mContext, "導入成功，請刷新");
+                    } else {
+                        MessageBar.create(mContext, "由於未知原因導入失敗");
                     }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        MessageBar.create(mContext, "導入失敗，請檢查導入的文件是否正確：" + throwable.getMessage());
-                    }
-                });
+                }, throwable -> MessageBar.create(mContext, "導入失敗，請檢查導入的文件是否正確：" + throwable.getMessage()));
     }
 
     private void importFan(String filePath) {
         Observable.just(filePath)
-                .map(new Function<String, String>() {
-                    @Override
-                    public String apply(@NonNull String s) throws Exception {
-                        FileInputStream fis = new FileInputStream(new File(s));
-                        BufferedInputStream bis = new BufferedInputStream(fis);
-                        InputStreamReader isr = new InputStreamReader(bis);
-                        BufferedReader br = new BufferedReader(isr);
-                        StringBuilder sb = new StringBuilder();
-                        String temp;
-                        while ((temp = br.readLine()) != null) {
-                            sb.append(temp);
-                        }
-                        br.close();
-                        isr.close();
-                        bis.close();
-                        fis.close();
-                        return sb.toString();
+                .map(s -> {
+                    FileInputStream fis = new FileInputStream(new File(s));
+                    BufferedInputStream bis = new BufferedInputStream(fis);
+                    InputStreamReader isr = new InputStreamReader(bis);
+                    BufferedReader br = new BufferedReader(isr);
+                    StringBuilder sb = new StringBuilder();
+                    String temp;
+                    while ((temp = br.readLine()) != null) {
+                        sb.append(temp);
                     }
+                    br.close();
+                    isr.close();
+                    bis.close();
+                    fis.close();
+                    return sb.toString();
                 })
-                .map(new Function<String, List<FanBean>>() {
-                    @Override
-                    public List<FanBean> apply(@NonNull String s) throws Exception {
-                        return new Gson().fromJson(s, new TypeToken<List<FanBean>>() {
-                        }.getType());
-                    }
-                })
-                .map(new Function<List<FanBean>, Boolean>() {
-                    @Override
-                    public Boolean apply(@NonNull List<FanBean> fanBeen) throws Exception {
-                        return new FanDAOImpl(mContext).save(fanBeen);
-                    }
-                })
+                .map((Function<String, List<FanBean>>) s -> new Gson().fromJson(s, new TypeToken<List<FanBean>>() {
+                }.getType()))
+                .map(fanBeen -> new FanDAOImpl(mContext).save(fanBeen))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Boolean>() {
-                    @Override
-                    public void accept(Boolean aBoolean) throws Exception {
-                        if (aBoolean) {
-                            MessageBar.create(mContext, "導入成功，請刷新");
-                        } else {
-                            MessageBar.create(mContext, "由於未知原因導入失敗");
-                        }
+                .subscribe(aBoolean -> {
+                    if (aBoolean) {
+                        MessageBar.create(mContext, "導入成功，請刷新");
+                    } else {
+                        MessageBar.create(mContext, "由於未知原因導入失敗");
                     }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        MessageBar.create(mContext, "導入失敗，請檢查導入的文件是否正確：" + throwable.getMessage());
-                    }
-                });
+                }, throwable -> MessageBar.create(mContext, "導入失敗，請檢查導入的文件是否正確：" + throwable.getMessage()));
     }
 
     private void checkPermission() {
         new RxPermissions(this).request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .subscribe(new Consumer<Boolean>() {
-                    @Override
-                    public void accept(@NonNull Boolean granted) throws Exception {
-                        if (!granted) {
-                            MessageBar.create(mContext, "您拒絕了文件寫入權限，備份可能會出現錯誤，是否前往開啓", "好的", new OnActionClickListener() {
-                                @Override
-                                public void onClick() {
-                                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                    Uri uri = Uri.fromParts("package", getPackageName(), null);
-                                    intent.setData(uri);
-                                    startActivity(intent);
-                                }
-                            });
-                        }
+                .subscribe(granted -> {
+                    if (!granted) {
+                        MessageBar.create(mContext, "您拒絕了文件寫入權限，備份可能會出現錯誤，是否前往開啓", "好的", () -> {
+                            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                            Uri uri = Uri.fromParts("package", getPackageName(), null);
+                            intent.setData(uri);
+                            startActivity(intent);
+                        });
                     }
                 });
     }
@@ -260,6 +203,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onNewIntent(Intent intent) {
+        //noinspection ConstantConditions
         if (!intent.getAction().equals(Intent.ACTION_SEARCH)) {
             return;
         }
@@ -343,108 +287,105 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initDrawerEvent() {
-        mDrawer.setOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-            @Override
-            public boolean onItemClick(View view, int position, IDrawerItem dItem) {
-                BaseFragment currentFragment = null;
-                int identifier = (int) dItem.getIdentifier();
-                if (identifier == mCurrentFragmentId
-                        || identifier == Menus.RSS_ID
-                        || identifier == Menus.CATEGORY_ID
-                        || identifier == Menus.COLLECTION_ID) {
-                    return false;
-                }
-                mCurrentFragmentId = identifier;
-                switch (identifier) {
-                    case Menus.TEAM_DEFAULT_ID:
-                        currentFragment = new TeamDefaultFragment();
-                        break;
-                    case Menus.NEW_FANS_ID:
-                        currentFragment = new NewFansFragment();
-                        break;
-                    case Menus.INDEX_ID:
-                        currentFragment = new IndexFragment();
-                        break;
-                    case Menus.NEWS_ID:
-                        currentFragment = PostFragment.newInstance(Url.NEWS, "", Menus.NEWS);
-                        break;
-                    case Menus.ANIME_ID:
-                        currentFragment = PostFragment.newInstance(Url.ANIME, "", Menus.ANIME);
-                        break;
-                    case Menus.ANIME_SEASON_ID:
-                        currentFragment = PostFragment.newInstance(Url.ANIME_SEASON, "", Menus.ANIME_SEASON);
-                        break;
-                    case Menus.MANGA_ID:
-                        currentFragment = PostFragment.newInstance(Url.MANGA, "", Menus.MANGA);
-                        break;
-                    case Menus.MANGA_GT_ORIGINAL_ID:
-                        currentFragment = PostFragment.newInstance(Url.MANGA_GT_ORIGINAL, "", Menus.MANGA_GT_ORIGINAL);
-                        break;
-                    case Menus.MANGA_JP_ORIGINAL_ID:
-                        currentFragment = PostFragment.newInstance(Url.MANGA_JP_ORIGINAL, "", Menus.MANGA_JP_ORIGINAL);
-                        break;
-                    case Menus.MUSIC_ID:
-                        currentFragment = PostFragment.newInstance(Url.MUSIC, "", Menus.MUSIC);
-                        break;
-                    case Menus.MUSIC_ANIME_ID:
-                        currentFragment = PostFragment.newInstance(Url.MUSIC_ANIME, "", Menus.MUSIC_ANIME);
-                        break;
-                    case Menus.MUSIC_TR_ID:
-                        currentFragment = PostFragment.newInstance(Url.MUSIC_TR, "", Menus.MUSIC_TR);
-                        break;
-                    case Menus.MUSIC_POP_ID:
-                        currentFragment = PostFragment.newInstance(Url.MUSIC_POP, "", Menus.MUSIC_POP);
-                        break;
-                    case Menus.JP_TV_ID:
-                        currentFragment = PostFragment.newInstance(Url.JP_TV, "", Menus.JP_TV);
-                        break;
-                    case Menus.RAW_ID:
-                        currentFragment = PostFragment.newInstance(Url.RAW, "", Menus.RAW);
-                        break;
-                    case Menus.GAME_ID:
-                        currentFragment = PostFragment.newInstance(Url.GAME, "", Menus.GAME);
-                        break;
-                    case Menus.GAME_PC_ID:
-                        currentFragment = PostFragment.newInstance(Url.GAME_PC, "", Menus.GAME_PC);
-                        break;
-                    case Menus.GAME_TV_ID:
-                        currentFragment = PostFragment.newInstance(Url.GAME_TV, "", Menus.GAME_TV);
-                        break;
-                    case Menus.GAME_ONLINE_ID:
-                        currentFragment = PostFragment.newInstance(Url.GAME_ONLINE, "", Menus.GAME_ONLINE);
-                        break;
-                    case Menus.GAME_PSP_ID:
-                        currentFragment = PostFragment.newInstance(Url.GAME_PSP, "", Menus.GAME_PSP);
-                        break;
-                    case Menus.GAME_ACCESSORIES_ID:
-                        currentFragment = PostFragment.newInstance(Url.GAME_ACCESSORIES, "", Menus.GAME_ACCESSORIES);
-                        break;
-                    case Menus.TOKUSATSU_ID:
-                        currentFragment = PostFragment.newInstance(Url.TOKUSATSU, "", Menus.TOKUSATSU);
-                        break;
-                    case Menus.OTHER_ID:
-                        currentFragment = PostFragment.newInstance(Url.OTHER, "", Menus.OTHER);
-                        break;
-                    case Menus.COLLECTION_FAN_ID:
-                        currentFragment = LocalFanFragment.newInstance();
-                        break;
-                    case Menus.COLLECTION_SUBS_ID:
-                        currentFragment = LocalSubsFragment.newInstance();
-                        break;
-                    case Menus.ABOUT_ID:
-                        currentFragment = new AboutFragment();
-                        break;
-                    case Menus.RSS_NEWS_ID:
-                        currentFragment = RSSPostFragment.newInstance(Url.RSS_NEWS, "/rss.xml", Menus.RSS + " * " + Menus.RSS_NEWS);
-                        break;
-                    case Menus.RSS_SUBS_ID:
-                        currentFragment = new TeamRSSFragment();
-                        break;
-                }
-                removeFragmentContainerChildrenViews();
-                showFragment(currentFragment);
+        mDrawer.setOnDrawerItemClickListener((view, position, dItem) -> {
+            BaseFragment currentFragment = null;
+            int identifier = (int) dItem.getIdentifier();
+            if (identifier == mCurrentFragmentId
+                    || identifier == Menus.RSS_ID
+                    || identifier == Menus.CATEGORY_ID
+                    || identifier == Menus.COLLECTION_ID) {
                 return false;
             }
+            mCurrentFragmentId = identifier;
+            switch (identifier) {
+                case Menus.TEAM_DEFAULT_ID:
+                    currentFragment = new TeamDefaultFragment();
+                    break;
+                case Menus.NEW_FANS_ID:
+                    currentFragment = new NewFansFragment();
+                    break;
+                case Menus.INDEX_ID:
+                    currentFragment = new IndexFragment();
+                    break;
+                case Menus.NEWS_ID:
+                    currentFragment = PostFragment.newInstance(Url.NEWS, "", Menus.NEWS);
+                    break;
+                case Menus.ANIME_ID:
+                    currentFragment = PostFragment.newInstance(Url.ANIME, "", Menus.ANIME);
+                    break;
+                case Menus.ANIME_SEASON_ID:
+                    currentFragment = PostFragment.newInstance(Url.ANIME_SEASON, "", Menus.ANIME_SEASON);
+                    break;
+                case Menus.MANGA_ID:
+                    currentFragment = PostFragment.newInstance(Url.MANGA, "", Menus.MANGA);
+                    break;
+                case Menus.MANGA_GT_ORIGINAL_ID:
+                    currentFragment = PostFragment.newInstance(Url.MANGA_GT_ORIGINAL, "", Menus.MANGA_GT_ORIGINAL);
+                    break;
+                case Menus.MANGA_JP_ORIGINAL_ID:
+                    currentFragment = PostFragment.newInstance(Url.MANGA_JP_ORIGINAL, "", Menus.MANGA_JP_ORIGINAL);
+                    break;
+                case Menus.MUSIC_ID:
+                    currentFragment = PostFragment.newInstance(Url.MUSIC, "", Menus.MUSIC);
+                    break;
+                case Menus.MUSIC_ANIME_ID:
+                    currentFragment = PostFragment.newInstance(Url.MUSIC_ANIME, "", Menus.MUSIC_ANIME);
+                    break;
+                case Menus.MUSIC_TR_ID:
+                    currentFragment = PostFragment.newInstance(Url.MUSIC_TR, "", Menus.MUSIC_TR);
+                    break;
+                case Menus.MUSIC_POP_ID:
+                    currentFragment = PostFragment.newInstance(Url.MUSIC_POP, "", Menus.MUSIC_POP);
+                    break;
+                case Menus.JP_TV_ID:
+                    currentFragment = PostFragment.newInstance(Url.JP_TV, "", Menus.JP_TV);
+                    break;
+                case Menus.RAW_ID:
+                    currentFragment = PostFragment.newInstance(Url.RAW, "", Menus.RAW);
+                    break;
+                case Menus.GAME_ID:
+                    currentFragment = PostFragment.newInstance(Url.GAME, "", Menus.GAME);
+                    break;
+                case Menus.GAME_PC_ID:
+                    currentFragment = PostFragment.newInstance(Url.GAME_PC, "", Menus.GAME_PC);
+                    break;
+                case Menus.GAME_TV_ID:
+                    currentFragment = PostFragment.newInstance(Url.GAME_TV, "", Menus.GAME_TV);
+                    break;
+                case Menus.GAME_ONLINE_ID:
+                    currentFragment = PostFragment.newInstance(Url.GAME_ONLINE, "", Menus.GAME_ONLINE);
+                    break;
+                case Menus.GAME_PSP_ID:
+                    currentFragment = PostFragment.newInstance(Url.GAME_PSP, "", Menus.GAME_PSP);
+                    break;
+                case Menus.GAME_ACCESSORIES_ID:
+                    currentFragment = PostFragment.newInstance(Url.GAME_ACCESSORIES, "", Menus.GAME_ACCESSORIES);
+                    break;
+                case Menus.TOKUSATSU_ID:
+                    currentFragment = PostFragment.newInstance(Url.TOKUSATSU, "", Menus.TOKUSATSU);
+                    break;
+                case Menus.OTHER_ID:
+                    currentFragment = PostFragment.newInstance(Url.OTHER, "", Menus.OTHER);
+                    break;
+                case Menus.COLLECTION_FAN_ID:
+                    currentFragment = LocalFanFragment.newInstance();
+                    break;
+                case Menus.COLLECTION_SUBS_ID:
+                    currentFragment = LocalSubsFragment.newInstance();
+                    break;
+                case Menus.ABOUT_ID:
+                    currentFragment = new AboutFragment();
+                    break;
+                case Menus.RSS_NEWS_ID:
+                    currentFragment = RSSPostFragment.newInstance(Url.RSS_NEWS, "/rss.xml", Menus.RSS + " * " + Menus.RSS_NEWS);
+                    break;
+                case Menus.RSS_SUBS_ID:
+                    currentFragment = new TeamRSSFragment();
+                    break;
+            }
+            removeFragmentContainerChildrenViews();
+            showFragment(currentFragment);
+            return false;
         });
     }
 
@@ -473,95 +414,92 @@ public class MainActivity extends BaseActivity {
                         Menus.TOKUSATSU,
                         Menus.OTHER
                 }));
-        listPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
-                String category = "";
-                switch (pos) {
-                    case 0:
-                        sort_id = Menus.ALL_ID;
-                        category = Menus.ALL;
-                        break;
-                    case 1:
-                        sort_id = Menus.ANIME_ID;
-                        category = Menus.ANIME;
-                        break;
-                    case 2:
-                        sort_id = Menus.ANIME_SEASON_ID;
-                        category = Menus.ANIME_SEASON;
-                        break;
-                    case 3:
-                        sort_id = Menus.MANGA_ID;
-                        category = Menus.MANGA;
-                        break;
-                    case 4:
-                        sort_id = Menus.MANGA_GT_ORIGINAL_ID;
-                        category = Menus.MANGA_GT_ORIGINAL;
-                        break;
-                    case 5:
-                        sort_id = Menus.MANGA_JP_ORIGINAL_ID;
-                        category = Menus.MANGA_JP_ORIGINAL;
-                        break;
-                    case 6:
-                        sort_id = Menus.MUSIC_ID;
-                        category = Menus.MUSIC;
-                        break;
-                    case 7:
-                        sort_id = Menus.MUSIC_ANIME_ID;
-                        category = Menus.MUSIC_ANIME;
-                        break;
-                    case 8:
-                        sort_id = Menus.MUSIC_TR_ID;
-                        category = Menus.MUSIC_TR;
-                        break;
-                    case 9:
-                        sort_id = Menus.MUSIC_POP_ID;
-                        category = Menus.MUSIC_POP;
-                        break;
-                    case 10:
-                        sort_id = Menus.JP_TV_ID;
-                        category = Menus.JP_TV;
-                        break;
-                    case 11:
-                        sort_id = Menus.RAW_ID;
-                        category = Menus.RAW;
-                        break;
-                    case 12:
-                        sort_id = Menus.GAME_ID;
-                        category = Menus.GAME;
-                        break;
-                    case 13:
-                        sort_id = Menus.GAME_PC_ID;
-                        category = Menus.GAME_PC;
-                        break;
-                    case 14:
-                        sort_id = Menus.GAME_TV_ID;
-                        category = Menus.GAME_TV;
-                        break;
-                    case 15:
-                        sort_id = Menus.GAME_PSP_ID;
-                        category = Menus.GAME_PSP;
-                        break;
-                    case 16:
-                        sort_id = Menus.GAME_ONLINE_ID;
-                        category = Menus.GAME_ONLINE;
-                        break;
-                    case 17:
-                        sort_id = Menus.GAME_ACCESSORIES_ID;
-                        category = Menus.GAME_ACCESSORIES;
-                        break;
-                    case 18:
-                        sort_id = Menus.TOKUSATSU_ID;
-                        category = Menus.TOKUSATSU;
-                        break;
-                    case 19:
-                        sort_id = Menus.OTHER_ID;
-                        category = Menus.OTHER;
-                        break;
-                }
-                mSearchView.setQueryHint("在" + category + "分類中搜索...");
-                listPopupWindow.dismiss();
+        listPopupWindow.setOnItemClickListener((parent, view, pos, id) -> {
+            String category = "";
+            switch (pos) {
+                case 0:
+                    sort_id = Menus.ALL_ID;
+                    category = Menus.ALL;
+                    break;
+                case 1:
+                    sort_id = Menus.ANIME_ID;
+                    category = Menus.ANIME;
+                    break;
+                case 2:
+                    sort_id = Menus.ANIME_SEASON_ID;
+                    category = Menus.ANIME_SEASON;
+                    break;
+                case 3:
+                    sort_id = Menus.MANGA_ID;
+                    category = Menus.MANGA;
+                    break;
+                case 4:
+                    sort_id = Menus.MANGA_GT_ORIGINAL_ID;
+                    category = Menus.MANGA_GT_ORIGINAL;
+                    break;
+                case 5:
+                    sort_id = Menus.MANGA_JP_ORIGINAL_ID;
+                    category = Menus.MANGA_JP_ORIGINAL;
+                    break;
+                case 6:
+                    sort_id = Menus.MUSIC_ID;
+                    category = Menus.MUSIC;
+                    break;
+                case 7:
+                    sort_id = Menus.MUSIC_ANIME_ID;
+                    category = Menus.MUSIC_ANIME;
+                    break;
+                case 8:
+                    sort_id = Menus.MUSIC_TR_ID;
+                    category = Menus.MUSIC_TR;
+                    break;
+                case 9:
+                    sort_id = Menus.MUSIC_POP_ID;
+                    category = Menus.MUSIC_POP;
+                    break;
+                case 10:
+                    sort_id = Menus.JP_TV_ID;
+                    category = Menus.JP_TV;
+                    break;
+                case 11:
+                    sort_id = Menus.RAW_ID;
+                    category = Menus.RAW;
+                    break;
+                case 12:
+                    sort_id = Menus.GAME_ID;
+                    category = Menus.GAME;
+                    break;
+                case 13:
+                    sort_id = Menus.GAME_PC_ID;
+                    category = Menus.GAME_PC;
+                    break;
+                case 14:
+                    sort_id = Menus.GAME_TV_ID;
+                    category = Menus.GAME_TV;
+                    break;
+                case 15:
+                    sort_id = Menus.GAME_PSP_ID;
+                    category = Menus.GAME_PSP;
+                    break;
+                case 16:
+                    sort_id = Menus.GAME_ONLINE_ID;
+                    category = Menus.GAME_ONLINE;
+                    break;
+                case 17:
+                    sort_id = Menus.GAME_ACCESSORIES_ID;
+                    category = Menus.GAME_ACCESSORIES;
+                    break;
+                case 18:
+                    sort_id = Menus.TOKUSATSU_ID;
+                    category = Menus.TOKUSATSU;
+                    break;
+                case 19:
+                    sort_id = Menus.OTHER_ID;
+                    category = Menus.OTHER;
+                    break;
             }
+            mSearchView.setQueryHint("在" + category + "分類中搜索...");
+            listPopupWindow.dismiss();
         });
         listPopupWindow.setWidth(mContext.getResources().getDimensionPixelOffset(R.dimen.v96dp));
         listPopupWindow.setHeight(mContext.getResources().getDimensionPixelOffset(R.dimen.v256dp) * 2);
@@ -586,6 +524,7 @@ public class MainActivity extends BaseActivity {
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         mSearchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         mSearchView.setQueryHint("在全部分類中搜索...");
+        //noinspection ConstantConditions
         mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         return true;
     }

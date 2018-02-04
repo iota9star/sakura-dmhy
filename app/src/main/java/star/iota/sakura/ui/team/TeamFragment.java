@@ -5,8 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.List;
 
@@ -46,17 +44,14 @@ public abstract class TeamFragment extends BaseFragment implements PVContract.Vi
     private void initRefreshLayout() {
         mRefreshLayout.autoRefresh();
         mRefreshLayout.setEnableLoadmore(false);
-        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(RefreshLayout refreshLayout) {
-                if (isRunning) {
-                    MessageBar.create(mContext, "正在加载中...");
-                    return;
-                }
-                isRunning = true;
-                mAdapter.clear();
-                mPresenter.get(Url.TEAM);
+        mRefreshLayout.setOnRefreshListener(refreshLayout -> {
+            if (isRunning) {
+                MessageBar.create(mContext, "正在加载中...");
+                return;
             }
+            isRunning = true;
+            mAdapter.clear();
+            mPresenter.get(Url.TEAM);
         });
     }
 

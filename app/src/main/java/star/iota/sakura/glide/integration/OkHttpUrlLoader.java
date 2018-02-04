@@ -60,7 +60,7 @@ public class OkHttpUrlLoader implements ModelLoader<GlideUrl, InputStream> {
 
         @NonNull
         @Override
-        public ModelLoader<GlideUrl, InputStream> build(MultiModelLoaderFactory multiFactory) {
+        public ModelLoader<GlideUrl, InputStream> build(@NonNull MultiModelLoaderFactory multiFactory) {
             return new OkHttpUrlLoader(client);
         }
 

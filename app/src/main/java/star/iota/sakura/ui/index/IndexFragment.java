@@ -4,8 +4,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import butterknife.BindView;
 import jp.wasabeef.recyclerview.animators.LandingAnimator;
@@ -43,17 +41,14 @@ public class IndexFragment extends BaseFragment implements PVContract.View<Index
     private void initRefreshLayout() {
         mRefreshLayout.autoRefresh();
         mRefreshLayout.setEnableLoadmore(false);
-        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(RefreshLayout refreshLayout) {
-                if (isRunning) {
-                    MessageBar.create(mContext, "还在加载中...");
-                    return;
-                }
-                isRunning = true;
-                mAdapter.clear();
-                mPresenter.get(Url.INDEX);
+        mRefreshLayout.setOnRefreshListener(refreshLayout -> {
+            if (isRunning) {
+                MessageBar.create(mContext, "还在加载中...");
+                return;
             }
+            isRunning = true;
+            mAdapter.clear();
+            mPresenter.get(Url.INDEX);
         });
     }
 

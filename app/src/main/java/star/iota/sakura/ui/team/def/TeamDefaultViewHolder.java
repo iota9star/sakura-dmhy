@@ -26,14 +26,9 @@ class TeamDefaultViewHolder extends BaseViewHolder<TeamBean> {
     @Override
     public void bindView(final TeamBean bean) {
         mTextViewTeamName.setText(bean.getName());
-        mCardViewContainer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((BaseActivity) mContext).addFragment(
-                        PostFragment.newInstance(Url.TEAM_DEFAULT + bean.getId() + "/page/",
-                                "",
-                                bean.getName()));
-            }
-        });
+        mCardViewContainer.setOnClickListener(view -> ((BaseActivity) mContext).addFragment(
+                PostFragment.newInstance(Url.TEAM_DEFAULT + bean.getId() + "/page/",
+                        "",
+                        bean.getName())));
     }
 }

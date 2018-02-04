@@ -11,6 +11,7 @@ public class SimpleUtils {
     public static void copy(Context context, String content) {
         try {
             ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+            //noinspection ConstantConditions
             cm.setPrimaryClip(ClipData.newPlainText("content", content));
             MessageBar.create(context, "內容已複製到剪切板，同时尝试打开磁链");
             Intent intent = new Intent(Intent.ACTION_VIEW);

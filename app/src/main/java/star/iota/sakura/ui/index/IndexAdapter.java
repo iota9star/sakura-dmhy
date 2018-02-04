@@ -51,12 +51,7 @@ class IndexAdapter extends RecyclerView.Adapter<IndexAdapter.IndexViewHolder> {
             } else if (season.getText().contains("冬")) {
                 tag.setImageResource(R.drawable.ic_winter);
             }
-            tag.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mActivity.addFragment(FansFragment.newInstance(season.getIndex()));
-                }
-            });
+            tag.setOnClickListener(view -> mActivity.addFragment(FansFragment.newInstance(season.getIndex())));
             holder.mFlowLayout.addView(tag);
         }
     }

@@ -14,7 +14,7 @@
         <star.iota.sakura.widget.BoldFontCollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar_layout"
             android:layout_width="match_parent"
-            android:layout_height="104dp"
+            android:layout_height="96dp"
             app:expandedTitleGravity="top"
             app:expandedTitleMarginStart="16dp"
             app:expandedTitleMarginTop="56dp"
